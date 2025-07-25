@@ -1,0 +1,42 @@
+/* Pagination Styles */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  gap: 5px;
+}
+
+.page-number {
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  cursor: pointer;
+  margin: 0 2px;
+}
+
+.page-number:hover {
+  background-color: #f5f5f5;
+}
+
+.page-number.active {
+  background-color: #3498db;
+  color: white;
+  border-color: #3498db;
+}
+
+.page-info {
+  margin-left: 15px;
+  font-size: 14px;
+  color: #666;
+}
+
+/* Ajoutez aussi le style pour les flèches de tri */
+th {
+  cursor: pointer;
+  user-select: none;
+}
+
+th:hover {
+  background-color: #f0f0f0;
+}

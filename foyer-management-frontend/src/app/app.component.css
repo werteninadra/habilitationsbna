@@ -1,0 +1,61 @@
+.bna-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #f5f7fa;
+}
+.bna-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #006633;
+  color: #fff;
+  padding: 0 2rem;
+  height: 64px;
+}
+.bna-logo {
+  height: 40px;
+  margin-right: 1rem;
+}
+.bna-user {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.logout-link {
+  color: #fff;
+  margin-left: 0.5rem;
+}
+.bna-body {
+  display: flex;
+  flex: 1;
+}
+.bna-sidebar {
+  width: 220px;
+  background: #e8f5e9;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 0.5rem;
+  gap: 1rem;
+  box-shadow: 2px 0 8px #0001;
+}
+.bna-sidebar a {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: #006633;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+.bna-sidebar a.active-link,
+.bna-sidebar a:hover {
+  background: #c8e6c9;
+}
+.bna-content {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+}

@@ -19,6 +19,9 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
@@ -33,10 +36,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         User user = userRepository.findByMatricule(matricule)
                 .orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé : " + matricule));
 
+        Set<SimpleGrantedAuthority> authorities = user.getProfils().stream()
+                .map(profil -> new SimpleGrantedAuthority(profil.getRole())) // Convertit directement le nom du profil en SimpleGrantedAuthority
+                .collect(Collectors.toSet());
+
         return new org.springframework.security.core.userdetails.User(
                 user.getMatricule(),
                 user.getPassword(),
-                Collections.singletonList(new SimpleGrantedAuthority(user.getRole()))
+                authorities
         );
     }
 }

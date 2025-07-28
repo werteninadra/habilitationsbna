@@ -1,0 +1,56 @@
+<div class="profil-container">
+
+  <h2>Gestion des Profils</h2>
+
+  <!-- Formulaire de création -->
+  <form [formGroup]="profilForm" (ngSubmit)="addProfil()" novalidate class="profil-form">
+
+    <div class="form-group">
+      <label for="nom">Nom du profil <span class="required">*</span></label>
+      <input id="nom" type="text" formControlName="nom" placeholder="Ex: Administrateur" />
+      <div class="error" *ngIf="nom?.invalid && (nom?.dirty || nom?.touched)">
+        <small *ngIf="nom?.errors?.['required']">Le nom est obligatoire.</small>
+        <small *ngIf="nom?.errors?.['minlength']">Minimum 3 caractères requis.</small>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea id="description" formControlName="description" placeholder="Une description courte (optionnel)"></textarea>
+      <div class="error" *ngIf="description?.invalid && (description?.dirty || description?.touched)">
+        <small *ngIf="description?.errors?.['maxlength']">255 caractères maximum.</small>
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="profilForm.invalid || isLoading" class="btn-submit">
+      {{ isLoading ? 'Création...' : 'Créer un profil' }}
+    </button>
+
+  </form>
+
+  <!-- Messages de succès ou erreur -->
+  <div class="message success" *ngIf="successMessage">{{ successMessage }}</div>
+  <div class="message error" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+  <hr />
+
+  <!-- Liste des profils -->
+  <div class="profil-list">
+
+    <h3>Profils existants</h3>
+
+    <div *ngIf="isLoading && profils.length === 0" class="loading">Chargement des profils...</div>
+
+    <ul *ngIf="profils.length > 0">
+      <li *ngFor="let profil of profils" class="profil-item">
+        <strong>{{ profil.nom }}</strong>
+        <p *ngIf="profil.description">{{ profil.description }}</p>
+      </li>
+    </ul>
+
+    <div *ngIf="!isLoading && profils.length === 0" class="empty">
+      Aucun profil disponible.
+    </div>
+
+  </div>
+</div>

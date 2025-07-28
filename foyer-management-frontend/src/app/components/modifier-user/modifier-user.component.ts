@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { ProfilService } from '../../services/ProfilService';
 
 @Component({
   selector: 'app-modifier-user',
@@ -19,24 +20,44 @@ export class ModifierUserComponent implements OnInit {
     prenom: '',
     telephone: '',
     email: '',
-    role: ''
+    profil: '' // Changé pour un seul profil
   };
+  profils: any[] = [];
 
   constructor(
     private route: ActivatedRoute,
     private authService: AuthService,
+    private pservice: ProfilService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
     this.matricule = this.route.snapshot.params['matricule'];
     this.loadUserData();
+    this.loadProfils();
   }
+
+ 
+  // modifier-user.component.ts
+
+loadProfils() {
+  this.pservice.getAllProfils().subscribe({
+    next: (profils) => this.profils = profils,
+    error: (err) => {
+      console.error('Error loading profiles:', err);
+      if (err.status === 401) {
+        this.router.navigate(['/login']);
+      }
+    }
+  });
+}
 
   loadUserData() {
     this.authService.getUserByMatricule(this.matricule).subscribe({
       next: (data) => {
         this.user = data;
+        // Prend le premier profil (puisqu'un seul maintenant)
+        this.user.profil = data.profils[0]?.nom;
       },
       error: (err) => {
         console.error('Erreur chargement utilisateur', err);
@@ -47,7 +68,12 @@ export class ModifierUserComponent implements OnInit {
 
   updateUser() {
     if (confirm('Êtes-vous sûr de vouloir modifier cet utilisateur ?')) {
-      this.authService.updateUser(this.user.matricule, this.user).subscribe({
+      const userToUpdate = {
+        ...this.user,
+        profils: [this.user.profil] // Envoie un tableau avec le seul profil sélectionné
+      };
+
+      this.authService.updateUser(this.user.matricule, userToUpdate).subscribe({
         next: () => {
           alert('Utilisateur mis à jour avec succès');
           this.router.navigate(['/habilitations']);

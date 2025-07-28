@@ -11,6 +11,7 @@ import { HabilitationsComponent } from './habilitations/habilitations/habilitati
 import { AddUserComponent } from './components/add-user/add-user.component';
 import { AppRoutingModule } from './app.routing.module'; // 👈 Assure-toi que ce chemin est correct
 import { ModifierUserComponent } from './components/modifier-user/modifier-user.component';
+import { ProfilComponent } from './components/profil/profil.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,9 @@ import { ModifierUserComponent } from './components/modifier-user/modifier-user.
       AppRoutingModule,
      HabilitationsComponent,
      AddUserComponent, 
-     ModifierUserComponent,// Ajout du composant AddUserComponent
+     ModifierUserComponent,
+     ProfilComponent,
+     // Ajout du composant AddUserComponent
     ReactiveFormsModule,  BrowserModule, // OBLIGATOIRE
 
   

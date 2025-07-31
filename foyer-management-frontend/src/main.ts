@@ -1,27 +1,21 @@
 import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app/app.component';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { importProvidersFrom } from '@angular/core';
-import { AppRoutingModule } from './app/app.routing.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { provideRouter } from '@angular/router';
+import { routes } from './app/app.routes';
 import { KeycloakService } from './app/keycloak.service';
+import { provideHttpClient } from '@angular/common/http';
+import { APP_INITIALIZER } from '@angular/core'; // Ajoutez cette importation
 
-const keycloakService = new KeycloakService();
-
-keycloakService.init().then(() => {
-  bootstrapApplication(AppComponent, {
-    providers: [
-      provideHttpClient(withInterceptorsFromDi()),
-      importProvidersFrom(
-        AppRoutingModule,
-        FormsModule,
-        ReactiveFormsModule,
-        BrowserAnimationsModule
-      ),
-      { provide: KeycloakService, useValue: keycloakService }
-    ]
-  });
-}).catch(err => {
-  console.error('Erreur d\'initialisation Keycloak', err);
-});
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideRouter(routes),
+    provideHttpClient(),
+    KeycloakService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (keycloak: KeycloakService) => () => keycloak.init(),
+      multi: true,
+      deps: [KeycloakService]
+    }
+  ]
+}).catch(err => console.error(err));

@@ -252,4 +252,122 @@ public class KeycloakAdminClientService {
             return role;
         }
     }
+
+
+    public void disableUserInKeycloak(String username) {
+        String adminToken = fetchAdminToken();
+        String userId = getUserIdByUsername(adminToken, username);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(adminToken);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        // Créer le payload pour désactiver l'utilisateur
+        Map<String, Object> userUpdate = new HashMap<>();
+        userUpdate.put("enabled", false);
+
+        try {
+            restTemplate.exchange(
+                    serverUrl + "/admin/realms/" + targetRealm + "/users/" + userId,
+                    HttpMethod.PUT,
+                    new HttpEntity<>(userUpdate, headers),
+                    Void.class
+            );
+            logger.info("Utilisateur {} désactivé dans Keycloak avec succès", username);
+        } catch (Exception e) {
+            logger.error("Erreur lors de la désactivation de l'utilisateur dans Keycloak", e);
+            throw new RuntimeException("Erreur lors de la désactivation Keycloak", e);
+        }
+    }
+
+    public void enableUserInKeycloak(String username) {
+        String adminToken = fetchAdminToken();
+        String userId = getUserIdByUsername(adminToken, username);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(adminToken);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        // Créer le payload pour activer l'utilisateur
+        Map<String, Object> userUpdate = new HashMap<>();
+        userUpdate.put("enabled", true);
+
+        try {
+            restTemplate.exchange(
+                    serverUrl + "/admin/realms/" + targetRealm + "/users/" + userId,
+                    HttpMethod.PUT,
+                    new HttpEntity<>(userUpdate, headers),
+                    Void.class
+            );
+            logger.info("Utilisateur {} activé dans Keycloak avec succès", username);
+        } catch (Exception e) {
+            logger.error("Erreur lors de l'activation de l'utilisateur dans Keycloak", e);
+            throw new RuntimeException("Erreur lors de l'activation Keycloak", e);
+        }
+    }
+
+    public void sendPasswordResetEmail(String email) {
+        String adminToken = fetchAdminToken();
+
+        // Trouver l'utilisateur par email
+        String userId = getUserIdByEmail(adminToken, email);
+
+        // Envoyer l'email de réinitialisation
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(adminToken);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        String resetPasswordUrl = serverUrl + "/admin/realms/" + targetRealm + "/users/" + userId + "/execute-actions-email";
+
+        // Actions à exécuter - dans ce cas, mettre à jour le mot de passe
+        List<String> actions = Collections.singletonList("UPDATE_PASSWORD");
+
+        restTemplate.exchange(
+                resetPasswordUrl,
+                HttpMethod.PUT,
+                new HttpEntity<>(actions, headers),
+                Void.class
+        );
+    }
+
+    public void resetPasswordWithToken(String token, String newPassword) {
+        // Cette méthode nécessite une configuration spéciale dans Keycloak
+        // Le client doit être configuré pour autoriser les requêtes directes avec token
+
+        String url = serverUrl + "/realms/" + targetRealm + "/protocol/openid-connect/token";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+        MultiValueMap<String, String> form = new LinkedMultiValueMap<>();
+        form.add("grant_type", "password");
+        form.add("client_id", clientId);
+        form.add("client_secret", clientSecret);
+        form.add("token", token);
+        form.add("new_password", newPassword);
+
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(form, headers);
+        restTemplate.postForObject(url, request, Map.class);
+    }
+
+    private String getUserIdByEmail(String adminToken, String email) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(adminToken);
+
+        String encodedEmail = URLEncoder.encode(email, StandardCharsets.UTF_8);
+        String url = serverUrl + "/admin/realms/" + targetRealm + "/users?email=" + encodedEmail;
+
+        ResponseEntity<List<Map<String, Object>>> response = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                new HttpEntity<>(headers),
+                new ParameterizedTypeReference<>() {}
+        );
+
+        if (response.getBody() == null || response.getBody().isEmpty()) {
+            throw new RuntimeException("Aucun utilisateur trouvé avec cet email");
+        }
+
+        return response.getBody().get(0).get("id").toString();
+    }
 }

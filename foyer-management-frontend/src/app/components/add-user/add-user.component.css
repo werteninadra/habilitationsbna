@@ -1,68 +1,138 @@
+/* Style général du formulaire */
 form {
-  max-width: 500px;
+  max-width: 600px;
   margin: 2rem auto;
-  padding: 2rem;
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 2.5rem;
+  background-color: #b3e3d7;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0, 51, 102, 0.1);
+  border: 1px solid #e0e6ed;
 }
 
+/* Style des groupes de formulaire */
 form div {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.8rem;
+  position: relative;
 }
 
+/* Style des labels */
 label {
   display: block;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.6rem;
   font-weight: 600;
-  color: #2c3e50;
-}
-
-input {
-  width: 100%;
-  padding: 0.6rem 0.75rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  color: #003366; /* Bleu BNA */
   font-size: 14px;
-  transition: border-color 0.3s ease;
 }
 
-input:focus {
-  border-color: #3498db;
+/* Style des inputs */
+input, select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #d1d9e6;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  background-color: #f8fafc;
+}
+
+input:focus, select:focus {
+  border-color: #003366;
   outline: none;
-  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.1);
+  box-shadow: 0 0 0 3px rgba(0, 83, 161, 0.1);
+  background-color: #fff;
 }
 
-small {
-  font-size: 13px;
+/* Style des messages d'erreur */
+.invalid-feedback small {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 12px;
+  color: #e74c3c;
 }
 
-button[type="submit"] {
-  background-color: #3498db;
-  color: white;
-  padding: 0.6rem 1.2rem;
+.is-invalid {
+  border-color: #e74c3c !important;
+}
+
+.is-invalid:focus {
+  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1) !important;
+}
+
+/* Style des boutons */
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
   border: none;
-  border-radius: 4px;
-  font-weight: bold;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
-button[disabled] {
+.btn-primary {
+  background-color: #003366; /* Bleu BNA */
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #004080; /* Bleu BNA plus clair */
+  transform: translateY(-1px);
+}
+
+.btn-primary:disabled {
   background-color: #95a5a6;
   cursor: not-allowed;
+  transform: none;
 }
 
-button:hover:not([disabled]) {
-  background-color: #2980b9;
+.btn-secondary {
+  background-color: #f0f4f8;
+  color: #003366;
+  border: 1px solid #d1d9e6;
 }
 
-a {
-  color: #3498db;
-  text-decoration: none;
-  font-weight: 500;
+.btn-secondary:hover {
+  background-color: #e0e6ed;
 }
 
-a:hover {
-  text-decoration: underline;
+/* Style pour le select */
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23003366'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1rem;
+  padding-right: 2.5rem;
+}
+
+/* Style pour les petits textes */
+small {
+  font-size: 12px;
+  color: #64748b;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  form {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .btn {
+    width: 100%;
+  }
 }

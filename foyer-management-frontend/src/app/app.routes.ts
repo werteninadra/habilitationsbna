@@ -8,7 +8,6 @@ import { ProfilComponent } from './components/profil/profil.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'habilitations', pathMatch: 'full' },
-  // { path: 'sign-in', component: SignInComponent }, // Décommente si tu veux l'utiliser
   { path: 'habilitations', component: HabilitationsComponent },
   { path: 'register', component: AddUserComponent },
     //{ path: 'users/edit/:id', component: ModifierUserComponent },

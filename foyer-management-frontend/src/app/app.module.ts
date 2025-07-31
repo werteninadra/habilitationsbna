@@ -12,6 +12,7 @@ import { AddUserComponent } from './components/add-user/add-user.component';
 import { AppRoutingModule } from './app.routing.module'; // 👈 Assure-toi que ce chemin est correct
 import { ModifierUserComponent } from './components/modifier-user/modifier-user.component';
 import { ProfilComponent } from './components/profil/profil.component';
+import { SignInComponent } from './sign-in/sign-in.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { ProfilComponent } from './components/profil/profil.component';
     FormsModule,
      AppComponent,
       AppRoutingModule,
+      SignInComponent,
      HabilitationsComponent,
      AddUserComponent, 
      ModifierUserComponent,

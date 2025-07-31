@@ -55,7 +55,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll() // Login, Register etc.
                         .requestMatchers("/api/profils/**").permitAll() // Rendre profil accessible sans auth (temporairement ou selon besoin)
-                        .requestMatchers("/api/auth/users-with-details").permitAll() // Ce endpoint aussi
+                        .requestMatchers("/api/auth/users-with-details").permitAll()
+                                .requestMatchers("/uploads/**").permitAll() // Autoriser l'accès aux images
+// Ce endpoint aussi
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider()) // Important

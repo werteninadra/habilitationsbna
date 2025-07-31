@@ -1,56 +1,69 @@
 <div class="auth-container">
     <div class="auth-card">
+        <!-- En-tête -->
         <div class="auth-logo">
-            <i class="fas fa-university"></i>
+            <i class="fas fa-user-circle"></i>
         </div>
         <h2 class="auth-title">Connexion Habilitation</h2>
         <p class="auth-subtitle">Accédez à votre espace sécurisé</p>
 
+        <!-- Message d'erreur -->
         <div class="auth-alert" *ngIf="errorMessage">
-            <i class="fas fa-exclamation-triangle"></i>
+            <i class="fas fa-exclamation-circle"></i>
             <span>{{ errorMessage }}</span>
         </div>
 
+        <!-- Formulaire de connexion -->
         <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <!-- Champ Matricule -->
             <div class="form-group">
-                <label class="form-label" for="matricule">Matricule</label>
-                <input 
-                    type="text" 
-                    id="matricule" 
-                    formControlName="matricule"
-                    class="form-control" 
-                    placeholder="Entrez votre matricule"
-                    required
-                    autocomplete="username"
-                >
-                <i class="fas fa-user form-icon"></i>
+                <label for="matricule">Matricule</label>
+                <div class="input-container">
+                    <input 
+                        type="text"
+                        id="matricule"
+                        formControlName="matricule"
+                        placeholder="Votre matricule"
+                        required
+                        autocomplete="username">
+                    <i class="fas fa-user input-icon"></i>
+                </div>
+                <div class="error-message" *ngIf="loginForm.get('matricule')?.hasError('required')">
+                    Le matricule est obligatoire
+                </div>
             </div>
 
+            <!-- Champ Mot de passe -->
             <div class="form-group">
-                <label class="form-label" for="password">Mot de passe</label>
-                <input 
-                    type="password" 
-                    id="password" 
-                    formControlName="password"
-                    class="form-control" 
-                    placeholder="Entrez votre mot de passe"
-                    required
-                    autocomplete="current-password"
-                >
-                <i class="fas fa-lock form-icon"></i>
-                <!-- Ajoute ici un bouton pour afficher/masquer le mot de passe si tu veux -->
+                <label for="password">Mot de passe</label>
+                <div class="input-container">
+                    <input 
+                        type="password"
+                        id="password"
+                        formControlName="password"
+                        placeholder="Votre mot de passe"
+                        required
+                        autocomplete="current-password">
+                    <i class="fas fa-lock input-icon"></i>
+                </div>
+                <div class="error-message" *ngIf="loginForm.get('password')?.hasError('required')">
+                    Le mot de passe est obligatoire
+                </div>
             </div>
 
-            <button type="submit" class="btn-primary" [disabled]="isLoading || loginForm.invalid">
-                <span class="btn-content">
-                    <i class="fas fa-sign-in-alt"></i>
-                    Se connecter
-                </span>
-            </button>
+            <!-- Bouton de soumission -->
+            
         </form>
 
-        <div class="auth-footer">
-            <span>Besoin d'aide ? <a routerLink="/contact">Contactez l'administrateur</a></span>
+        <!-- Séparateur -->
+       
+        <!-- Bouton Keycloak -->
+        
+
+        <!-- Liens utiles -->
+        <div class="auth-links">
+            <a class="auth-link" routerLink="/forgot-password">Mot de passe oublié ?</a>
+            <a class="auth-link" routerLink="/contact">Besoin d'aide ?</a>
         </div>
     </div>
 </div>

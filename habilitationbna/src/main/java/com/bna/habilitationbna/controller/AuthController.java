@@ -7,13 +7,26 @@ import com.bna.habilitationbna.repo.ProfilRepository;
 import com.bna.habilitationbna.repo.UserRepository;
 import com.bna.habilitationbna.service.ProfilService;
 import com.bna.habilitationbna.service.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
+import org.springframework.core.io.Resource;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.Instant;
 import java.util.*;
 
@@ -113,6 +126,7 @@ public class AuthController {
             user.setPrenom(prenom);
             user.setTelephone(telephone);
             user.setProfils(profils);
+            user.setActive(true); // Add this line
 
             User savedUser = userRepository.save(user);
 
@@ -179,6 +193,135 @@ public class AuthController {
                     ));
         }
     }
+
+
+
+    // Blocage/Déblocage utilisateur
+    @PutMapping("/users/{matricule}/block")
+    public ResponseEntity<?> blockUser(@PathVariable String matricule) {
+        try {
+            User user = userRepository.findByMatricule(matricule)
+                    .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+
+            user.setBlocked(true);
+            userRepository.save(user);
+
+            // Bloquer aussi dans Keycloak si nécessaire
+            keycloakService.disableUserInKeycloak(matricule);
+
+            return ResponseEntity.ok(Map.of(
+                    "message", "Utilisateur bloqué avec succès",
+                    "status", "success"
+            ));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", e.getMessage()));
+        }
+    }
+
+    @PutMapping("/users/{matricule}/unblock")
+    public ResponseEntity<?> unblockUser(@PathVariable String matricule) {
+        try {
+            User user = userRepository.findByMatricule(matricule)
+                    .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+
+            user.setBlocked(false);
+            userRepository.save(user);
+
+            // Débloquer dans Keycloak si nécessaire
+            keycloakService.enableUserInKeycloak(matricule);
+
+            return ResponseEntity.ok(Map.of(
+                    "message", "Utilisateur débloqué avec succès",
+                    "status", "success"
+            ));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", e.getMessage()));
+        }
+    }
+
+    // Upload image profil
+    @PostMapping("/users/{matricule}/upload-image")
+    public ResponseEntity<?> uploadProfileImage(
+            @PathVariable String matricule,
+            @RequestParam("file") MultipartFile file) {
+
+        try {
+            // Vérification du fichier
+            if (file.isEmpty()) {
+                return ResponseEntity.badRequest().body("Fichier vide");
+            }
+
+            // Vérification de l'utilisateur
+            User user = userRepository.findByMatricule(matricule)
+                    .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+
+            // Création du répertoire avec vérification
+            String uploadDir = "uploads/profile-images/";
+            Path uploadPath = Paths.get(uploadDir);
+
+            if (!Files.exists(uploadPath)) {
+                try {
+                    Files.createDirectories(uploadPath);
+                } catch (IOException e) {
+                    logger.error("Erreur création répertoire: " + uploadPath, e);
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                            .body("Erreur création répertoire");
+                }
+            }
+
+            // Génération nom de fichier sécurisé
+            String originalFilename = StringUtils.cleanPath(file.getOriginalFilename());
+            String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+            String fileName = matricule + "_" + System.currentTimeMillis() + extension;
+            Path filePath = uploadPath.resolve(fileName);
+
+            // Écriture sécurisée du fichier
+            try (InputStream inputStream = file.getInputStream()) {
+                Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                logger.error("Erreur écriture fichier: " + filePath, e);
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body("Erreur sauvegarde fichier");
+            }
+
+            // Mise à jour de l'utilisateur
+            user.setProfileImagePath("/api/auth/uploads/profile-images/" + fileName);
+            userRepository.save(user);
+
+            return ResponseEntity.ok(Map.of(
+                    "message", "Image téléchargée avec succès",
+                    "imagePath", user.getProfileImagePath()
+            ));
+
+        } catch (Exception e) {
+            logger.error("Erreur upload image", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erreur lors du traitement: " + e.getMessage());
+        }
+    }
+    @GetMapping("/uploads/profile-images/{filename:.+}")
+    public ResponseEntity<Resource> serveImage(@PathVariable String filename) {
+        try {
+            // Chemin absolu vers le dossier d'upload
+            Path uploadDir = Paths.get("uploads/profile-images/").toAbsolutePath().normalize();
+            Path file = uploadDir.resolve(filename);
+
+            if (!Files.exists(file)) {
+                return ResponseEntity.notFound().build();
+            }
+
+            Resource resource = new UrlResource(file.toUri());
+
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_TYPE, Files.probeContentType(file))
+                    .body(resource);
+        } catch (IOException e) {
+            logger.error("Erreur lecture fichier image", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
     public static class UserUpdateRequest {
         private String email;
         private String nom;
@@ -205,10 +348,6 @@ public class AuthController {
                 .body("🔒 L'authentification se fait via Keycloak.");
     }
 
-    @PostMapping("/logout")
-    public ResponseEntity<String> logout() {
-        return ResponseEntity.ok("🚪 Déconnexion côté client");
-    }
 
     @GetMapping("/users/matricule/{matricule}")
     public ResponseEntity<User> getUserByMatricule(@PathVariable String matricule) {
@@ -250,12 +389,82 @@ public class AuthController {
         return user.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/me")
-    public ResponseEntity<String> me(@RequestHeader("Authorization") String authHeader) {
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("⛔ Non connecté");
+    public String getUsernameFromToken(String token) {
+        try {
+            // Découpage du JWT
+            String[] chunks = token.split("\\.");
+            String payload = new String(Base64.getUrlDecoder().decode(chunks[1]));
+
+            // Lecture du payload JSON
+            ObjectMapper mapper = new ObjectMapper();
+            Map<String, Object> json = mapper.readValue(payload, Map.class);
+
+            return (String) json.get("preferred_username"); // ou "sub" selon votre config Keycloak
+        } catch (Exception e) {
+            logger.error("Erreur de décodage du token", e);
+            throw new RuntimeException("Token invalide");
         }
-        String token = authHeader.substring(7);
-        return ResponseEntity.ok("🔐 Token JWT reçu : " + token);
+    }
+    // Dans votre contrôleur Spring
+    @GetMapping("/me")
+    public ResponseEntity<User> getCurrentUser(@RequestHeader("Authorization") String authHeader) {
+        try {
+            // 1. Extraction du matricule depuis le token JWT
+            String token = authHeader.replace("Bearer ", "");
+            String matricule = getUsernameFromToken(token); // Méthode utilitaire
+
+            // 2. Recherche dans la base locale
+            User user = userRepository.findByMatricule(matricule)
+                    .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+
+            // 3. Mise à jour du statut
+            user.activate(); // Active l'utilisateur
+            userRepository.save(user);
+
+            // 4. Gestion de l'URL de l'image
+            if (user.getProfileImagePath() != null && !user.getProfileImagePath().startsWith("http")) {
+                user.setProfileImagePath("http://localhost:8081" + user.getProfileImagePath());
+            }
+
+            return ResponseEntity.ok(user);
+        } catch (Exception e) {
+            return ResponseEntity.status(401).build(); // Non autorisé
+        }
+    }
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(
+            @RequestHeader("Authorization") String authHeader,
+            @RequestBody Map<String, String> request) {
+
+        try {
+            String matricule = request.get("matricule");
+            if (matricule == null) {
+                return ResponseEntity.badRequest().body("Matricule requis");
+            }
+
+            // 1. Valider le token
+            String token = authHeader.replace("Bearer ", "");
+            String tokenMatricule = getUsernameFromToken(token);
+
+            if (!tokenMatricule.equals(matricule)) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
+
+            // 2. Mettre à jour l'utilisateur en base
+            User user = userRepository.findByMatricule(matricule)
+                    .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+
+            user.logout();
+            userRepository.save(user);
+
+            return ResponseEntity.ok(Map.of(
+                    "message", "Déconnexion réussie",
+                    "status", "success"
+            ));
+
+        } catch (Exception e) {
+            logger.error("Erreur lors de la déconnexion", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }

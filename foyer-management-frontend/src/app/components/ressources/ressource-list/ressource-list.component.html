@@ -1,8 +1,10 @@
+<app-navbar (search)="onSearch($event)"></app-navbar>
+
 <div class="container mt-4">
   <h2>Liste des Ressources</h2>
   <button routerLink="/ressources/new" class="btn btn-primary mb-3">Ajouter une Ressource</button>
   
-  <table class="table table-striped table-bordered">
+  <table class="table table-striped table-bordered" *ngIf="filteredRessources.length > 0; else noData">
     <thead>
       <tr>
         <th>Code</th>
@@ -15,7 +17,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let ressource of ressources">
+      <tr *ngFor="let ressource of filteredRessources">
         <td>{{ressource.code}}</td>
         <td>{{ressource.libelle}}</td>
         <td>{{ressource.typeRessource}}</td>
@@ -56,4 +58,8 @@
       </tr>
     </tbody>
   </table>
+
+  <ng-template #noData>
+    <div class="alert alert-warning">Aucune ressource trouvée.</div>
+  </ng-template>
 </div>

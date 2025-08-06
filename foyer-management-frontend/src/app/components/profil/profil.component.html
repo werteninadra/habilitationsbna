@@ -1,3 +1,5 @@
+<app-navbar (search)="onSearch($event)"></app-navbar>
+
 <div class="profil-container">
 
   <h2>Gestion des Profils</h2>
@@ -34,21 +36,21 @@
 
   <hr />
 
-  <!-- Liste des profils -->
+  <!-- Liste des profils filtrés -->
   <div class="profil-list">
 
     <h3>Profils existants</h3>
 
-    <div *ngIf="isLoading && profils.length === 0" class="loading">Chargement des profils...</div>
+    <div *ngIf="isLoading && filteredProfils.length === 0" class="loading">Chargement des profils...</div>
 
-    <ul *ngIf="profils.length > 0">
-      <li *ngFor="let profil of profils" class="profil-item">
+    <ul *ngIf="filteredProfils.length > 0">
+      <li *ngFor="let profil of filteredProfils" class="profil-item">
         <strong>{{ profil.nom }}</strong>
         <p *ngIf="profil.description">{{ profil.description }}</p>
       </li>
     </ul>
 
-    <div *ngIf="!isLoading && profils.length === 0" class="empty">
+    <div *ngIf="!isLoading && filteredProfils.length === 0" class="empty">
       Aucun profil disponible.
     </div>
 

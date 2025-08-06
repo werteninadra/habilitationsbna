@@ -1,3 +1,5 @@
+<app-navbar (search)="onSearch($event)"></app-navbar>
+
 <div class="container">
   <h2>Liste des Applications</h2>
 
@@ -7,9 +9,11 @@
   <button class="add-btn" [routerLink]="['/applications/new']">+ Ajouter une Application</button>
 
   <div class="card-grid">
-    <div *ngFor="let app of applications" class="card">
+    <div *ngFor="let app of filteredApplications" class="card">
       <h3>{{ app.code }}</h3>
       <p><strong>Code:</strong> {{ app.code }}</p>
+            <p><strong>nom application:</strong> {{ app.libelle}}</p>
+
       <p><strong>Description:</strong> {{ app.description }}</p>
 
       <div class="btn-group">

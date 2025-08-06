@@ -2,17 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ProfilService } from '../../services/ProfilService';
 import { CommonModule } from '@angular/common';
+import { NavbarComponent } from '../../navbar/navbar.component'; // adapte le chemin
 
 @Component({
   selector: 'app-profil',
-    imports: [CommonModule, FormsModule,ReactiveFormsModule],
-
+  standalone: true,
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, NavbarComponent],
   templateUrl: './profil.component.html',
   styleUrls: ['./profil.component.css']
 })
 export class ProfilComponent implements OnInit {
   profilForm: FormGroup;
   profils: any[] = [];
+  filteredProfils: any[] = [];
   isLoading = false;
   errorMessage: string | null = null;
   successMessage: string | null = null;
@@ -43,15 +45,17 @@ export class ProfilComponent implements OnInit {
     this.isLoading = true;
     this.errorMessage = null;
     this.profils = [];
+    this.filteredProfils = [];
 
     this.profilService.getAllProfils().subscribe({
       next: (profils) => {
         this.profils = profils;
+        this.filteredProfils = profils;
         this.isLoading = false;
       },
       error: (err) => {
-        this.errorMessage = err.status === 401 
-          ? 'Accès non autorisé. Veuillez vous reconnecter.' 
+        this.errorMessage = err.status === 401
+          ? 'Accès non autorisé. Veuillez vous reconnecter.'
           : 'Erreur lors du chargement des profils';
         this.isLoading = false;
       }
@@ -73,7 +77,7 @@ export class ProfilComponent implements OnInit {
         this.isLoading = false;
       },
       error: (err) => {
-        this.errorMessage = err.status === 401 
+        this.errorMessage = err.status === 401
           ? 'Non autorisé. Veuillez vous reconnecter.'
           : (err.error?.message || 'Erreur lors de la création du profil');
         this.isLoading = false;
@@ -81,5 +85,18 @@ export class ProfilComponent implements OnInit {
     });
 
     console.log('Formulaire envoyé:', this.profilForm.value);
+  }
+
+  // Nouvelle méthode pour filtrer la liste des profils selon la recherche
+  onSearch(term: string): void {
+    if (!term) {
+      this.filteredProfils = this.profils;
+    } else {
+      const lowerTerm = term.toLowerCase();
+      this.filteredProfils = this.profils.filter(p =>
+        p.nom.toLowerCase().includes(lowerTerm) ||
+        (p.description && p.description.toLowerCase().includes(lowerTerm))
+      );
+    }
   }
 }

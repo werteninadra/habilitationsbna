@@ -1,0 +1,15 @@
+<nav class="navbar">
+  <div class="navbar-brand"> Habilitation BNA</div>
+
+  <button class="btn-back" routerLink="/habilitations" title="Retour aux habilitations">
+    ← Retour
+  </button>
+
+  <input
+    type="text"
+    [(ngModel)]="searchTerm"
+    (input)="onSearchChange()"
+    class="search-input"
+    placeholder="Rechercher..."
+  />
+</nav>

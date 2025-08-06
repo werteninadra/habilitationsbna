@@ -20,6 +20,7 @@ import { RouterModule } from '@angular/router';
 
   ],
   imports: [
+    
     CommonModule,  // Ajout du CommonModule
     FormsModule,
      AppComponent,
@@ -32,7 +33,7 @@ import { RouterModule } from '@angular/router';
      // Ajout du composant AddUserComponent
     ReactiveFormsModule,  BrowserModule, // OBLIGATOIRE
  RouterModule,
-  
+
     // Ajout du FormsModule pour utiliser ngModel
   ],
 

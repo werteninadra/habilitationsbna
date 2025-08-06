@@ -1,9 +1,13 @@
 package com.bna.habilitationbna;
 
 import com.bna.habilitationbna.service.UserDetailsServiceImpl;
+import com.fasterxml.jackson.core.StreamWriteConstraints;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -17,6 +21,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.security.config.Customizer;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -47,37 +53,56 @@ public class SecurityConfig {
         return provider;
     }
 
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
-                .cors(Customizer.withDefaults())
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll() // Login, Register etc.
-                        .requestMatchers("/api/profils/**").permitAll() // Rendre profil accessible sans auth (temporairement ou selon besoin)
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Pour preflight
+                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/profils/**").permitAll()
                         .requestMatchers("/api/auth/users-with-details").permitAll()
-                                .requestMatchers("/uploads/**").permitAll() // Autoriser l'accès aux images
-// Ce endpoint aussi
+                        .requestMatchers("/uploads/**").permitAll()
+                        .requestMatchers("/api/agences/**").permitAll()
+                        .requestMatchers("/api/ressources/**").permitAll()
+                        .requestMatchers("/api/applications/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .authenticationProvider(authenticationProvider()) // Important
-                .httpBasic(Customizer.withDefaults()); // Ou .formLogin() si besoin
+
+                .authenticationProvider(authenticationProvider())
+                .httpBasic(Customizer.withDefaults());
 
         return http.build();
     }
 
-
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOriginPatterns(List.of("*")); // Autoriser toutes les origines pour le développement
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setExposedHeaders(List.of("Authorization", "Content-Type"));
         configuration.setAllowCredentials(true);
-        configuration.addAllowedOrigin("http://localhost:4200");
-        configuration.addAllowedHeader("*");
-        configuration.addAllowedMethod("*");
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
+    }
+    @Bean
+    public Jackson2ObjectMapperBuilderCustomizer jsonCustomizer() {
+        return builder -> {
+            builder.featuresToEnable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+            builder.featuresToDisable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+            builder.postConfigurer(objectMapper -> {
+                objectMapper.getFactory().setStreamWriteConstraints(
+                        StreamWriteConstraints.builder()
+                                .maxNestingDepth(2000) // Augmentez la limite
+                                .build()
+                );
+            });
+        };
     }
 
     @Bean

@@ -1,5 +1,7 @@
 package com.bna.habilitationbna.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
@@ -57,8 +59,10 @@ public class User {
     @Column(name = "is_logged_in", nullable = false)
     @ColumnDefault("false")
     private Boolean loggedIn = false;
+    //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 
-    @ManyToMany(fetch = FetchType.EAGER)
+
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_profils",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -87,6 +91,10 @@ public class User {
                 .map(Profil::getRole)
                 .collect(Collectors.toSet());
     }
+    @ManyToOne
+    @JoinColumn(name = "agence_id")
+    @JsonBackReference
+    private Agence agence;
 
     // Ensure default values are set before persisting
     @PrePersist

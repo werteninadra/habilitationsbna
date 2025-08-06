@@ -1,0 +1,64 @@
+<div class="container mt-4">
+  <h2>{{ isEditMode ? 'Modifier' : 'Ajouter' }} une Ressource</h2>
+  
+  <form [formGroup]="ressourceForm" (ngSubmit)="onSubmit()" class="needs-validation" novalidate>
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="code" class="form-label">Code</label>
+        <input type="text" class="form-control" id="code" formControlName="code" [readonly]="isEditMode">
+        <div *ngIf="ressourceForm.get('code')?.invalid && (ressourceForm.get('code')?.dirty || ressourceForm.get('code')?.touched)"
+             class="text-danger">
+          Le code est obligatoire
+        </div>
+      </div>
+      
+      <div class="col-md-6">
+        <label for="libelle" class="form-label">Libellé</label>
+        <input type="text" class="form-control" id="libelle" formControlName="libelle">
+        <div *ngIf="ressourceForm.get('libelle')?.invalid && (ressourceForm.get('libelle')?.dirty || ressourceForm.get('libelle')?.touched)"
+             class="text-danger">
+          Le libellé est obligatoire
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="typeRessource" class="form-label">Type de Ressource</label>
+        <input type="text" class="form-control" id="typeRessource" formControlName="typeRessource">
+        <div *ngIf="ressourceForm.get('typeRessource')?.invalid && (ressourceForm.get('typeRessource')?.dirty || ressourceForm.get('typeRessource')?.touched)"
+             class="text-danger">
+          Le type est obligatoire
+        </div>
+      </div>
+      
+      <div class="col-md-6 d-flex align-items-end">
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" id="statut" formControlName="statut">
+          <label class="form-check-label" for="statut">Statut Actif</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="applicationCode" class="form-label">Application</label>
+        <select class="form-select" id="applicationCode" formControlName="applicationCode">
+          <option [value]="null">-- Sélectionner une application --</option>
+          <option *ngFor="let app of applications" [value]="app.code">
+            {{app.code}} - {{app.libelle}}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="mt-3">
+      <button type="submit" class="btn btn-primary" [disabled]="ressourceForm.invalid">
+        {{ isEditMode ? 'Mettre à jour' : 'Créer' }}
+      </button>
+      <button type="button" class="btn btn-secondary ms-2" (click)="cancel()">
+        Annuler
+      </button>
+    </div>
+  </form>
+</div>

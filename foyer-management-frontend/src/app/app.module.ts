@@ -13,6 +13,7 @@ import { AppRoutingModule } from './app.routing.module'; // 👈 Assure-toi que 
 import { ModifierUserComponent } from './components/modifier-user/modifier-user.component';
 import { ProfilComponent } from './components/profil/profil.component';
 import { SignInComponent } from './sign-in/sign-in.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,7 @@ import { SignInComponent } from './sign-in/sign-in.component';
      ProfilComponent,
      // Ajout du composant AddUserComponent
     ReactiveFormsModule,  BrowserModule, // OBLIGATOIRE
-
+ RouterModule,
   
     // Ajout du FormsModule pour utiliser ngModel
   ],

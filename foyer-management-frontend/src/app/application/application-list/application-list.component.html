@@ -1,0 +1,21 @@
+<div class="container">
+  <h2>Liste des Applications</h2>
+
+  <div *ngIf="isLoading" class="loading">Chargement...</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <button class="add-btn" [routerLink]="['/applications/new']">+ Ajouter une Application</button>
+
+  <div class="card-grid">
+    <div *ngFor="let app of applications" class="card">
+      <h3>{{ app.code }}</h3>
+      <p><strong>Code:</strong> {{ app.code }}</p>
+      <p><strong>Description:</strong> {{ app.description }}</p>
+
+      <div class="btn-group">
+        <button class="edit-btn" [routerLink]="['/applications/edit', app.code]">Modifier</button>
+        <button class="delete-btn" (click)="deleteApplication(app.code)">Supprimer</button>
+      </div>
+    </div>
+  </div>
+</div>

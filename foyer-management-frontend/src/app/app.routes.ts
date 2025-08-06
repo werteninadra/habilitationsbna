@@ -5,6 +5,11 @@ import { HabilitationsComponent } from './habilitations/habilitations/habilitati
 import { AddUserComponent } from './components/add-user/add-user.component';
 import { ModifierUserComponent } from './components/modifier-user/modifier-user.component';
 import { ProfilComponent } from './components/profil/profil.component';
+import { RessourceAssignComponent } from './components/ressources/ressource-assign/ressource-assign.component';
+import { RessourceFormComponent } from './components/ressources/ressource-form/ressource-form.component';
+import { RessourceListComponent } from './components/ressources/ressource-list/ressource-list.component';
+import { ApplicationFormComponent } from './application/application-form/application-form.component';
+import { ApplicationListComponent } from './application/application-list/application-list.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'habilitations', pathMatch: 'full' },
@@ -18,6 +23,12 @@ export const routes: Routes = [
       { path: 'users/edit/:matricule', component: ModifierUserComponent },
 { path: 'gestion-profils', component: ProfilComponent  },
       { path: 'modifier-utilisateur/:matricule', component:ModifierUserComponent},
-{ path: 'modifier-user/:matricule', component: ModifierUserComponent }
-
+{ path: 'modifier-user/:matricule', component: ModifierUserComponent },
+{ path: 'ressources', component: RessourceListComponent },
+  { path: 'ressources/new', component: RessourceFormComponent },
+  { path: 'ressources/:code/edit', component: RessourceFormComponent },
+  { path: 'ressources/:code/assign', component: RessourceAssignComponent },
+   { path: 'applications', component: ApplicationListComponent },
+  { path: 'applications/new', component: ApplicationFormComponent },
+  { path: 'applications/:code/edit', component: ApplicationFormComponent },
 ];

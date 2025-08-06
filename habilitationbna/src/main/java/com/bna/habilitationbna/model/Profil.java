@@ -1,5 +1,6 @@
 package com.bna.habilitationbna.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.util.Collections;
 import java.util.Set;
@@ -9,34 +10,32 @@ import java.util.Set;
 public class Profil {
 
     @Id
-    @Column(nullable = false, unique = true)
-    private String nom; // Ce nom sert aussi de rôle
+    @Column(name = "nom", nullable = false, unique = true)
+    private String nom;
 
-    @Column(nullable = false)
+    @Column(name = "LIB_PFL_PFL", nullable = false)
     private String description;
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "profil_ressource",
+            joinColumns = @JoinColumn(name = "nom", referencedColumnName = "nom"),
+            inverseJoinColumns = @JoinColumn(name = "COD_RES_RES", referencedColumnName = "COD_RES_RES")
+    )
+    private Set<Ressource> ressources;
 
-    // Supprimer les rôles supplémentaires
-    // @ElementCollection et autres annotations relatives aux rôles suppl.
+    // Getters/Setters
+    public String getNom() { return nom; }
 
-    // Getters et Setters
-    public String getNom() {
-        return nom;
-    }
+    public void setNom(String nom) { this.nom = nom; }
 
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
+    public String getDescription() { return description; }
 
-    public String getDescription() {
-        return description;
-    }
+    public void setDescription(String description) { this.description = description; }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+    public Set<Ressource> getRessources() { return ressources; }
 
-    // Remplacer getAllRoles() par getRole() (puisqu'un profil = un rôle)
-    public String getRole() {
-        return this.nom;
-    }
+    public void setRessources(Set<Ressource> ressources) { this.ressources = ressources; }
+
+    public String getRole() { return this.nom; }
 }

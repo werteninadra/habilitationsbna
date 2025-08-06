@@ -1,0 +1,144 @@
+/* Style général du conteneur */
+.container {
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style du titre */
+h2 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+/* Style des boutons */
+.btn {
+  font-weight: 500;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background-color: #3498db;
+  border-color: #3498db;
+}
+
+.btn-primary:hover {
+  background-color: #2980b9;
+  border-color: #2980b9;
+}
+
+.btn-danger {
+  background-color: #e74c3c;
+  border-color: #e74c3c;
+}
+
+.btn-danger:hover {
+  background-color: #c0392b;
+  border-color: #c0392b;
+}
+
+.btn-info {
+  background-color: #17a2b8;
+  border-color: #17a2b8;
+}
+
+.btn-info:hover {
+  background-color: #138496;
+  border-color: #138496;
+}
+
+/* Style du tableau */
+.table {
+  margin-top: 20px;
+  border-collapse: separate;
+  border-spacing: 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.table thead th {
+  background-color: #2c3e50;
+  color: white;
+  font-weight: 500;
+  border: none;
+  padding: 12px 15px;
+}
+
+.table tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.table tbody tr:hover {
+  background-color: rgba(52, 152, 219, 0.1);
+}
+
+.table td {
+  padding: 12px 15px;
+  vertical-align: middle;
+  border-top: 1px solid #dee2e6;
+}
+
+/* Style des badges */
+.badge {
+  padding: 6px 10px;
+  font-weight: 500;
+  font-size: 0.85rem;
+  border-radius: 12px;
+}
+
+.badge-success {
+  background-color: #28a745;
+  color: white;
+}
+
+.badge-danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+.badge-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+/* Style des icônes */
+.bi {
+  margin-right: 5px;
+}
+
+/* Style pour le texte "Aucun profil" */
+.text-muted {
+  font-style: italic;
+  color: #6c757d !important;
+}
+
+/* Espacement entre les boutons d'action */
+.btn-sm {
+  padding: 5px 10px;
+  font-size: 0.875rem;
+}
+
+.ms-2 {
+  margin-left: 8px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .btn {
+    margin-bottom: 5px;
+    display: inline-block;
+  }
+  
+  .ms-2 {
+    margin-left: 0;
+  }
+}

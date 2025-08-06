@@ -29,6 +29,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.Instant;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -139,11 +140,11 @@ public class AuthController {
         }
     }
 
-    @GetMapping("/users-with-details")
-    public ResponseEntity<List<User>> getAllUsersWithDetails() {
-        List<User> users = userRepository.findAll();
-        return ResponseEntity.ok(users);
-    }
+    //@GetMapping("/users-with-details")
+    //public ResponseEntity<List<User>> getAllUsersWithDetails() {
+       // List<User> users = userRepository.findAll();
+        //return ResponseEntity.ok(users);
+    //}
 
     @PutMapping("/update/{matricule}")
     public ResponseEntity<?> updateUserEverywhere(
@@ -194,7 +195,36 @@ public class AuthController {
         }
     }
 
+    @GetMapping("/users-with-details")
+    public ResponseEntity<List<Map<String, Object>>> getAllUsersWithDetails() {
+        List<User> users = userRepository.findAll();
 
+        List<Map<String, Object>> response = users.stream().map(user -> {
+            Map<String, Object> userMap = new HashMap<>();
+            userMap.put("id", user.getId());
+            userMap.put("matricule", user.getMatricule());
+            userMap.put("email", user.getEmail());
+            userMap.put("nom", user.getNom());
+            userMap.put("prenom", user.getPrenom());
+            userMap.put("telephone", user.getTelephone());
+            userMap.put("active", user.getActive());
+            userMap.put("blocked", user.getBlocked());
+            userMap.put("profileImagePath", user.getProfileImagePath());
+
+            // Sérialisation contrôlée des profils
+            userMap.put("profils", user.getProfils().stream()
+                    .map(profil -> {
+                        Map<String, Object> profilMap = new HashMap<>();
+                        profilMap.put("id", profil.getNom());
+                        profilMap.put("nom", profil.getNom());
+                        return profilMap;
+                    }).collect(Collectors.toList()));
+
+            return userMap;
+        }).collect(Collectors.toList());
+
+        return ResponseEntity.ok(response);
+    }
 
     // Blocage/Déblocage utilisateur
     @PutMapping("/users/{matricule}/block")
@@ -467,4 +497,48 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-}
+
+    // Dans votre AuthController.java
+    @PutMapping("/users/{matricule}/status")
+    public ResponseEntity<?> toggleUserStatus(
+            @PathVariable String matricule,
+            @RequestBody Map<String, String> request) {
+
+        try {
+            // 1. Valider l'action
+            String action = request.get("action");
+            if (action == null || (!action.equals("block") && !action.equals("unblock"))) {
+                return ResponseEntity.badRequest().body("Action invalide - doit être 'block' ou 'unblock'");
+            }
+
+            // 2. Trouver l'utilisateur
+            User user = userRepository.findByMatricule(matricule)
+                    .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+
+            // 3. Mettre à jour le statut
+            boolean shouldBlock = action.equals("block");
+            user.setBlocked(shouldBlock);
+            userRepository.save(user);
+
+            // 4. Synchroniser avec Keycloak
+            if (shouldBlock) {
+                keycloakService.disableUserInKeycloak(matricule);
+            } else {
+                keycloakService.enableUserInKeycloak(matricule);
+            }
+
+            return ResponseEntity.ok(Map.of(
+                    "message", shouldBlock ? "Utilisateur bloqué avec succès" : "Utilisateur débloqué avec succès",
+                    "status", "success",
+                    "blocked", shouldBlock
+            ));
+
+        } catch (Exception e) {
+            logger.error("Erreur lors du changement de statut", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of(
+                            "error", "Erreur lors de l'opération",
+                            "message", e.getMessage()
+                    ));
+        }
+    }}

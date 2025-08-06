@@ -2,10 +2,14 @@ package com.bna.habilitationbna.controller;
 
 import com.bna.habilitationbna.model.Profil;
 import com.bna.habilitationbna.service.ProfilService;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/profils")
@@ -16,9 +20,23 @@ public class ProfilController {
     public ProfilController(ProfilService profilService) {
         this.profilService = profilService;
     }
+
     @GetMapping
-    public ResponseEntity<List<Profil>> getAllProfils() {
-        return ResponseEntity.ok(profilService.findAll());
+    public ResponseEntity<List<Map<String, String>>> getAllProfils() {
+        List<Profil> profils = profilService.findAll();
+
+        List<Map<String, String>> response = profils.stream()
+                .map(p -> {
+                    Map<String, String> profilMap = new HashMap<>();
+                    profilMap.put("nom", p.getNom());
+                    profilMap.put("description", p.getDescription());
+                    return profilMap;
+                })
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(response);
     }
 
     @PostMapping

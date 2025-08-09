@@ -4,29 +4,32 @@ import { Agence, AgenceService, Occupation } from '../../services/agence.service
 import { CommonModule } from '@angular/common';
 import { OccupationListComponent } from '../occupation-list/occupation-list.component';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { NavbarComponent } from '../../navbar/navbar.component'; // Chemin à adapter
 
 @Component({
   selector: 'app-agence-list',
   standalone: true,
-  imports: [CommonModule, OccupationListComponent],
+  imports: [CommonModule, OccupationListComponent, NavbarComponent],
   templateUrl: './agence-list.component.html',
   styleUrls: ['./agence-list.component.css'],
 })
 export class AgenceListComponent implements OnInit {
   agences: Agence[] = [];
+  filteredAgences: Agence[] = [];
   error: string | null = null;
 
   selectedAgence?: Agence;
   occupations: Occupation[] = [];
   occupationError: string | null = null;
 
-  private map?: any;  // Leaflet Map (any car import dynamique)
+  private map?: any;
 
-constructor(
-  private agenceService: AgenceService,
-  private router: Router,
-  private sanitizer: DomSanitizer
-) {}
+  constructor(
+    private agenceService: AgenceService,
+    private router: Router,
+    private sanitizer: DomSanitizer
+  ) {}
+
   ngOnInit(): void {
     this.loadAgences();
   }
@@ -35,6 +38,7 @@ constructor(
     this.agenceService.getAgences().subscribe({
       next: (data) => {
         this.agences = data;
+        this.filteredAgences = data; // Initialisation pour recherche
       },
       error: (err) => {
         this.error = 'Erreur lors du chargement des agences';
@@ -55,7 +59,7 @@ constructor(
             this.destroyMap();
           }
         },
-        error: (err) => alert('Erreur lors de la suppression'),
+        error: () => alert('Erreur lors de la suppression'),
       });
     }
   }
@@ -67,14 +71,12 @@ constructor(
   goToEdit(id?: number) {
     if (id) this.router.navigate(['/agences/edit', id]);
   }
-getMapUrl(adresse?: string): SafeResourceUrl {
-  if (!adresse) {
-    return '';
-  }
-  const url = `https://www.google.com/maps?q=${encodeURIComponent(adresse)}&output=embed`;
-  return this.sanitizer.bypassSecurityTrustResourceUrl(url);
-}
 
+  getMapUrl(adresse?: string): SafeResourceUrl {
+    if (!adresse) return '';
+    const url = `https://www.google.com/maps?q=${encodeURIComponent(adresse)}&output=embed`;
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
 
   selectAgence(agence: Agence) {
     this.selectedAgence = agence;
@@ -89,38 +91,40 @@ getMapUrl(adresse?: string): SafeResourceUrl {
     }
   }
 
-  encodeURIComponent(str: string): string {
-    return encodeURIComponent(str);
-  }
-
   loadOccupations(agenceId: number) {
     this.agenceService.getOccupations(agenceId).subscribe({
       next: (data) => {
         this.occupations = data;
         this.occupationError = null;
       },
-      error: (err) => {
+      error: () => {
         this.occupationError = 'Erreur lors du chargement des occupations';
         this.occupations = [];
-        console.error(err);
       },
     });
   }
 
-  private async initMap(lat: number, lng: number, nom: string) {
-    // Import dynamique pour éviter erreur window undefined
-    const L = await import('leaflet');
+  onSearch(term: string) {
+    if (!term) {
+      this.filteredAgences = this.agences;
+    } else {
+      const lower = term.toLowerCase();
+      this.filteredAgences = this.agences.filter(a =>
+        a.nom.toLowerCase().includes(lower) ||
+        (a.adresse && a.adresse.toLowerCase().includes(lower))
+      );
+    }
+  }
 
+  private async initMap(lat: number, lng: number, nom: string) {
+    const L = await import('leaflet');
     this.map = L.map('map').setView([lat, lng], 13);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap contributors',
     }).addTo(this.map);
 
-    L.marker([lat, lng])
-      .addTo(this.map)
-      .bindPopup(nom)
-      .openPopup();
+    L.marker([lat, lng]).addTo(this.map).bindPopup(nom).openPopup();
   }
 
   private destroyMap() {

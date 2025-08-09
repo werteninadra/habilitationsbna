@@ -8,6 +8,7 @@
     <input type="text" [(ngModel)]="agence.nom" name="nom" required />
   </label>
   <br />
+
   <label>
     Capacité max :
     <input
@@ -19,6 +20,18 @@
     />
   </label>
   <br />
+
+  <label>
+    Adresse :
+    <input
+      type="text"
+      [(ngModel)]="agence.adresse"
+      name="adresse"
+      placeholder="Ex: Av. Habib Bourguiba FERNANA 8140, JENDOUBA"
+    />
+  </label>
+  <br />
+
   <button type="submit">{{ isEditMode ? 'Modifier' : 'Ajouter' }}</button>
   <button type="button" (click)="cancel()">Annuler</button>
 </form>

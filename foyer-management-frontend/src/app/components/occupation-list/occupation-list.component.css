@@ -1,0 +1,237 @@
+/* ===== Style général ===== */
+h2 {
+  color: #2c3e50;
+  font-family: 'Arial', sans-serif;
+  margin-bottom: 20px;
+}
+
+/* ===== Tables ===== */
+table {
+  width: 80%;          /* Limite la largeur à 80% */
+  max-width: 900px;    /* Ne dépasse pas 900px */
+  margin: 20px auto;   /* Centré horizontalement avec marge verticale */
+  border-collapse: collapse;
+  font-family: 'Arial', sans-serif;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  overflow-x: auto;
+}
+
+
+/* En-tête */
+thead {
+  background-color: #3498db;
+  color: white;
+}
+
+th {
+  padding: 12px 15px;
+  text-align: left;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.9em;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+/* Lignes */
+tbody tr {
+  border-bottom: 1px solid #ddd;
+  transition: background-color 0.2s, transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+tbody tr:last-of-type {
+  border-bottom: 2px solid #3498db;
+}
+
+tbody tr:hover {
+  background-color: #e1f5fe;
+  transform: scale(1.005);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Ligne sélectionnée */
+tbody tr.selected {
+  background-color: #b3e5fc;
+  font-weight: bold;
+}
+
+/* Cellules */
+td {
+  padding: 12px 15px;
+  color: #34495e;
+  white-space: nowrap;
+}
+
+/* Colonnes spécifiques pour occupation */
+td:nth-child(2) { /* Nombre clients */
+  font-weight: bold;
+  color: #2980b9;
+}
+
+td:nth-child(6) { /* Taux occupation */
+  font-weight: bold;
+  color: #27ae60;
+}
+
+td:nth-child(4) { /* Est férié */
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+/* Couleurs conditionnelles taux occupation */
+td[tauxoccupation^="9"],
+td[tauxoccupation^="10"] {
+  color: #e74c3c !important;
+  background-color: #ffebee;
+}
+
+td[tauxoccupation^="7"],
+td[tauxoccupation^="8"] {
+  color: #f39c12 !important;
+}
+
+/* ===== Boutons ===== */
+button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  margin-right: 5px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+button:hover {
+  background-color: #2980b9;
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+/* Bouton Ajouter / Créer */
+button.add-btn, button.create-btn, button:last-child {
+  background-color: #2ecc71;
+  padding: 10px 15px;
+  margin-top: 10px;
+  font-size: 1em;
+}
+
+button.add-btn:hover, button.create-btn:hover, button:last-child:hover {
+  background-color: #27ae60;
+}
+
+/* ===== Message d'erreur ===== */
+[style*="color:red"] {
+  background-color: #ffebee;
+  padding: 10px;
+  border-radius: 4px;
+  border-left: 4px solid #f44336;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+/* ===== Style pour la prédiction ===== */
+.prediction-container {
+  font-family: 'Arial', sans-serif;
+  margin: 20px 0;
+}
+
+.prediction-messenger {
+  position: relative;
+  max-width: 100%;
+  padding: 15px 20px;
+  margin: 20px 0;
+  border-radius: 8px;
+  background: #0084ff; /* Bleu Messenger */
+  color: white;
+  font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  display: inline-block;
+  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform-origin: center;
+}
+
+.prediction-messenger.highlight {
+  animation: popIn 0.3s, pulse 1.5s infinite 0.5s;
+}
+
+.prediction-label {
+  font-weight: 600;
+  font-size: 0.9em;
+  opacity: 0.9;
+  margin-right: 8px;
+}
+
+.prediction-messenger strong {
+  font-weight: 700;
+  font-size: 1.1em;
+}
+
+/* Triangle pointant vers le haut */
+.prediction-messenger:after {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 20px;
+  border-width: 8px;
+  border-style: solid;
+  border-color: transparent transparent #0084ff transparent;
+}
+
+/* Version sans prédiction */
+.no-prediction-messenger {
+  background: #f0f2f5;
+  color: #65676b;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 0.95em;
+  font-style: italic;
+}
+
+.no-prediction-messenger::before {
+  font-family: 'Font Awesome 6 Free';
+  content: '\f05a'; /* Icône info */
+  margin-right: 10px;
+  color: #7f8c8d;
+}
+
+/* ===== Animations ===== */
+@keyframes popIn {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  table {
+    display: block;
+    overflow-x: auto;
+  }
+  
+  th, td {
+    padding: 8px 10px;
+    font-size: 0.8em;
+    white-space: nowrap;
+  }
+}

@@ -14,6 +14,9 @@ public class AgenceServiceImpl implements IAgenceService {
 
     private final AgenceRepository agenceRepository;
 
+
+
+
     @Override
     public List<Agence> findAll() {
         return agenceRepository.findAll();
@@ -28,6 +31,15 @@ public class AgenceServiceImpl implements IAgenceService {
     @Override
     public Agence findById(Long id) {
         return agenceRepository.findById(id).orElse(null);
+    }
 
+    @Override
+    public Agence save(Agence agence) {
+        return agenceRepository.save(agence);
+    }
+
+    @Override
+    public void delete(Long id) {
+        agenceRepository.deleteById(id);
     }
 }

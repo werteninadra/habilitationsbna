@@ -24,6 +24,11 @@ public class Agence {
     private String adresse;
     private String ville;
 
+    private Double latitude;   // <-- ajoute ces champs
+
+    private Double longitude;  // <-- ajoute ces champs
+
+
     @OneToOne
     @JoinColumn(name = "chef_agence_id")
     private User chefAgence;

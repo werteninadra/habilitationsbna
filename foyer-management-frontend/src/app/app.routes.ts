@@ -10,6 +10,10 @@ import { RessourceFormComponent } from './components/ressources/ressource-form/r
 import { RessourceListComponent } from './components/ressources/ressource-list/ressource-list.component';
 import { ApplicationFormComponent } from './application/application-form/application-form.component';
 import { ApplicationListComponent } from './application/application-list/application-list.component';
+import { OccupationListComponent } from './components/occupation-list/occupation-list.component';
+import { AgenceListComponent } from './components/agence-list/agence-list.component';
+import { OccupationCreateComponent } from './components/occupation-create/occupation-create.component';
+import { AgenceFormComponent } from './components/agence-form/agence-form.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'habilitations', pathMatch: 'full' },
@@ -30,5 +34,13 @@ export const routes: Routes = [
   { path: 'ressources/:code/assign', component: RessourceAssignComponent },
    { path: 'applications', component: ApplicationListComponent },
   { path: 'applications/new', component: ApplicationFormComponent },
+  {
+    path: 'occupations/create',
+    component: OccupationCreateComponent,
+  },
   { path: 'applications/:code/edit', component: ApplicationFormComponent },
+  { path: 'agences', component: AgenceListComponent },
+  { path: 'occupations/:agenceId', component: OccupationListComponent },
+ { path: 'agences/add', component: AgenceFormComponent },
+   {path: 'agences/edit/:id', component: AgenceFormComponent },
 ];

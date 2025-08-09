@@ -1,0 +1,52 @@
+<h3>Ajouter une occupation</h3>
+
+<form [formGroup]="occupationForm" (ngSubmit)="onSubmit()">
+
+  <label for="agenceId">Agence :</label>
+  <select id="agenceId" formControlName="agenceId" required>
+    <option value="">-- Sélectionnez une agence --</option>
+    <option *ngFor="let agence of agences" [value]="agence.id">{{ agence.nom }}</option>
+  </select>
+  <div *ngIf="occupationForm.get('agenceId')?.invalid && occupationForm.get('agenceId')?.touched" style="color:red;">
+    Veuillez sélectionner une agence.
+  </div>
+
+  <br/>
+
+  <label for="nombreClients">Nombre de clients :</label>
+  <input type="number" id="nombreClients" formControlName="nombreClients" min="0" required />
+  <div *ngIf="occupationForm.get('nombreClients')?.invalid && occupationForm.get('nombreClients')?.touched" style="color:red;">
+    Veuillez entrer un nombre valide.
+  </div>
+
+  <br/>
+
+  <label>
+    <input type="checkbox" formControlName="estFerie" />
+    Jour férié
+  </label>
+
+  <br/>
+
+  <label for="meteo">Météo :</label>
+  <input type="text" id="meteo" formControlName="meteo" required />
+  <div *ngIf="occupationForm.get('meteo')?.invalid && occupationForm.get('meteo')?.touched" style="color:red;">
+    Ce champ est obligatoire.
+  </div>
+
+  <br/>
+
+  <label for="jourSemaine">Jour de la semaine (0 = lundi, 6 = dimanche) :</label>
+  <input type="number" id="jourSemaine" formControlName="jourSemaine" min="0" max="6" required />
+  <div *ngIf="occupationForm.get('jourSemaine')?.invalid && occupationForm.get('jourSemaine')?.touched" style="color:red;">
+    Entrez un nombre entre 0 et 6.
+  </div>
+
+  <br/>
+
+  <button type="submit" [disabled]="occupationForm.invalid">Créer l'occupation</button>
+
+</form>
+
+<div *ngIf="successMessage" style="color:green;">{{ successMessage }}</div>
+<div *ngIf="errorMessage" style="color:red;">{{ errorMessage }}</div>

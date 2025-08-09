@@ -68,6 +68,10 @@ public class SecurityConfig {
                         .requestMatchers("/api/agences/**").permitAll()
                         .requestMatchers("/api/ressources/**").permitAll()
                         .requestMatchers("/api/applications/**").permitAll()
+                        .requestMatchers("/api/occupations/**").permitAll()
+                        .requestMatchers("/api/**").permitAll()
+
+
                         .anyRequest().authenticated()
                 )
 

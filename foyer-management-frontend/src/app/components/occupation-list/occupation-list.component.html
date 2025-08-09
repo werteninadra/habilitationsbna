@@ -1,0 +1,43 @@
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<div class="prediction-container">
+  <div *ngIf="predictionMessage" class="prediction-messenger highlight">
+    <span class="prediction-label">Prédiction :</span>
+    <strong>{{ predictionMessage }}</strong>
+  </div>
+  <div *ngIf="!predictionMessage" class="no-prediction-messenger">
+    Aucune prédiction disponible
+  </div>
+</div>
+
+<table cellpadding="5">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Nombre clients</th>
+      <th>Jour semaine</th>
+      <th>Est férié</th>
+      <th>Météo</th>
+      <th>Taux occupation</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let occ of occupations">
+      <td>{{ occ.date | date:'yyyy-MM-dd' }}</td>
+      <td>{{ occ.nombreClients }}</td>
+      <td>{{ occ.jourSemaine }}</td>
+      <td>{{ occ.estFerie ? 'Oui' : 'Non' }}</td>
+      <td>{{ occ.meteo }}</td>
+      <td>{{ occ.tauxOccupation }}%</td>
+
+      <td>
+        <button (click)="editOccupation(occ)">Modifier</button>
+        <button (click)="deleteOccupation(occ.id)">Supprimer</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<button (click)="goToCreate()">Créer une occupation</button>

@@ -12,4 +12,6 @@ public interface IAgenceService {
     List<Agence> findAll();
     DetailsAgence getDetails(Long id);
     Agence findById(Long id);
+    Agence save(Agence agence);
+    void delete(Long id);
 }

@@ -70,6 +70,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/applications/**").permitAll()
                         .requestMatchers("/api/occupations/**").permitAll()
                         .requestMatchers("/api/**").permitAll()
+                        .requestMatchers(" /api/jira/**").permitAll()
+
 
 
                         .anyRequest().authenticated()

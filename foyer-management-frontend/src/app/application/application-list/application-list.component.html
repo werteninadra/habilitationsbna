@@ -1,5 +1,3 @@
-<app-navbar (search)="onSearch($event)"></app-navbar>
-
 <div class="container">
   <h2>Liste des Applications</h2>
 
@@ -11,10 +9,20 @@
   <div class="card-grid">
     <div *ngFor="let app of filteredApplications" class="card">
       <h3>{{ app.code }}</h3>
-      <p><strong>Code:</strong> {{ app.code }}</p>
-            <p><strong>nom application:</strong> {{ app.libelle}}</p>
+      <p><strong>Nom :</strong> {{ app.libelle }}</p>
+      <p><strong>Description :</strong> {{ app.description }}</p>
 
-      <p><strong>Description:</strong> {{ app.description }}</p>
+      <h4>Tickets Jira :</h4>
+      <ul *ngIf="ticketsMap[app.code]?.length; else noTickets">
+        <li *ngFor="let ticket of ticketsMap[app.code]">
+          <a [href]="'https://' + jiraDomain + '.atlassian.net/browse/' + ticket.key" target="_blank" rel="noopener">
+            {{ ticket.key }} - {{ ticket.fields.summary }}
+          </a>
+        </li>
+      </ul>
+      <ng-template #noTickets>
+        <p>Aucun ticket trouvé.</p>
+      </ng-template>
 
       <div class="btn-group">
         <button class="edit-btn" [routerLink]="['/applications/edit', app.code]">Modifier</button>

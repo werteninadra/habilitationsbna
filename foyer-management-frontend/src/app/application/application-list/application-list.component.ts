@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ApplicationService } from '../../services/application.service';
 import { Application } from '../../models/Application';
+import { JiraService } from '../../services/JiraService';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-// ... autres imports
-import { NavbarComponent } from '../../navbar/navbar.component'; // mets le bon chemin
+import { NavbarComponent } from '../../navbar/navbar.component';
 
 @Component({
   selector: 'app-application-list',
@@ -16,10 +16,15 @@ import { NavbarComponent } from '../../navbar/navbar.component'; // mets le bon 
 export class ApplicationListComponent implements OnInit {
   applications: Application[] = [];
   filteredApplications: Application[] = [];
+  ticketsMap: { [code: string]: any[] } = {};
   isLoading = true;
   error: string | null = null;
+  jiraDomain = 'nadrawertani22';  // <-- Déclare ici ton sous-domaine Jira
 
-  constructor(private applicationService: ApplicationService) {}
+  constructor(
+    private applicationService: ApplicationService,
+    private jiraService: JiraService
+  ) {}
 
   ngOnInit(): void {
     this.loadApplications();
@@ -34,11 +39,24 @@ export class ApplicationListComponent implements OnInit {
         this.applications = data;
         this.filteredApplications = data;
         this.isLoading = false;
+
+        // Pour chaque application, appeler Jira et stocker les tickets
+        this.applications.forEach(app => {
+          this.jiraService.getTicketsForProject(app.code).subscribe({
+            next: (ticketsData) => {
+              this.ticketsMap[app.code] = ticketsData?.issues || [];
+            },
+            error: (err) => {
+              console.error(`Erreur Jira pour ${app.code}`, err);
+              // Optionnel : afficher erreur utilisateur, ou stocker dans ticketsMap une erreur
+              this.ticketsMap[app.code] = [];
+            }
+          });
+        });
       },
       error: (err) => {
         this.error = 'Erreur lors du chargement des applications';
         this.isLoading = false;
-        console.error('Error loading applications', err);
       }
     });
   }
@@ -49,10 +67,10 @@ export class ApplicationListComponent implements OnInit {
         next: () => {
           this.applications = this.applications.filter(app => app.code !== code);
           this.filteredApplications = this.filteredApplications.filter(app => app.code !== code);
+          delete this.ticketsMap[code];
         },
-        error: (err) => {
+        error: () => {
           this.error = 'Erreur lors de la suppression';
-          console.error('Error deleting application', err);
         }
       });
     }
@@ -65,7 +83,8 @@ export class ApplicationListComponent implements OnInit {
       const lowerTerm = term.toLowerCase();
       this.filteredApplications = this.applications.filter(app =>
         app.code.toLowerCase().includes(lowerTerm) ||
-        (app.description && app.description.toLowerCase().includes(lowerTerm))
+        (app.description && app.description.toLowerCase().includes(lowerTerm)) ||
+        (app.libelle && app.libelle.toLowerCase().includes(lowerTerm))
       );
     }
   }

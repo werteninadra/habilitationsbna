@@ -25,5 +25,5 @@ public class Application {
 
     @OneToMany(mappedBy = "application", fetch = FetchType.LAZY)
     @JsonIgnore // Ajoute
-    private Set<Ressource> ressources = new HashSet<>(); // Initialise llection  
+    private Set<Ressource> ressources = new HashSet<>(); // Initialise llecti
 }

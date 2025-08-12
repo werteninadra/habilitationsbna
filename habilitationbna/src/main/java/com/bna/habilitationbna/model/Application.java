@@ -24,6 +24,6 @@ public class Application {
     private String description;
 
     @OneToMany(mappedBy = "application", fetch = FetchType.LAZY)
-    @JsonIgnore // Ajoutez cette annotation pour éviter les références circulaires
+    @JsonIgnore // Ajoutez cette annotation pour évit
     private Set<Ressource> ressources = new HashSet<>(); // Initialise llection   ;
 }

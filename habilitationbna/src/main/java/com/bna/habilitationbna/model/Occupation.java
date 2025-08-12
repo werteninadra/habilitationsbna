@@ -30,7 +30,7 @@ public class Occupation {
     @ManyToOne
     @JoinColumn(name = "agence_id", nullable = false)
     private Agence agence;
-
+//kkkkkklmmmmmm
     @PrePersist
     @PreUpdate
     public void calculerTauxOccupation() {

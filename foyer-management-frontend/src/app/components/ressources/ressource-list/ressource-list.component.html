@@ -16,6 +16,7 @@
         <th>Libellé</th>
         <th>Type</th>
         <th>Statut</th>
+         <th>Temps estimé (jours)</th> 
         <th>Application</th>
         <th>Profils Assignés</th>
         <th>Actions</th>
@@ -31,6 +32,8 @@
             {{ ressource.statut ? 'Actif' : 'Inactif' }}
           </span>
         </td>
+              <td>{{ ressource.tempsEstimeJours ?? '-' }}</td> <!-- Affichage temps estimé -->
+
         <td>
           <span *ngIf="ressource.application">
             {{ ressource.application.code }} - {{ ressource.application.libelle }}

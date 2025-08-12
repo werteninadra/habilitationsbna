@@ -39,12 +39,12 @@ public class ApplicationService {
                 .orElseThrow(() -> new ResourceNotFoundException("Application non trouvée avec le code: " + code));
     }
 
-    public Application updateApplication(String code, Application applicationDetails) {
-        Application application = applicationRepository.findById(code)
-                .orElseThrow(() -> new ResourceNotFoundException("Application non trouvée avec le code: " + code));
-
-        application.setLibelle(applicationDetails.getLibelle());
-        application.setDescription(applicationDetails.getDescription());
+    // Dans ApplicationService.java
+    public Application updateApplication(Application application) {
+        // Verify the application exists
+        if (!applicationRepository.existsById(application.getCode())) {
+            throw new ResourceNotFoundException("Application not found with code: " + application.getCode());
+        }
 
         return applicationRepository.save(application);
     }

@@ -14,18 +14,21 @@ import java.util.Set;
 @Getter
 @Setter
 public class Ressource {
-@Id
-@Column(name = "COD_RES_RES", nullable = false, unique = true)
-private String code;
+        @Id
+        @Column(name = "COD_RES_RES", nullable = false, unique = true)
+        private String code;
+        private String ipfsUrl;
+        @Column(name = "LIB_RES_RES", nullable = false)
+        private String libelle;
 
-@Column(name = "LIB_RES_RES", nullable = false)
-private String libelle;
+        @Column(name = "COD_TYP_RESS")
+        private String typeRessource;
+        @Column(name = "TEMPS_ESTIME_JOURS")
+        private Double tempsEstimeJours;
 
-@Column(name = "COD_TYP_RESS")
-private String typeRessource;
 
-@Column(name = "BOOL_STAT_RES")
-private boolean statut;
+        @Column(name = "BOOL_STAT_RES")
+        private boolean statut;
         @ManyToOne
         @JoinColumn(name = "COD_APP_APP", referencedColumnName = "COD_APP_APP")
         private Application application;
@@ -33,6 +36,6 @@ private boolean statut;
         @JsonIgnoreProperties("ressources") // Solution alternative
 
 // relation inverse (facultative si bidirectionnelle)
-@ManyToMany(mappedBy = "ressources")
-private Set<Profil> profils;
-        }
+        @ManyToMany(mappedBy = "ressources")
+        private Set<Profil> profils;
+}

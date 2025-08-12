@@ -34,6 +34,8 @@ export class RessourceFormComponent implements OnInit {
       libelle: ['', Validators.required],
       typeRessource: ['', Validators.required],
       statut: [true],
+        tempsEstimeJours: [{value: '', disabled: true}] , // ajout lecture seule
+
       applicationCode: [null]
     });
   }
@@ -52,6 +54,8 @@ export class RessourceFormComponent implements OnInit {
             libelle: ressource.libelle,
             typeRessource: ressource.typeRessource,
             statut: ressource.statut,
+            
+  tempsEstimeJours: ressource.tempsEstimeJours ?? null,
             applicationCode: ressource.application?.code || null
           });
         },

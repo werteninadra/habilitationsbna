@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Service
 public class KeycloakAdminClientService {
     private static final Logger logger = LoggerFactory.getLogger(KeycloakAdminClientService.class);
-//kkkkklllbghhh
+
     @Value("${keycloak.auth-server-url}")
     private String serverUrl;
     @Value("${keycloak.admin.realm}")

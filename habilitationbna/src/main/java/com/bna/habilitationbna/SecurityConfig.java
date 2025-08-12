@@ -69,6 +69,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/ressources/**").permitAll()
                         .requestMatchers("/api/applications/**").permitAll()
                         .requestMatchers("/api/occupations/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/ressources/**/upload-ipfs").permitAll()
+
                         .requestMatchers("/api/**").permitAll()
                         .requestMatchers(" /api/jira/**").permitAll()
 
@@ -82,12 +84,14 @@ public class SecurityConfig {
 
         return http.build();
     }
-//fnjfvnjvfjnfnjfvjnfvnjnf
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOriginPatterns(List.of("*")); // Autoriser toutes les origines pour le développement
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
+        configuration.setAllowedOriginPatterns(List.of("*"));
+        configuration.setAllowedMethods(List.of("*")); // Autorise toutes les méthodes
+// Autoriser toutes les origines pour le développement
+       // configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setExposedHeaders(List.of("Authorization", "Content-Type"));
         configuration.setAllowCredentials(true);

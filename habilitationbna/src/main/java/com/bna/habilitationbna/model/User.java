@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 public class User {
-//gjjjjrjjrjrjr
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

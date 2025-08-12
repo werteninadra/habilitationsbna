@@ -30,5 +30,5 @@ public class DetailsAgence {
     @CollectionTable(name = "agence_historique", joinColumns = @JoinColumn(name = "details_id"))
     private List<OccupationHistorique> historique = new ArrayList<>();
 }
-//jjjjjjjjjjj
+
 // OccupationHistorique.jav

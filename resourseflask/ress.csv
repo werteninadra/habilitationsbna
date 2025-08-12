@@ -1,0 +1,701 @@
+code;ipfsUrl;libelle;typeRessource;statut;applicationCode;temps_estime_jours
+RES00001;;Envoi de nos rejets chèques;Transaction;FAUX;APP013;2
+RES00002;https://ipfs.io/ipfs/02d567acf20e4aaeb36a1fe3e81bf6fd;Traitement rejet reglementaire (présentation Bon de caisse);Paiement;VRAI;APP006;2
+RES00003;;Envoi agence valeurs physiques Bon de Caisse;Compensation;FAUX;APP018;4
+RES00004;;Réception valeurs physique Bon de caisse de la chambre de compensation;Rejet;VRAI;APP005;6
+RES00005;https://ipfs.io/ipfs/7c7d3628dbcb49f492ba79f1b1aea5e1;Rejet chèque Papillon;Document;VRAI;APP012;2
+RES00006;;Envoi aux agences valeurs physiques Obligation Cautionnée;Paiement;FAUX;APP013;4
+RES00007;;Envoi aux agences valeurs physiques Obligation Cautionnée;Préavis;VRAI;APP015;1
+RES00008;https://ipfs.io/ipfs/d3d40a4ad3ea47f3b35d0ab85b9d5151;Envoi agence valeurs physiques Bon de Caisse;Préavis;FAUX;APP020;2
+RES00009;https://ipfs.io/ipfs/b4b3747b0f1944588ce41b3850e2541e;Réception valeurs physique Bon de caisse de la chambre de compensation;Paiement;VRAI;APP001;3
+RES00010;https://ipfs.io/ipfs/2d90c1d9adf2475bbdbab3eb315d9db6;Réception SIBTEL Bon de caisse reçus;Transaction;FAUX;APP013;4
+RES00011;;Envoi agence valeurs physiques Bon de Caisse;Compensation;VRAI;APP003;4
+RES00012;https://ipfs.io/ipfs/5b4925b20f7c43dd9286f40f7985311a;Préavis;Paiement;FAUX;APP009;3
+RES00013;;Envoi agence valeurs physiques Bon de Caisse;Rejet;FAUX;APP009;4
+RES00014;;Rejet chèque Papillon;Compensation;VRAI;APP017;6
+RES00015;;Blocage de la provision suite rejet;Document;FAUX;APP019;4
+RES00016;;Rejet chèque CNP pour opposition;Rejet;FAUX;APP011;6
+RES00017;https://ipfs.io/ipfs/e912478277094ad9acf8b0f623eca30f;Rejet chèque CNP pour opposition;Compensation;VRAI;APP009;4
+RES00018;;Déblocage provision;Paiement;VRAI;APP008;4
+RES00019;;Rejet chèque Papillon;Transaction;VRAI;APP009;2
+RES00020;;Préavis;Document;FAUX;APP011;2
+RES00021;https://ipfs.io/ipfs/26065ff5b9e846f991bf6c7aa1d4e081;Réception valeurs physique Bon de caisse de la chambre de compensation;Rejet;FAUX;APP019;5
+RES00022;https://ipfs.io/ipfs/40e144b6110245e189d56ddbe547eaee;Réception valeurs physique Bon de caisse de la chambre de compensation;Paiement;VRAI;APP007;3
+RES00023;https://ipfs.io/ipfs/4ca010b3ea9d4b89837089ff571b75c1;Réception compensation reçue chèque;Préavis;FAUX;APP007;2
+RES00024;https://ipfs.io/ipfs/871ddceefe2a433482f2701d8a1c9a63;Paiement partiel chèque;Valeurs Physiques;VRAI;APP003;8
+RES00025;;Envoi valeur physique Obligation Cautionnée aux agences;Préavis;VRAI;APP012;3
+RES00026;https://ipfs.io/ipfs/df73a1cddd04433e9e64aeb9a99f409f;Envoi de nos rejets chèques;Compensation;FAUX;APP017;6
+RES00027;https://ipfs.io/ipfs/8eaf94463efa4f47b3c8222b3acce505;Déblocage provision;Valeurs Physiques;VRAI;APP014;8
+RES00028;https://ipfs.io/ipfs/6edb1faf09884c71862a0b3c7c1b7a8d;Envoi aux agences valeurs physiques Obligation Cautionnée;Compensation;FAUX;APP006;7
+RES00029;https://ipfs.io/ipfs/1d604d9961374de6b305eff1566f964c;Traitement rejet reglementaire (présentation Bon de caisse);Paiement;FAUX;APP001;2
+RES00030;https://ipfs.io/ipfs/0cfb03c00110433396229698d90d13c6;Envoi agence valeurs physiques Bon de Caisse;Rejet;VRAI;APP020;5
+RES00031;https://ipfs.io/ipfs/7725aa5733ad4918b9503e37362f0f88;Réception valeurs physique Bon de caisse de la chambre de compensation;Compensation;FAUX;APP016;6
+RES00032;https://ipfs.io/ipfs/429410140c9542a6a87c0b29001ae061;Paiement partiel chèque;Valeurs Physiques;FAUX;APP014;7
+RES00033;https://ipfs.io/ipfs/0c697071870c47818874af49eebab533;Paiement partiel chèque;Préavis;FAUX;APP006;2
+RES00034;;Réception compensation reçue chèque;Préavis;VRAI;APP008;4
+RES00035;;Déblocage provision;Valeurs Physiques;VRAI;APP005;8
+RES00036;https://ipfs.io/ipfs/651ea1b86f6d47b68cf817d17baeac15;Envoi valeur physique Obligation Cautionnée aux agences;Valeurs Physiques;FAUX;APP017;7
+RES00037;;Envoi de nos rejets chèques;Transaction;FAUX;APP019;1
+RES00038;https://ipfs.io/ipfs/720efbbb2fa44de3bc67a955d41e031a;Déblocage provision;Document;VRAI;APP009;5
+RES00039;https://ipfs.io/ipfs/ae11ec1546544ebfa605aa8cfd7ffe36;Traitement rejet reglementaire (présentation Bon de caisse);Rejet;FAUX;APP012;5
+RES00040;https://ipfs.io/ipfs/e3a1ad5e395847ecad40c623f87e19d6;Paiement partiel chèque;Document;FAUX;APP020;3
+RES00041;https://ipfs.io/ipfs/3f8d8b1c84ec4cad809bb4e9c69e24a6;Réception valeurs physique Bon de caisse de la chambre de compensation;Préavis;FAUX;APP017;4
+RES00042;;Rejet chèque CNP pour opposition;Document;FAUX;APP015;3
+RES00043;https://ipfs.io/ipfs/0ef1743587c54c3b9c4c213375707b19;Réception valeurs physique Bon de caisse de la chambre de compensation;Paiement;FAUX;APP020;5
+RES00044;https://ipfs.io/ipfs/e8a799e583b14fa8a2b8fc0b1059b5eb;Réception SIBTEL Bon de caisse reçus;Document;VRAI;APP011;4
+RES00045;;Préavis;Paiement;FAUX;APP013;4
+RES00046;;Rejet chèque CNP pour opposition;Préavis;FAUX;APP017;4
+RES00047;;Rejet chèque Papillon;Valeurs Physiques;VRAI;APP005;6
+RES00048;https://ipfs.io/ipfs/17f650ca21144a959dcad857050f7865;Paiement chèque;Paiement;VRAI;APP013;2
+RES00049;;Traitement rejet reglementaire (présentation Bon de caisse);Document;FAUX;APP001;5
+RES00050;;Réception SIBTEL Bon de caisse reçus;Document;FAUX;APP003;5
+RES00051;;Préavis;Valeurs Physiques;VRAI;APP015;6
+RES00052;https://ipfs.io/ipfs/c2474ec79e184b9088c9c2b452e483bf;Envoi agence Bon de Caisse à compenser (inter / intra);Compensation;VRAI;APP012;6
+RES00053;;Envoi de nos rejets chèques;Rejet;FAUX;APP005;4
+RES00054;;Rejet chèque CNP pour opposition;Paiement;FAUX;APP018;4
+RES00055;;Paiement partiel chèque;Rejet;VRAI;APP015;5
+RES00056;https://ipfs.io/ipfs/fef6c6e4793e4df5a413bec537c94653;Paiement partiel chèque;Rejet;FAUX;APP001;3
+RES00057;https://ipfs.io/ipfs/b96a2ff1665943abb0dd207de13cdf5e;Envoi agence Bon de Caisse à compenser (inter / intra);Transaction;FAUX;APP001;4
+RES00058;;Envoi de nos rejets chèques;Transaction;VRAI;APP010;2
+RES00059;https://ipfs.io/ipfs/8b7dc05ebe2f4572acb842b0bf56071e;Envoi valeur physique Obligation Cautionnée aux agences;Compensation;FAUX;APP018;7
+RES00060;;Déblocage provision;Valeurs Physiques;VRAI;APP013;8
+RES00061;https://ipfs.io/ipfs/58e71570743f49f9a635017815666db1;Réception compensation reçue chèque;Transaction;VRAI;APP008;3
+RES00062;https://ipfs.io/ipfs/5c04ce23dd5c44da829e5544720ae07d;Préavis;Paiement;FAUX;APP003;3
+RES00063;;Envoi agence Bon de Caisse à compenser (inter / intra);Transaction;VRAI;APP020;4
+RES00064;https://ipfs.io/ipfs/3845a59ff204463e8349f16a8f8fd650;Paiement chèque;Paiement;FAUX;APP001;3
+RES00065;https://ipfs.io/ipfs/30ed0cecdd9d4541ba81c278c1fd1fee;Envoi aux agences valeurs physiques Obligation Cautionnée;Compensation;VRAI;APP004;6
+RES00066;;Paiement chèque;Valeurs Physiques;FAUX;APP008;5
+RES00067;https://ipfs.io/ipfs/eb6811e9758247feb9510ecbf99e8ffe;Envoi agence Bon de Caisse à compenser (inter / intra);Document;FAUX;APP014;4
+RES00068;;Envoi de nos rejets chèques;Transaction;FAUX;APP002;3
+RES00069;https://ipfs.io/ipfs/d1f1e41efb1b49709b81942026e5edd0;Réception SIBTEL Bon de caisse reçus;Préavis;VRAI;APP013;1
+RES00070;;Envoi de nos rejets chèques;Valeurs Physiques;VRAI;APP009;8
+RES00071;https://ipfs.io/ipfs/f11b972312d54790b68b4c7c921a2531;Envoi valeur physique Obligation Cautionnée aux agences;Document;VRAI;APP015;3
+RES00072;;Envoi aux agences valeurs physiques Obligation Cautionnée;Valeurs Physiques;FAUX;APP004;6
+RES00073;;Envoi de nos rejets chèques;Rejet;FAUX;APP006;3
+RES00074;;Traitement rejet reglementaire (présentation Bon de caisse);Transaction;FAUX;APP007;3
+RES00075;;Envoi aux agences valeurs physiques Obligation Cautionnée;Préavis;VRAI;APP008;4
+RES00076;;Blocage de la provision suite rejet;Document;VRAI;APP019;2
+RES00077;https://ipfs.io/ipfs/19f77f9498d2483aa71a6d9982538aef;Déblocage provision;Préavis;VRAI;APP002;4
+RES00078;https://ipfs.io/ipfs/81e73eaeb641433fb223e76c049ee7c6;Envoi agence Bon de Caisse à compenser (inter / intra);Transaction;VRAI;APP016;1
+RES00079;https://ipfs.io/ipfs/001de9b386c64e3f97bcba85c03498c6;Blocage de la provision suite rejet;Préavis;VRAI;APP005;1
+RES00080;https://ipfs.io/ipfs/adbb63ac88234d3ab107eb19663065f8;Envoi agence Bon de Caisse à compenser (inter / intra);Rejet;VRAI;APP018;5
+RES00081;https://ipfs.io/ipfs/7a93a67e0fcb4d27a13f09014893c676;Rejet chèque CNP pour opposition;Paiement;VRAI;APP013;4
+RES00082;https://ipfs.io/ipfs/4dfbbb04e81a48719bc9f4f837997221;Envoi agence Bon de Caisse à compenser (inter / intra);Transaction;VRAI;APP015;3
+RES00083;;Envoi de nos rejets chèques;Valeurs Physiques;VRAI;APP011;8
+RES00084;https://ipfs.io/ipfs/ed91ce7817bc4f45a8b90a31748204fa;Paiement chèque;Préavis;VRAI;APP005;4
+RES00085;;Préavis;Préavis;FAUX;APP015;1
+RES00086;;Déblocage provision;Paiement;VRAI;APP020;4
+RES00087;;Réception compensation reçue chèque;Transaction;VRAI;APP018;4
+RES00088;;Envoi agence valeurs physiques Bon de Caisse;Compensation;FAUX;APP005;6
+RES00089;https://ipfs.io/ipfs/1cb4a86585ef4fc7ba28a3b0b1dc97e1;Blocage de la provision suite rejet;Rejet;FAUX;APP017;3
+RES00090;https://ipfs.io/ipfs/62dac281bf1646a49a0674ddca663985;Envoi aux agences valeurs physiques Obligation Cautionnée;Préavis;VRAI;APP002;2
+RES00091;https://ipfs.io/ipfs/4284d8924fe74cfc9a0b5a842974dc85;Traitement rejet reglementaire (présentation Bon de caisse);Rejet;VRAI;APP019;6
+RES00092;https://ipfs.io/ipfs/8ff3f8c8bb884fb68b4c68eec6621a4a;Envoi de nos rejets chèques;Compensation;FAUX;APP008;4
+RES00093;;Envoi valeur physique Obligation Cautionnée aux agences;Valeurs Physiques;FAUX;APP003;8
+RES00094;;Envoi aux agences valeurs physiques Obligation Cautionnée;Transaction;FAUX;APP002;3
+RES00095;;Envoi aux agences valeurs physiques Obligation Cautionnée;Paiement;VRAI;APP003;3
+RES00096;;Traitement rejet reglementaire (présentation Bon de caisse);Document;VRAI;APP007;3
+RES00097;;Réception compensation reçue chèque;Compensation;VRAI;APP018;7
+RES00098;;Traitement rejet reglementaire (présentation Bon de caisse);Préavis;FAUX;APP014;1
+RES00099;;Réception valeurs physique Bon de caisse de la chambre de compensation;Préavis;VRAI;APP017;3
+RES00100;;Réception valeurs physique Bon de caisse de la chambre de compensation;Compensation;FAUX;APP011;6
+RES00101;;Paiement partiel chèque;Rejet;FAUX;APP011;4
+RES00102;https://ipfs.io/ipfs/9c4a19ad77a44eed9858af7e24983f9a;Envoi agence valeurs physiques Bon de Caisse;Rejet;FAUX;APP015;6
+RES00103;;Déblocage provision;Document;VRAI;APP020;2
+RES00104;https://ipfs.io/ipfs/7c47177d3b594bccbf3be061b54f0766;Envoi agence Bon de Caisse à compenser (inter / intra);Transaction;VRAI;APP008;2
+RES00105;;Blocage de la provision suite rejet;Document;FAUX;APP017;3
+RES00106;https://ipfs.io/ipfs/98f7f432820149e694edea6160651da7;Traitement rejet reglementaire (présentation Bon de caisse);Document;FAUX;APP005;4
+RES00107;https://ipfs.io/ipfs/794152360026409a894c86f00efec246;Paiement partiel chèque;Compensation;VRAI;APP010;4
+RES00108;;Déblocage provision;Compensation;VRAI;APP011;7
+RES00109;;Réception valeurs physique Bon de caisse de la chambre de compensation;Rejet;VRAI;APP010;3
+RES00110;;Déblocage provision;Document;VRAI;APP011;4
+RES00111;;Rejet chèque Papillon;Rejet;VRAI;APP008;3
+RES00112;;Déblocage provision;Document;FAUX;APP011;3
+RES00113;https://ipfs.io/ipfs/019456387a5d4f29a5ba52b8f67b0c7d;Blocage de la provision suite rejet;Compensation;VRAI;APP013;7
+RES00114;https://ipfs.io/ipfs/fdf1d5ef52d54c9facd00d54350f0a82;Réception SIBTEL Bon de caisse reçus;Valeurs Physiques;FAUX;APP013;6
+RES00115;https://ipfs.io/ipfs/b1be3f0a0e634f1795daef78532f57be;Envoi agence Bon de Caisse à compenser (inter / intra);Transaction;VRAI;APP002;4
+RES00116;;Paiement chèque;Document;FAUX;APP005;3
+RES00117;https://ipfs.io/ipfs/fea05b7a8a72419083aef5b34c347cf6;Envoi de nos rejets chèques;Compensation;VRAI;APP019;5
+RES00118;https://ipfs.io/ipfs/ddc4e584a93a42c7a4f8acad55263026;Réception compensation reçue chèque;Valeurs Physiques;VRAI;APP014;7
+RES00119;https://ipfs.io/ipfs/8fb9ed18c0b4449692ba7a1988c39ad9;Réception SIBTEL Bon de caisse reçus;Document;FAUX;APP012;3
+RES00120;;Blocage de la provision suite rejet;Transaction;VRAI;APP006;3
+RES00121;https://ipfs.io/ipfs/ce5f2fce9ad54c158b5f3ca067ca481c;Rejet chèque CNP pour opposition;Compensation;VRAI;APP008;5
+RES00122;https://ipfs.io/ipfs/2cf32332d82a4253a1229dc5915007fc;Paiement partiel chèque;Valeurs Physiques;VRAI;APP002;6
+RES00123;https://ipfs.io/ipfs/93b335f7e83845c482d5949025e88b44;Envoi agence Bon de Caisse à compenser (inter / intra);Préavis;FAUX;APP004;3
+RES00124;https://ipfs.io/ipfs/e26eddb7c37b450d968d11c69003d23a;Rejet chèque CNP pour opposition;Rejet;VRAI;APP018;4
+RES00125;;Envoi agence valeurs physiques Bon de Caisse;Compensation;FAUX;APP020;5
+RES00126;https://ipfs.io/ipfs/8fcb7d31575e48878baed18c8015d8cc;Envoi valeur physique Obligation Cautionnée aux agences;Rejet;VRAI;APP002;5
+RES00127;https://ipfs.io/ipfs/db7ebb9cba75460da278692b3d508297;Envoi agence valeurs physiques Bon de Caisse;Préavis;FAUX;APP001;1
+RES00128;;Déblocage provision;Paiement;FAUX;APP012;2
+RES00129;https://ipfs.io/ipfs/83a5a24308254f5bbc6728a38a226a40;Envoi valeur physique Obligation Cautionnée aux agences;Transaction;FAUX;APP013;1
+RES00130;https://ipfs.io/ipfs/8f7493c87e834116ab93b79d2b43cd90;Blocage de la provision suite rejet;Rejet;VRAI;APP017;6
+RES00131;;Envoi valeur physique Obligation Cautionnée aux agences;Document;VRAI;APP010;4
+RES00132;https://ipfs.io/ipfs/6e724ad3974f49fe8c3869bafa5edfdd;Envoi de nos rejets chèques;Rejet;VRAI;APP012;5
+RES00133;;Préavis;Valeurs Physiques;FAUX;APP009;8
+RES00134;https://ipfs.io/ipfs/631459eb39b840f084c084a946036108;Envoi valeur physique Obligation Cautionnée aux agences;Compensation;FAUX;APP011;7
+RES00135;;Envoi agence Bon de Caisse à compenser (inter / intra);Document;FAUX;APP020;3
+RES00136;https://ipfs.io/ipfs/b1f7129a8ac84d1cbb80481691c77ab1;Rejet chèque Papillon;Valeurs Physiques;VRAI;APP010;7
+RES00137;https://ipfs.io/ipfs/19746b66dce448e085626d06c199bf24;Rejet chèque CNP pour opposition;Compensation;VRAI;APP005;5
+RES00138;https://ipfs.io/ipfs/4c1b1c2f96b047e8806c068d043e657c;Envoi agence Bon de Caisse à compenser (inter / intra);Transaction;VRAI;APP005;2
+RES00139;https://ipfs.io/ipfs/267182a5fcbe4199b0d0dc69b41a5dc4;Blocage de la provision suite rejet;Document;VRAI;APP005;2
+RES00140;https://ipfs.io/ipfs/c6a012f319f4423a811e9034837a10c9;Blocage de la provision suite rejet;Rejet;FAUX;APP009;4
+RES00141;https://ipfs.io/ipfs/80716f1501634c0091d60b65530fbba0;Envoi agence valeurs physiques Bon de Caisse;Document;VRAI;APP020;4
+RES00142;https://ipfs.io/ipfs/4dad9e4725a74724b9fdc115a777ab57;Réception compensation reçue chèque;Compensation;VRAI;APP001;6
+RES00143;https://ipfs.io/ipfs/405798daa0b14e0a891afada22dd9087;Réception SIBTEL Bon de caisse reçus;Paiement;FAUX;APP020;5
+RES00144;https://ipfs.io/ipfs/e27ec3e4ddd848ac9f5f24ddf9861329;Paiement partiel chèque;Valeurs Physiques;FAUX;APP005;6
+RES00145;https://ipfs.io/ipfs/a768eb31c2734e65addfc4a91c2691db;Envoi agence valeurs physiques Bon de Caisse;Valeurs Physiques;VRAI;APP001;7
+RES00146;;Rejet chèque Papillon;Valeurs Physiques;VRAI;APP003;6
+RES00147;;Rejet chèque CNP pour opposition;Préavis;FAUX;APP015;2
+RES00148;;Rejet chèque Papillon;Rejet;VRAI;APP013;5
+RES00149;;Déblocage provision;Compensation;VRAI;APP015;7
+RES00150;;Envoi aux agences valeurs physiques Obligation Cautionnée;Valeurs Physiques;FAUX;APP002;8
+RES00151;https://ipfs.io/ipfs/cc7a73405d164accb1e403e464ebdf05;Envoi aux agences valeurs physiques Obligation Cautionnée;Valeurs Physiques;FAUX;APP010;7
+RES00152;https://ipfs.io/ipfs/c9f0fd7ca56e4b89bc97d110b6302b7e;Rejet chèque CNP pour opposition;Valeurs Physiques;FAUX;APP002;6
+RES00153;https://ipfs.io/ipfs/e50a37430b2444bfbe4ed0d3478d2744;Rejet chèque CNP pour opposition;Préavis;FAUX;APP017;1
+RES00154;https://ipfs.io/ipfs/7a8a86fc0d344f3299a0d9cfdf910ab0;Réception valeurs physique Bon de caisse de la chambre de compensation;Préavis;VRAI;APP011;4
+RES00155;;Envoi valeur physique Obligation Cautionnée aux agences;Valeurs Physiques;FAUX;APP007;8
+RES00156;;Réception SIBTEL Bon de caisse reçus;Transaction;FAUX;APP006;1
+RES00157;;Réception SIBTEL Bon de caisse reçus;Document;FAUX;APP003;5
+RES00158;https://ipfs.io/ipfs/7ce0024bea6b47d3b26206cb89f19c71;Réception valeurs physique Bon de caisse de la chambre de compensation;Rejet;FAUX;APP006;5
+RES00159;https://ipfs.io/ipfs/80886063c06546d1a66c7b0d62942978;Envoi agence Bon de Caisse à compenser (inter / intra);Valeurs Physiques;VRAI;APP002;8
+RES00160;https://ipfs.io/ipfs/dc0dbd0295e94046bcb2e3f38aea1788;Préavis;Transaction;FAUX;APP006;1
+RES00161;;Envoi agence Bon de Caisse à compenser (inter / intra);Valeurs Physiques;VRAI;APP009;5
+RES00162;;Rejet chèque CNP pour opposition;Rejet;FAUX;APP001;6
+RES00163;https://ipfs.io/ipfs/59a68eefdab94fcb93d310b3dbef59ac;Réception compensation reçue chèque;Valeurs Physiques;FAUX;APP015;5
+RES00164;;Envoi valeur physique Obligation Cautionnée aux agences;Valeurs Physiques;FAUX;APP018;6
+RES00165;https://ipfs.io/ipfs/e4edb04047334488a7a238dfe44d23d7;Envoi aux agences valeurs physiques Obligation Cautionnée;Valeurs Physiques;VRAI;APP012;5
+RES00166;;Envoi agence Bon de Caisse à compenser (inter / intra);Préavis;VRAI;APP020;3
+RES00167;https://ipfs.io/ipfs/c465d0be1d324b8897249ac9eb2958d8;Blocage de la provision suite rejet;Document;VRAI;APP006;3
+RES00168;;Préavis;Compensation;VRAI;APP019;6
+RES00169;https://ipfs.io/ipfs/80a7540dc2354ca29295c34211def97a;Envoi aux agences valeurs physiques Obligation Cautionnée;Document;FAUX;APP013;2
+RES00170;https://ipfs.io/ipfs/c89f02ed43e64a4c869f9f884595f76b;Rejet chèque Papillon;Préavis;VRAI;APP005;1
+RES00171;;Paiement chèque;Transaction;FAUX;APP007;1
+RES00172;https://ipfs.io/ipfs/be68abb45209442b8ae3517851f8003c;Traitement rejet reglementaire (présentation Bon de caisse);Compensation;VRAI;APP020;6
+RES00173;https://ipfs.io/ipfs/bba6bbaf125246e196ff7600536ef8eb;Rejet chèque Papillon;Compensation;FAUX;APP019;6
+RES00174;;Envoi agence Bon de Caisse à compenser (inter / intra);Compensation;FAUX;APP016;7
+RES00175;;Réception valeurs physique Bon de caisse de la chambre de compensation;Compensation;VRAI;APP007;4
+RES00176;;Traitement rejet reglementaire (présentation Bon de caisse);Document;FAUX;APP004;3
+RES00177;https://ipfs.io/ipfs/8070aa2cd6134c60886607fe2479b164;Rejet chèque Papillon;Rejet;VRAI;APP018;4
+RES00178;;Envoi valeur physique Obligation Cautionnée aux agences;Paiement;VRAI;APP009;2
+RES00179;;Préavis;Transaction;FAUX;APP004;3
+RES00180;;Blocage de la provision suite rejet;Rejet;VRAI;APP007;5
+RES00181;;Blocage de la provision suite rejet;Paiement;FAUX;APP002;3
+RES00182;;Envoi de nos rejets chèques;Valeurs Physiques;FAUX;APP018;7
+RES00183;;Rejet chèque CNP pour opposition;Préavis;FAUX;APP002;3
+RES00184;https://ipfs.io/ipfs/e9ea1d1513e44f228f2744e47a0a7f9e;Blocage de la provision suite rejet;Compensation;VRAI;APP011;6
+RES00185;;Réception SIBTEL Bon de caisse reçus;Valeurs Physiques;FAUX;APP011;8
+RES00186;https://ipfs.io/ipfs/7233ddb87a9149c58e308262cef28a0b;Réception valeurs physique Bon de caisse de la chambre de compensation;Compensation;FAUX;APP004;6
+RES00187;https://ipfs.io/ipfs/3abd236f35e64d539d9b17cf768f89a8;Blocage de la provision suite rejet;Paiement;VRAI;APP003;5
+RES00188;;Réception compensation reçue chèque;Transaction;FAUX;APP010;2
+RES00189;https://ipfs.io/ipfs/4740ef01107f4ab0ada8e8f3b7b298a7;Préavis;Valeurs Physiques;VRAI;APP002;6
+RES00190;;Réception SIBTEL Bon de caisse reçus;Rejet;VRAI;APP017;4
+RES00191;;Envoi agence valeurs physiques Bon de Caisse;Transaction;FAUX;APP017;3
+RES00192;;Blocage de la provision suite rejet;Valeurs Physiques;VRAI;APP017;6
+RES00193;https://ipfs.io/ipfs/c9be767faa2941e0b10d0eb3d25f58c4;Envoi agence valeurs physiques Bon de Caisse;Paiement;VRAI;APP017;2
+RES00194;;Envoi valeur physique Obligation Cautionnée aux agences;Transaction;VRAI;APP020;1
+RES00195;https://ipfs.io/ipfs/2b90732ec0e7471dab14ebde2bd82d38;Blocage de la provision suite rejet;Rejet;VRAI;APP010;3
+RES00196;https://ipfs.io/ipfs/9e8cd5d94a3f4728aa51d0423a874797;Préavis;Paiement;VRAI;APP007;4
+RES00197;;Paiement chèque;Compensation;FAUX;APP004;6
+RES00198;https://ipfs.io/ipfs/806c0b3528544821acb7a6e6df0b03d9;Envoi agence Bon de Caisse à compenser (inter / intra);Valeurs Physiques;FAUX;APP020;5
+RES00199;;Envoi agence valeurs physiques Bon de Caisse;Compensation;FAUX;APP009;5
+RES00200;https://ipfs.io/ipfs/6c80a7ea384e4edbbb3c9c6331770825;Préavis;Compensation;VRAI;APP010;6
+RES00201;https://ipfs.io/ipfs/a6c2a44b6a31461a913e45a84b16a95b;Rejet chèque CNP pour opposition;Document;VRAI;APP002;2
+RES00202;https://ipfs.io/ipfs/ee0194779954444fa277027e0a002eb1;Déblocage provision;Document;VRAI;APP006;5
+RES00203;;Paiement partiel chèque;Transaction;FAUX;APP018;1
+RES00204;https://ipfs.io/ipfs/ba114d6539074bd4bb3a5a1dc75b1a92;Rejet chèque CNP pour opposition;Compensation;VRAI;APP015;4
+RES00205;https://ipfs.io/ipfs/3673a202bbdc4ce19f43de920c6cf5ec;Rejet chèque CNP pour opposition;Transaction;FAUX;APP008;2
+RES00206;https://ipfs.io/ipfs/5992f9070cc146a9a6fe7fe196d5c55b;Paiement chèque;Transaction;FAUX;APP011;3
+RES00207;https://ipfs.io/ipfs/546131643f5848ae9ca0fcb896654de2;Rejet chèque CNP pour opposition;Rejet;VRAI;APP004;5
+RES00208;https://ipfs.io/ipfs/735cf64e633e432db102a23754a3dace;Envoi de nos rejets chèques;Rejet;VRAI;APP012;4
+RES00209;https://ipfs.io/ipfs/3794c38dc8274efebeca9fa60ebed838;Traitement rejet reglementaire (présentation Bon de caisse);Rejet;VRAI;APP003;5
+RES00210;https://ipfs.io/ipfs/a74edf804e4d45d3b480cab5f3532588;Rejet chèque CNP pour opposition;Rejet;FAUX;APP008;4
+RES00211;https://ipfs.io/ipfs/dbbe1558d23e4b34bc9e5f703c150566;Envoi de nos rejets chèques;Rejet;VRAI;APP019;6
+RES00212;;Rejet chèque Papillon;Compensation;FAUX;APP008;5
+RES00213;https://ipfs.io/ipfs/4f04ccfba5b4472aaec59fb12d424e1e;Réception SIBTEL Bon de caisse reçus;Paiement;FAUX;APP020;5
+RES00214;;Blocage de la provision suite rejet;Compensation;VRAI;APP006;6
+RES00215;;Déblocage provision;Document;VRAI;APP020;5
+RES00216;https://ipfs.io/ipfs/9a7d8a643b8d4a20bc4ccfaaf54785f7;Blocage de la provision suite rejet;Rejet;VRAI;APP005;3
+RES00217;https://ipfs.io/ipfs/32ed364731fc4a72a014fb40607beb97;Envoi agence Bon de Caisse à compenser (inter / intra);Paiement;VRAI;APP010;5
+RES00218;;Rejet chèque CNP pour opposition;Valeurs Physiques;VRAI;APP011;7
+RES00219;;Préavis;Rejet;FAUX;APP019;3
+RES00220;;Déblocage provision;Préavis;VRAI;APP002;3
+RES00221;https://ipfs.io/ipfs/8e8c2f6c563c417280c3da63afc6c078;Envoi aux agences valeurs physiques Obligation Cautionnée;Document;FAUX;APP010;2
+RES00222;;Réception compensation reçue chèque;Rejet;FAUX;APP013;6
+RES00223;;Déblocage provision;Rejet;VRAI;APP016;4
+RES00224;;Envoi agence valeurs physiques Bon de Caisse;Compensation;FAUX;APP012;7
+RES00225;https://ipfs.io/ipfs/2c0c43fdf6da4b4184af30915a70e8f6;Envoi agence Bon de Caisse à compenser (inter / intra);Transaction;VRAI;APP003;1
+RES00226;;Envoi agence Bon de Caisse à compenser (inter / intra);Paiement;FAUX;APP005;2
+RES00227;;Envoi agence Bon de Caisse à compenser (inter / intra);Paiement;FAUX;APP020;5
+RES00228;;Réception valeurs physique Bon de caisse de la chambre de compensation;Rejet;FAUX;APP015;6
+RES00229;https://ipfs.io/ipfs/895c489b619b4168b0963e59195653b7;Paiement partiel chèque;Valeurs Physiques;VRAI;APP001;8
+RES00230;https://ipfs.io/ipfs/509a71f2b9724a9fb6e3dec0b6fc345b;Réception compensation reçue chèque;Paiement;FAUX;APP018;4
+RES00231;;Envoi aux agences valeurs physiques Obligation Cautionnée;Document;FAUX;APP004;5
+RES00232;https://ipfs.io/ipfs/af4cfe87f50f4afeaad6f949d5e0d07c;Réception SIBTEL Bon de caisse reçus;Valeurs Physiques;FAUX;APP003;5
+RES00233;;Réception compensation reçue chèque;Rejet;VRAI;APP018;5
+RES00234;https://ipfs.io/ipfs/33a1fbd3fb5c40bd8c59e3a118dcadb4;Envoi aux agences valeurs physiques Obligation Cautionnée;Transaction;VRAI;APP017;4
+RES00235;;Blocage de la provision suite rejet;Rejet;FAUX;APP010;5
+RES00236;;Réception valeurs physique Bon de caisse de la chambre de compensation;Document;FAUX;APP019;4
+RES00237;;Envoi aux agences valeurs physiques Obligation Cautionnée;Paiement;FAUX;APP019;2
+RES00238;https://ipfs.io/ipfs/92bfa8411a334c769afa633a19ab94c4;Préavis;Préavis;VRAI;APP003;2
+RES00239;https://ipfs.io/ipfs/3c843c70b3ce46d9b66ca06034453398;Réception SIBTEL Bon de caisse reçus;Préavis;FAUX;APP020;3
+RES00240;https://ipfs.io/ipfs/e620632f7b3448ed81befb11279ae2a2;Paiement chèque;Préavis;FAUX;APP004;2
+RES00241;https://ipfs.io/ipfs/458ce6648ffb4e7fb15e26d8a9513f6e;Envoi agence Bon de Caisse à compenser (inter / intra);Paiement;FAUX;APP006;4
+RES00242;;Réception compensation reçue chèque;Rejet;VRAI;APP002;5
+RES00243;;Réception SIBTEL Bon de caisse reçus;Valeurs Physiques;VRAI;APP014;8
+RES00244;;Réception compensation reçue chèque;Paiement;FAUX;APP006;3
+RES00245;;Paiement partiel chèque;Document;FAUX;APP004;2
+RES00246;https://ipfs.io/ipfs/ca9abb4f5213402e90ceec6a0dd766fe;Réception valeurs physique Bon de caisse de la chambre de compensation;Rejet;FAUX;APP016;4
+RES00247;https://ipfs.io/ipfs/35c8e4a181234b56b696f0b20db0fe62;Déblocage provision;Paiement;FAUX;APP005;5
+RES00248;https://ipfs.io/ipfs/a887cf756dbd4ceca6e28a76c946a672;Envoi valeur physique Obligation Cautionnée aux agences;Transaction;FAUX;APP011;1
+RES00249;;Traitement rejet reglementaire (présentation Bon de caisse);Compensation;FAUX;APP014;6
+RES00250;;Blocage de la provision suite rejet;Transaction;FAUX;APP009;4
+RES00251;;Rejet chèque CNP pour opposition;Préavis;VRAI;APP019;2
+RES00252;https://ipfs.io/ipfs/0750124f58324d57aff34fbc7473f3a5;Blocage de la provision suite rejet;Paiement;VRAI;APP001;2
+RES00253;https://ipfs.io/ipfs/ef4f048245ca46b380a608864b1afd67;Réception SIBTEL Bon de caisse reçus;Document;FAUX;APP004;5
+RES00254;https://ipfs.io/ipfs/a7bc6df9c8ef4b2390c449e6a3a061ff;Paiement partiel chèque;Valeurs Physiques;FAUX;APP002;5
+RES00255;;Réception SIBTEL Bon de caisse reçus;Document;VRAI;APP004;2
+RES00256;https://ipfs.io/ipfs/a7894ebe17414588b08b00b16a2d9436;Réception SIBTEL Bon de caisse reçus;Préavis;VRAI;APP019;2
+RES00257;https://ipfs.io/ipfs/08e2084f8e3f4f20a046e85b47c4e25c;Traitement rejet reglementaire (présentation Bon de caisse);Paiement;VRAI;APP015;2
+RES00258;;Rejet chèque CNP pour opposition;Transaction;FAUX;APP011;3
+RES00259;https://ipfs.io/ipfs/187e84b9f7364be2b11c9096d7d7cf72;Réception valeurs physique Bon de caisse de la chambre de compensation;Préavis;VRAI;APP002;4
+RES00260;https://ipfs.io/ipfs/d956d6d191834593a4fea461854eb68f;Déblocage provision;Transaction;VRAI;APP009;2
+RES00261;;Rejet chèque CNP pour opposition;Document;FAUX;APP007;5
+RES00262;https://ipfs.io/ipfs/6c3dd613483e470a931d63e3420c75d0;Réception valeurs physique Bon de caisse de la chambre de compensation;Paiement;FAUX;APP018;5
+RES00263;;Envoi agence valeurs physiques Bon de Caisse;Compensation;VRAI;APP009;4
+RES00264;;Envoi aux agences valeurs physiques Obligation Cautionnée;Document;VRAI;APP009;5
+RES00265;;Envoi valeur physique Obligation Cautionnée aux agences;Rejet;VRAI;APP001;3
+RES00266;;Déblocage provision;Transaction;VRAI;APP013;1
+RES00267;https://ipfs.io/ipfs/130e05af330d4e6ea27e03b2ebcb960d;Envoi de nos rejets chèques;Rejet;FAUX;APP003;4
+RES00268;https://ipfs.io/ipfs/28ecf6ce085b495c90a6c7d61840511a;Envoi valeur physique Obligation Cautionnée aux agences;Rejet;FAUX;APP018;5
+RES00269;https://ipfs.io/ipfs/789330c08afc43718913563144229bdf;Blocage de la provision suite rejet;Paiement;FAUX;APP003;4
+RES00270;;Blocage de la provision suite rejet;Document;FAUX;APP010;3
+RES00271;;Réception valeurs physique Bon de caisse de la chambre de compensation;Compensation;VRAI;APP007;6
+RES00272;https://ipfs.io/ipfs/9e03257f1fb6474794fcdd755053de06;Déblocage provision;Document;FAUX;APP015;3
+RES00273;https://ipfs.io/ipfs/2a8c4db0d393427db8cce2f262120e14;Envoi agence Bon de Caisse à compenser (inter / intra);Document;VRAI;APP019;3
+RES00274;;Envoi de nos rejets chèques;Rejet;VRAI;APP010;6
+RES00275;https://ipfs.io/ipfs/0f9aadb9e3b14c00951f73a772a3a391;Rejet chèque CNP pour opposition;Document;VRAI;APP011;2
+RES00276;;Déblocage provision;Document;VRAI;APP017;5
+RES00277;;Envoi agence Bon de Caisse à compenser (inter / intra);Paiement;VRAI;APP002;3
+RES00278;https://ipfs.io/ipfs/d52352dd41804d828e52e4062d054594;Envoi de nos rejets chèques;Paiement;VRAI;APP020;2
+RES00279;https://ipfs.io/ipfs/a14f317aef324234907d77f23d51c195;Réception compensation reçue chèque;Paiement;VRAI;APP002;4
+RES00280;;Traitement rejet reglementaire (présentation Bon de caisse);Rejet;VRAI;APP003;3
+RES00281;https://ipfs.io/ipfs/3a3415c63cec4780ac37c7403d950b07;Traitement rejet reglementaire (présentation Bon de caisse);Rejet;VRAI;APP007;6
+RES00282;https://ipfs.io/ipfs/c2025497bb554063bff45505ba7c0031;Blocage de la provision suite rejet;Préavis;FAUX;APP019;2
+RES00283;;Blocage de la provision suite rejet;Préavis;VRAI;APP019;2
+RES00284;https://ipfs.io/ipfs/c5f11c3766fe413db105e5a3664f3c09;Blocage de la provision suite rejet;Document;VRAI;APP014;3
+RES00285;https://ipfs.io/ipfs/307c44ecf0ac4e298d6bac906208bc4a;Paiement partiel chèque;Compensation;VRAI;APP019;4
+RES00286;;Envoi agence Bon de Caisse à compenser (inter / intra);Document;FAUX;APP001;5
+RES00287;https://ipfs.io/ipfs/0ac2ea0180d942fb8ebaa719ea7b4640;Réception SIBTEL Bon de caisse reçus;Document;VRAI;APP003;4
+RES00288;;Rejet chèque Papillon;Paiement;FAUX;APP007;3
+RES00289;https://ipfs.io/ipfs/0cf7b9a7f44848439e920854e0287bfe;Paiement chèque;Compensation;FAUX;APP006;4
+RES00290;;Réception valeurs physique Bon de caisse de la chambre de compensation;Paiement;FAUX;APP003;4
+RES00291;;Paiement partiel chèque;Rejet;VRAI;APP007;3
+RES00292;;Traitement rejet reglementaire (présentation Bon de caisse);Compensation;FAUX;APP018;5
+RES00293;https://ipfs.io/ipfs/8c2905d2c307430ba7bc9af3c2a2125a;Rejet chèque CNP pour opposition;Préavis;VRAI;APP007;1
+RES00294;https://ipfs.io/ipfs/c0d92a2465494a228337e499fb2be984;Envoi agence Bon de Caisse à compenser (inter / intra);Paiement;FAUX;APP006;2
+RES00295;https://ipfs.io/ipfs/061e97f9302a4012affb5ea56c103732;Envoi aux agences valeurs physiques Obligation Cautionnée;Paiement;FAUX;APP014;4
+RES00296;https://ipfs.io/ipfs/09555d63bf1e45d98cb3390c3a8a7a7b;Blocage de la provision suite rejet;Compensation;FAUX;APP002;5
+RES00297;https://ipfs.io/ipfs/06c59e303d7c4f119afb0228ee26c52f;Réception valeurs physique Bon de caisse de la chambre de compensation;Préavis;VRAI;APP004;1
+RES00298;;Réception compensation reçue chèque;Paiement;FAUX;APP011;5
+RES00299;https://ipfs.io/ipfs/e58a7c39ee664798b9d50143b7d80121;Envoi agence valeurs physiques Bon de Caisse;Paiement;FAUX;APP004;4
+RES00300;;Réception compensation reçue chèque;Document;VRAI;APP007;5
+RES00301;;Réception compensation reçue chèque;Document;FAUX;APP002;5
+RES00302;https://ipfs.io/ipfs/2cf82bb2ee7f4935b5c6d32490a41a3a;Envoi agence Bon de Caisse à compenser (inter / intra);Valeurs Physiques;FAUX;APP012;6
+RES00303;;Rejet chèque CNP pour opposition;Paiement;VRAI;APP009;3
+RES00304;;Blocage de la provision suite rejet;Valeurs Physiques;VRAI;APP002;7
+RES00305;https://ipfs.io/ipfs/ba6430e337f1469d9e12042f396facda;Envoi agence Bon de Caisse à compenser (inter / intra);Document;FAUX;APP006;4
+RES00306;;Réception compensation reçue chèque;Transaction;VRAI;APP020;2
+RES00307;;Réception compensation reçue chèque;Document;FAUX;APP016;3
+RES00308;https://ipfs.io/ipfs/5acc02cab5e7470399704936fabd889e;Envoi de nos rejets chèques;Préavis;FAUX;APP014;2
+RES00309;;Réception compensation reçue chèque;Transaction;FAUX;APP019;2
+RES00310;https://ipfs.io/ipfs/1582eab892c74f6b94198bfe3d60678c;Envoi valeur physique Obligation Cautionnée aux agences;Rejet;VRAI;APP016;3
+RES00311;https://ipfs.io/ipfs/6abbfc6ae8784097a44bce91553ff4dc;Rejet chèque Papillon;Compensation;FAUX;APP004;7
+RES00312;;Envoi de nos rejets chèques;Valeurs Physiques;VRAI;APP001;8
+RES00313;https://ipfs.io/ipfs/5da6447f140e4178bc88c6ee2f7ddefb;Envoi agence valeurs physiques Bon de Caisse;Valeurs Physiques;FAUX;APP003;5
+RES00314;https://ipfs.io/ipfs/263dab41d1814253830381e366477f61;Envoi de nos rejets chèques;Paiement;FAUX;APP015;2
+RES00315;;Rejet chèque CNP pour opposition;Rejet;VRAI;APP013;4
+RES00316;;Paiement partiel chèque;Paiement;FAUX;APP001;2
+RES00317;;Déblocage provision;Paiement;FAUX;APP010;5
+RES00318;;Paiement chèque;Paiement;VRAI;APP003;4
+RES00319;;Envoi aux agences valeurs physiques Obligation Cautionnée;Compensation;FAUX;APP004;7
+RES00320;https://ipfs.io/ipfs/4f14c5ff177f49f5a3d8695fed3f0c01;Paiement partiel chèque;Rejet;VRAI;APP006;3
+RES00321;https://ipfs.io/ipfs/2b8f3524435644379015c66b617b7895;Envoi agence valeurs physiques Bon de Caisse;Valeurs Physiques;FAUX;APP004;8
+RES00322;https://ipfs.io/ipfs/2f065ae2ee524ffcb30c235f96b2feca;Envoi agence valeurs physiques Bon de Caisse;Préavis;VRAI;APP009;4
+RES00323;https://ipfs.io/ipfs/01bff2b3fc0b48d583091bef03b2ec8a;Paiement chèque;Document;VRAI;APP015;5
+RES00324;https://ipfs.io/ipfs/813a1691555d4501bfb48d820e80f14a;Traitement rejet reglementaire (présentation Bon de caisse);Rejet;FAUX;APP012;3
+RES00325;https://ipfs.io/ipfs/c7247ea30df74d81a6a01ca0e95fb3ef;Envoi agence valeurs physiques Bon de Caisse;Rejet;VRAI;APP006;5
+RES00326;https://ipfs.io/ipfs/423b5da4435e482cb496bbf5a38bdc3a;Réception SIBTEL Bon de caisse reçus;Document;VRAI;APP005;5
+RES00327;;Envoi agence Bon de Caisse à compenser (inter / intra);Préavis;VRAI;APP001;3
+RES00328;https://ipfs.io/ipfs/b6208583f5424d949dab953c7b96930c;Rejet chèque Papillon;Paiement;VRAI;APP014;5
+RES00329;https://ipfs.io/ipfs/2da01006c15a4240a4bb9f7ff598c094;Envoi valeur physique Obligation Cautionnée aux agences;Transaction;VRAI;APP008;3
+RES00330;;Rejet chèque Papillon;Compensation;FAUX;APP011;7
+RES00331;;Rejet chèque CNP pour opposition;Rejet;FAUX;APP010;4
+RES00332;https://ipfs.io/ipfs/5f07ee2f21ff42f9b044ca96ccb7c3eb;Paiement chèque;Valeurs Physiques;FAUX;APP010;5
+RES00333;https://ipfs.io/ipfs/df9858ff72f54820b508816e7eeeac1d;Envoi agence Bon de Caisse à compenser (inter / intra);Transaction;FAUX;APP006;2
+RES00334;;Préavis;Valeurs Physiques;VRAI;APP005;6
+RES00335;;Réception compensation reçue chèque;Document;VRAI;APP019;3
+RES00336;https://ipfs.io/ipfs/3976deb0903f4d0fb063baeabf45e1dd;Rejet chèque CNP pour opposition;Transaction;FAUX;APP018;1
+RES00337;https://ipfs.io/ipfs/e476df1e631246a5a40910ef50ccfa09;Blocage de la provision suite rejet;Transaction;VRAI;APP018;2
+RES00338;https://ipfs.io/ipfs/96b0457f20454daca914d326c7f363e7;Préavis;Document;VRAI;APP016;3
+RES00339;https://ipfs.io/ipfs/d10960ee3f4b469fa4a5f20550a51415;Rejet chèque CNP pour opposition;Transaction;VRAI;APP018;3
+RES00340;;Préavis;Rejet;FAUX;APP019;4
+RES00341;;Rejet chèque CNP pour opposition;Transaction;VRAI;APP002;2
+RES00342;https://ipfs.io/ipfs/49ac1982b5184642ba04d9c813bd4d8c;Traitement rejet reglementaire (présentation Bon de caisse);Transaction;VRAI;APP008;4
+RES00343;https://ipfs.io/ipfs/1fd0aaae47e44b77a21b434eeeb51c53;Paiement partiel chèque;Document;FAUX;APP007;3
+RES00344;https://ipfs.io/ipfs/15f9cff855e143beb81a22fed1da5aad;Paiement chèque;Valeurs Physiques;VRAI;APP015;5
+RES00345;https://ipfs.io/ipfs/300ecaa8a85f4c2884cb4ecae0ddd080;Déblocage provision;Valeurs Physiques;FAUX;APP020;5
+RES00346;;Paiement partiel chèque;Rejet;VRAI;APP014;5
+RES00347;https://ipfs.io/ipfs/9177f69a2fed41909e20daef2416db21;Déblocage provision;Transaction;VRAI;APP012;3
+RES00348;https://ipfs.io/ipfs/6951b106798e4121b41884c99f7400b7;Rejet chèque CNP pour opposition;Préavis;VRAI;APP015;4
+RES00349;;Rejet chèque CNP pour opposition;Transaction;VRAI;APP014;4
+RES00350;https://ipfs.io/ipfs/d84d64fd104f40cbb5ced9d802adf0d1;Envoi agence Bon de Caisse à compenser (inter / intra);Préavis;VRAI;APP010;4
+RES00351;https://ipfs.io/ipfs/47972d874cc54ffea951c7d92dc07e86;Blocage de la provision suite rejet;Document;FAUX;APP014;4
+RES00352;;Rejet chèque Papillon;Valeurs Physiques;FAUX;APP005;6
+RES00353;https://ipfs.io/ipfs/bc9b43ef832f4684b7cd54c1a6ac1d99;Réception valeurs physique Bon de caisse de la chambre de compensation;Préavis;FAUX;APP016;1
+RES00354;https://ipfs.io/ipfs/81ed77b704f344f98cfce32feca8cde6;Préavis;Préavis;FAUX;APP015;2
+RES00355;https://ipfs.io/ipfs/31312aa9ec3c4713af5d2faf0dec7677;Envoi valeur physique Obligation Cautionnée aux agences;Préavis;VRAI;APP010;4
+RES00356;https://ipfs.io/ipfs/a3eae499ae8e4d84bbe856bd16ecd2d9;Traitement rejet reglementaire (présentation Bon de caisse);Paiement;FAUX;APP016;3
+RES00357;https://ipfs.io/ipfs/364ba958e1074e1698ec92c6c2656d83;Envoi valeur physique Obligation Cautionnée aux agences;Document;FAUX;APP003;4
+RES00358;;Envoi de nos rejets chèques;Compensation;FAUX;APP016;4
+RES00359;;Paiement partiel chèque;Compensation;VRAI;APP006;4
+RES00360;;Envoi agence Bon de Caisse à compenser (inter / intra);Transaction;FAUX;APP005;3
+RES00361;https://ipfs.io/ipfs/6201fa75f91347a0963f650ac643acc2;Réception valeurs physique Bon de caisse de la chambre de compensation;Document;FAUX;APP012;2
+RES00362;;Préavis;Transaction;VRAI;APP006;1
+RES00363;;Réception valeurs physique Bon de caisse de la chambre de compensation;Compensation;FAUX;APP010;6
+RES00364;;Paiement partiel chèque;Document;FAUX;APP001;3
+RES00365;https://ipfs.io/ipfs/750fd833f2584a47abe0c045507b7422;Préavis;Transaction;FAUX;APP006;1
+RES00366;;Envoi agence valeurs physiques Bon de Caisse;Valeurs Physiques;VRAI;APP018;5
+RES00367;https://ipfs.io/ipfs/a597acc178364e53bee42ca53cacfeab;Rejet chèque Papillon;Rejet;VRAI;APP005;3
+RES00368;;Envoi de nos rejets chèques;Transaction;FAUX;APP005;4
+RES00369;https://ipfs.io/ipfs/384cfb85cc6145d0aa6c566d8151eda7;Blocage de la provision suite rejet;Valeurs Physiques;FAUX;APP004;6
+RES00370;;Envoi agence Bon de Caisse à compenser (inter / intra);Préavis;VRAI;APP010;2
+RES00371;https://ipfs.io/ipfs/e22666ae87954f9a88d50133e2d868c0;Envoi agence valeurs physiques Bon de Caisse;Valeurs Physiques;VRAI;APP004;5
+RES00372;;Envoi valeur physique Obligation Cautionnée aux agences;Préavis;FAUX;APP002;2
+RES00373;https://ipfs.io/ipfs/b424d4728fdd49079b7066019a9d8182;Traitement rejet reglementaire (présentation Bon de caisse);Document;VRAI;APP009;2
+RES00374;;Réception SIBTEL Bon de caisse reçus;Transaction;VRAI;APP004;2
+RES00375;https://ipfs.io/ipfs/1647c53ee29249dc938c57e92b447e55;Envoi agence valeurs physiques Bon de Caisse;Valeurs Physiques;FAUX;APP005;7
+RES00376;;Paiement partiel chèque;Transaction;VRAI;APP020;2
+RES00377;;Réception SIBTEL Bon de caisse reçus;Document;VRAI;APP007;4
+RES00378;;Réception valeurs physique Bon de caisse de la chambre de compensation;Préavis;VRAI;APP004;2
+RES00379;https://ipfs.io/ipfs/1bc27a44dac449debd486fa138038d95;Envoi de nos rejets chèques;Transaction;VRAI;APP004;2
+RES00380;https://ipfs.io/ipfs/2ac1067348374ae696b4e8212040160c;Paiement partiel chèque;Rejet;FAUX;APP008;6
+RES00381;https://ipfs.io/ipfs/d483027858ed4d9781fdd0c1ad3f056f;Traitement rejet reglementaire (présentation Bon de caisse);Préavis;FAUX;APP004;2
+RES00382;;Envoi de nos rejets chèques;Préavis;FAUX;APP018;1
+RES00383;https://ipfs.io/ipfs/62380dcc3db446f2b9b06e09f5a50735;Réception SIBTEL Bon de caisse reçus;Transaction;FAUX;APP010;4
+RES00384;https://ipfs.io/ipfs/c917706740fa47f2bcd2eb0e8eef9922;Préavis;Paiement;FAUX;APP014;4
+RES00385;;Rejet chèque Papillon;Valeurs Physiques;VRAI;APP016;7
+RES00386;;Réception valeurs physique Bon de caisse de la chambre de compensation;Document;FAUX;APP013;5
+RES00387;https://ipfs.io/ipfs/37ed0152c0844ed0bdbffeaa2b82294c;Réception SIBTEL Bon de caisse reçus;Document;VRAI;APP019;2
+RES00388;;Réception valeurs physique Bon de caisse de la chambre de compensation;Document;FAUX;APP011;3
+RES00389;;Déblocage provision;Document;VRAI;APP016;4
+RES00390;https://ipfs.io/ipfs/b307d3bd42ae426f9013097750b776ae;Paiement chèque;Préavis;FAUX;APP020;4
+RES00391;https://ipfs.io/ipfs/50589ee106a54f14b48157db11219104;Envoi de nos rejets chèques;Compensation;FAUX;APP015;4
+RES00392;https://ipfs.io/ipfs/44e2e82c97f8469d97ef2358d2c058d8;Traitement rejet reglementaire (présentation Bon de caisse);Transaction;FAUX;APP005;1
+RES00393;;Traitement rejet reglementaire (présentation Bon de caisse);Paiement;VRAI;APP016;2
+RES00394;https://ipfs.io/ipfs/66e9b46e77a342a191c98a71689cc242;Réception valeurs physique Bon de caisse de la chambre de compensation;Rejet;FAUX;APP020;3
+RES00395;;Réception SIBTEL Bon de caisse reçus;Paiement;FAUX;APP007;4
+RES00396;;Envoi de nos rejets chèques;Rejet;FAUX;APP018;3
+RES00397;https://ipfs.io/ipfs/ac980cb5b6ec47d192953e9f54889793;Envoi aux agences valeurs physiques Obligation Cautionnée;Rejet;VRAI;APP011;6
+RES00398;https://ipfs.io/ipfs/6d3e47f8e412465c8be5b6b57490bd6c;Rejet chèque CNP pour opposition;Rejet;VRAI;APP018;5
+RES00399;https://ipfs.io/ipfs/a28375ad683849d6ac46e89b992c0872;Réception valeurs physique Bon de caisse de la chambre de compensation;Rejet;FAUX;APP013;6
+RES00400;;Traitement rejet reglementaire (présentation Bon de caisse);Compensation;FAUX;APP018;7
+RES00401;;Envoi de nos rejets chèques;Compensation;VRAI;APP013;6
+RES00402;;Envoi de nos rejets chèques;Compensation;FAUX;APP012;6
+RES00403;;Blocage de la provision suite rejet;Document;VRAI;APP005;4
+RES00404;;Paiement partiel chèque;Préavis;VRAI;APP011;4
+RES00405;;Traitement rejet reglementaire (présentation Bon de caisse);Rejet;FAUX;APP014;5
+RES00406;https://ipfs.io/ipfs/72cf0a65fcde4c8c9030e43c10255027;Envoi aux agences valeurs physiques Obligation Cautionnée;Paiement;VRAI;APP010;2
+RES00407;https://ipfs.io/ipfs/b0cde9dd2b044c52ac13fc004b298d1f;Réception SIBTEL Bon de caisse reçus;Préavis;FAUX;APP006;1
+RES00408;;Blocage de la provision suite rejet;Document;FAUX;APP014;5
+RES00409;;Paiement chèque;Document;FAUX;APP011;5
+RES00410;;Déblocage provision;Transaction;VRAI;APP004;2
+RES00411;https://ipfs.io/ipfs/716d4bd0e04b4252a725f1d341e06a12;Blocage de la provision suite rejet;Rejet;FAUX;APP010;5
+RES00412;;Rejet chèque Papillon;Valeurs Physiques;FAUX;APP003;6
+RES00413;https://ipfs.io/ipfs/872488f6809742a3bd65a9a2ff4ff3fe;Préavis;Transaction;VRAI;APP019;4
+RES00414;;Réception compensation reçue chèque;Compensation;VRAI;APP019;4
+RES00415;;Blocage de la provision suite rejet;Transaction;VRAI;APP017;4
+RES00416;;Rejet chèque Papillon;Valeurs Physiques;FAUX;APP010;7
+RES00417;https://ipfs.io/ipfs/995949881854495396e966df6b5796b7;Rejet chèque Papillon;Paiement;FAUX;APP013;4
+RES00418;;Rejet chèque CNP pour opposition;Paiement;VRAI;APP017;3
+RES00419;https://ipfs.io/ipfs/49ab05278c054257982e0ec5e3b81948;Envoi de nos rejets chèques;Valeurs Physiques;FAUX;APP018;8
+RES00420;https://ipfs.io/ipfs/61de2e549b7545e9a1a53f4c10d1710f;Envoi aux agences valeurs physiques Obligation Cautionnée;Compensation;VRAI;APP005;5
+RES00421;;Envoi agence Bon de Caisse à compenser (inter / intra);Paiement;FAUX;APP014;4
+RES00422;;Réception SIBTEL Bon de caisse reçus;Paiement;VRAI;APP009;4
+RES00423;https://ipfs.io/ipfs/a2c018232d5847a6a3250e82721f0105;Réception valeurs physique Bon de caisse de la chambre de compensation;Transaction;VRAI;APP004;2
+RES00424;;Envoi agence valeurs physiques Bon de Caisse;Document;VRAI;APP010;5
+RES00425;https://ipfs.io/ipfs/bbf7b146745d491db24cda28a1cb0dde;Envoi de nos rejets chèques;Compensation;FAUX;APP002;5
+RES00426;https://ipfs.io/ipfs/779644830f93489eb126e4bbdc753c8c;Réception valeurs physique Bon de caisse de la chambre de compensation;Transaction;VRAI;APP009;2
+RES00427;;Envoi aux agences valeurs physiques Obligation Cautionnée;Paiement;FAUX;APP002;2
+RES00428;;Blocage de la provision suite rejet;Compensation;FAUX;APP014;6
+RES00429;https://ipfs.io/ipfs/589b88a13aee4c26b758ef071fde8a76;Réception SIBTEL Bon de caisse reçus;Rejet;VRAI;APP019;3
+RES00430;https://ipfs.io/ipfs/919a69b61201435aa22b22ff9146486a;Paiement chèque;Rejet;VRAI;APP004;5
+RES00431;;Blocage de la provision suite rejet;Préavis;FAUX;APP008;4
+RES00432;https://ipfs.io/ipfs/c4ddd7c3ecb247f4ac09ab17bd5b80df;Envoi agence valeurs physiques Bon de Caisse;Valeurs Physiques;VRAI;APP009;8
+RES00433;https://ipfs.io/ipfs/28a95f23bcea41bbb501591f052f0ae0;Rejet chèque Papillon;Transaction;VRAI;APP012;1
+RES00434;https://ipfs.io/ipfs/73cb89e6bb8d4b3089daff69566ca31e;Blocage de la provision suite rejet;Compensation;FAUX;APP008;6
+RES00435;;Envoi agence Bon de Caisse à compenser (inter / intra);Transaction;FAUX;APP010;1
+RES00436;;Envoi aux agences valeurs physiques Obligation Cautionnée;Préavis;VRAI;APP008;3
+RES00437;;Déblocage provision;Transaction;FAUX;APP004;2
+RES00438;;Rejet chèque CNP pour opposition;Rejet;VRAI;APP013;5
+RES00439;https://ipfs.io/ipfs/2e654069eb8a4d2c975b9e2e03c7469c;Préavis;Document;VRAI;APP006;5
+RES00440;;Blocage de la provision suite rejet;Préavis;FAUX;APP009;1
+RES00441;;Envoi de nos rejets chèques;Rejet;FAUX;APP011;6
+RES00442;;Traitement rejet reglementaire (présentation Bon de caisse);Préavis;VRAI;APP017;1
+RES00443;https://ipfs.io/ipfs/afe60283458744f09d4273f25d79d326;Paiement partiel chèque;Rejet;FAUX;APP001;3
+RES00444;;Réception valeurs physique Bon de caisse de la chambre de compensation;Paiement;FAUX;APP005;2
+RES00445;https://ipfs.io/ipfs/e714757a7556458cae05ba860e6545b5;Déblocage provision;Valeurs Physiques;FAUX;APP003;5
+RES00446;;Réception valeurs physique Bon de caisse de la chambre de compensation;Valeurs Physiques;VRAI;APP014;7
+RES00447;https://ipfs.io/ipfs/02e5330cef634134a9751cc18caaf637;Rejet chèque CNP pour opposition;Rejet;VRAI;APP019;5
+RES00448;https://ipfs.io/ipfs/3aba4a5ae40a4825b567178afe8c3042;Préavis;Valeurs Physiques;VRAI;APP006;8
+RES00449;https://ipfs.io/ipfs/7fd9eea8eecd4cea8f8554a66cf54e64;Déblocage provision;Préavis;VRAI;APP001;2
+RES00450;https://ipfs.io/ipfs/ffad42e46a024289b3a2b28dea482e0c;Réception SIBTEL Bon de caisse reçus;Rejet;VRAI;APP006;3
+RES00451;;Déblocage provision;Compensation;FAUX;APP005;4
+RES00452;https://ipfs.io/ipfs/a0464051df31451ea1c766e5be953bf5;Paiement partiel chèque;Valeurs Physiques;VRAI;APP017;8
+RES00453;https://ipfs.io/ipfs/dae1e8dac89744f28713c823490c344d;Rejet chèque CNP pour opposition;Préavis;FAUX;APP007;2
+RES00454;https://ipfs.io/ipfs/1d7eb4c916114f8a93cff0d9bcc17ecf;Paiement chèque;Transaction;FAUX;APP014;2
+RES00455;;Envoi agence valeurs physiques Bon de Caisse;Préavis;FAUX;APP007;4
+RES00456;https://ipfs.io/ipfs/25720fa57d4e4ccbae087be4cf28b237;Réception valeurs physique Bon de caisse de la chambre de compensation;Rejet;VRAI;APP009;4
+RES00457;;Rejet chèque CNP pour opposition;Valeurs Physiques;FAUX;APP015;5
+RES00458;;Envoi valeur physique Obligation Cautionnée aux agences;Rejet;VRAI;APP013;4
+RES00459;;Déblocage provision;Paiement;FAUX;APP009;2
+RES00460;https://ipfs.io/ipfs/18b17e21ebf0472980ba81782ad906f6;Traitement rejet reglementaire (présentation Bon de caisse);Compensation;VRAI;APP008;7
+RES00461;https://ipfs.io/ipfs/048c26f46b744e63b96205a01ee63130;Paiement partiel chèque;Compensation;VRAI;APP017;7
+RES00462;https://ipfs.io/ipfs/f3abd5a8903c472f8952258f9ba3a122;Préavis;Rejet;FAUX;APP018;3
+RES00463;;Réception valeurs physique Bon de caisse de la chambre de compensation;Transaction;VRAI;APP011;4
+RES00464;;Envoi agence Bon de Caisse à compenser (inter / intra);Document;FAUX;APP014;3
+RES00465;https://ipfs.io/ipfs/002c6bda23cb4997864325babfcf9806;Paiement chèque;Document;FAUX;APP005;5
+RES00466;;Paiement chèque;Paiement;FAUX;APP010;4
+RES00467;https://ipfs.io/ipfs/b3f7eddd9e884494a838284fc2fbe7cf;Paiement chèque;Compensation;FAUX;APP006;6
+RES00468;;Envoi de nos rejets chèques;Préavis;VRAI;APP015;1
+RES00469;https://ipfs.io/ipfs/c0e880ec33044a44a1a79ff635fca23d;Envoi agence valeurs physiques Bon de Caisse;Valeurs Physiques;VRAI;APP002;8
+RES00470;https://ipfs.io/ipfs/6ca172fd93de41a8a896709746d4564d;Paiement chèque;Valeurs Physiques;FAUX;APP016;5
+RES00471;https://ipfs.io/ipfs/9cafd4f0ecfc46519f9768b93632d20f;Rejet chèque CNP pour opposition;Transaction;FAUX;APP004;2
+RES00472;https://ipfs.io/ipfs/5ecf9ba4faea419a94c45f668cdbe367;Traitement rejet reglementaire (présentation Bon de caisse);Transaction;VRAI;APP010;2
+RES00473;;Réception valeurs physique Bon de caisse de la chambre de compensation;Paiement;FAUX;APP019;3
+RES00474;https://ipfs.io/ipfs/ff27b0caea7f4469b1506ca9a8c73812;Envoi valeur physique Obligation Cautionnée aux agences;Compensation;VRAI;APP003;5
+RES00475;;Envoi de nos rejets chèques;Paiement;VRAI;APP001;4
+RES00476;;Traitement rejet reglementaire (présentation Bon de caisse);Rejet;FAUX;APP004;5
+RES00477;https://ipfs.io/ipfs/f1fc9cf4b2f64f87ad9d21100a16485b;Envoi agence Bon de Caisse à compenser (inter / intra);Document;VRAI;APP016;5
+RES00478;https://ipfs.io/ipfs/47706ca192d64a0caf1c46b24da0275c;Paiement chèque;Compensation;VRAI;APP002;7
+RES00479;https://ipfs.io/ipfs/731a70cce3ab4aa281ec31a27b3f10f2;Blocage de la provision suite rejet;Paiement;VRAI;APP002;4
+RES00480;;Blocage de la provision suite rejet;Préavis;VRAI;APP018;4
+RES00481;https://ipfs.io/ipfs/8118f6c68e1a447189d0ca96a6b3a865;Réception SIBTEL Bon de caisse reçus;Rejet;FAUX;APP013;3
+RES00482;https://ipfs.io/ipfs/663253ae3d55479aa046d496449d91c6;Envoi valeur physique Obligation Cautionnée aux agences;Préavis;VRAI;APP013;3
+RES00483;https://ipfs.io/ipfs/0ad6450290b2456cbf4866b9b8e59476;Envoi agence Bon de Caisse à compenser (inter / intra);Document;FAUX;APP014;4
+RES00484;;Envoi agence Bon de Caisse à compenser (inter / intra);Transaction;VRAI;APP017;2
+RES00485;https://ipfs.io/ipfs/1c2aea40e1c44ac6b4d602b302146208;Envoi de nos rejets chèques;Rejet;FAUX;APP019;6
+RES00486;;Réception SIBTEL Bon de caisse reçus;Préavis;FAUX;APP020;2
+RES00487;https://ipfs.io/ipfs/d4f45820785148f2b6bb3aeae9de7157;Rejet chèque Papillon;Paiement;FAUX;APP017;4
+RES00488;;Rejet chèque CNP pour opposition;Paiement;VRAI;APP005;5
+RES00489;https://ipfs.io/ipfs/973499471b3d43b9ba2eaf0710de49b2;Réception SIBTEL Bon de caisse reçus;Transaction;FAUX;APP016;3
+RES00490;;Envoi agence Bon de Caisse à compenser (inter / intra);Valeurs Physiques;FAUX;APP017;8
+RES00491;;Préavis;Compensation;VRAI;APP002;4
+RES00492;https://ipfs.io/ipfs/e021e07f2b79423789fa5cd313b94359;Rejet chèque Papillon;Rejet;VRAI;APP019;5
+RES00493;;Paiement partiel chèque;Transaction;VRAI;APP001;1
+RES00494;;Rejet chèque CNP pour opposition;Valeurs Physiques;VRAI;APP002;5
+RES00495;https://ipfs.io/ipfs/ff67f3ec8fd8465f9600295f7008aab2;Rejet chèque Papillon;Paiement;FAUX;APP015;5
+RES00496;https://ipfs.io/ipfs/b8172ba7e91d4409aab57aa90e849b96;Paiement chèque;Transaction;VRAI;APP003;3
+RES00497;https://ipfs.io/ipfs/0d6cc095d2ad43ec8c4be50425da0c41;Traitement rejet reglementaire (présentation Bon de caisse);Rejet;VRAI;APP004;3
+RES00498;https://ipfs.io/ipfs/f73236d240cc4ad290950fa3612cda66;Réception valeurs physique Bon de caisse de la chambre de compensation;Paiement;FAUX;APP013;5
+RES00499;;Préavis;Compensation;FAUX;APP013;6
+RES00500;https://ipfs.io/ipfs/56dfa36e08cc462b86fc986eb4ecab94;Réception SIBTEL Bon de caisse reçus;Valeurs Physiques;VRAI;APP004;5
+RES00501;https://ipfs.io/ipfs/c42d08cc1711489ca72c82b3755bb214;Envoi agence valeurs physiques Bon de Caisse;Préavis;VRAI;APP005;2
+RES00502;https://ipfs.io/ipfs/0d7ebd069e9b4b318dc41eb96d9778b8;Rejet chèque Papillon;Préavis;VRAI;APP015;2
+RES00503;https://ipfs.io/ipfs/eef15e1db7bd45c1b9f382f554f5eee0;Envoi de nos rejets chèques;Rejet;VRAI;APP005;6
+RES00504;;Envoi de nos rejets chèques;Rejet;VRAI;APP019;4
+RES00505;https://ipfs.io/ipfs/d25c90fa9579494e8a32b6e7b9f8556f;Envoi agence valeurs physiques Bon de Caisse;Transaction;FAUX;APP001;1
+RES00506;;Rejet chèque Papillon;Rejet;FAUX;APP020;5
+RES00507;https://ipfs.io/ipfs/86cd6eb218734895958bffae3e706246;Envoi aux agences valeurs physiques Obligation Cautionnée;Rejet;FAUX;APP019;6
+RES00508;;Réception compensation reçue chèque;Paiement;VRAI;APP014;4
+RES00509;;Réception SIBTEL Bon de caisse reçus;Transaction;FAUX;APP004;4
+RES00510;https://ipfs.io/ipfs/d46a14c28dcd46138844e16a7961d262;Paiement partiel chèque;Rejet;FAUX;APP010;4
+RES00511;https://ipfs.io/ipfs/ac048a571b164f00a297d123fc91654d;Envoi de nos rejets chèques;Transaction;FAUX;APP008;3
+RES00512;;Rejet chèque CNP pour opposition;Valeurs Physiques;FAUX;APP013;8
+RES00513;;Paiement partiel chèque;Préavis;FAUX;APP006;2
+RES00514;;Préavis;Paiement;VRAI;APP005;3
+RES00515;https://ipfs.io/ipfs/6f5ac6a4c84841beb7d035e9eebc3f3c;Envoi agence valeurs physiques Bon de Caisse;Valeurs Physiques;FAUX;APP014;8
+RES00516;;Préavis;Valeurs Physiques;VRAI;APP001;7
+RES00517;https://ipfs.io/ipfs/ca86aa069da14d70a56f4bfc431e6edf;Paiement chèque;Transaction;VRAI;APP017;1
+RES00518;https://ipfs.io/ipfs/c6277ff6d5b247fca125f641fdef42d2;Réception SIBTEL Bon de caisse reçus;Transaction;FAUX;APP008;1
+RES00519;;Réception compensation reçue chèque;Rejet;FAUX;APP012;3
+RES00520;;Paiement chèque;Valeurs Physiques;VRAI;APP015;8
+RES00521;;Traitement rejet reglementaire (présentation Bon de caisse);Document;VRAI;APP002;2
+RES00522;;Réception valeurs physique Bon de caisse de la chambre de compensation;Paiement;VRAI;APP012;3
+RES00523;;Préavis;Paiement;FAUX;APP016;2
+RES00524;https://ipfs.io/ipfs/dec4f6461dac41e78e7175eda96b13f3;Envoi agence Bon de Caisse à compenser (inter / intra);Paiement;FAUX;APP005;2
+RES00525;;Envoi agence valeurs physiques Bon de Caisse;Rejet;FAUX;APP001;4
+RES00526;;Envoi de nos rejets chèques;Transaction;FAUX;APP003;3
+RES00527;https://ipfs.io/ipfs/38ddd1d0f7e14fa8ab7bf0c92469d867;Paiement partiel chèque;Paiement;FAUX;APP008;3
+RES00528;https://ipfs.io/ipfs/e2b9286dd61d45bcacba30e1f9ba301e;Rejet chèque Papillon;Préavis;VRAI;APP014;4
+RES00529;;Rejet chèque Papillon;Rejet;FAUX;APP015;4
+RES00530;https://ipfs.io/ipfs/a91b31eaad6f4541874db7d229df4aa9;Envoi valeur physique Obligation Cautionnée aux agences;Paiement;VRAI;APP011;5
+RES00531;https://ipfs.io/ipfs/21b557eb93284bba8f382a25d805141e;Réception valeurs physique Bon de caisse de la chambre de compensation;Rejet;VRAI;APP002;4
+RES00532;https://ipfs.io/ipfs/09b1e204c72d4219b86b5295cd1848cc;Envoi aux agences valeurs physiques Obligation Cautionnée;Paiement;FAUX;APP018;4
+RES00533;;Blocage de la provision suite rejet;Transaction;VRAI;APP017;2
+RES00534;;Déblocage provision;Rejet;VRAI;APP020;6
+RES00535;;Paiement partiel chèque;Préavis;FAUX;APP010;1
+RES00536;https://ipfs.io/ipfs/5cf6541c4e1248c8a3147b31eec4c7c1;Envoi aux agences valeurs physiques Obligation Cautionnée;Compensation;FAUX;APP005;6
+RES00537;;Envoi agence valeurs physiques Bon de Caisse;Document;FAUX;APP006;2
+RES00538;https://ipfs.io/ipfs/d1da857b73aa412e88ead1ef59b8d5ac;Envoi valeur physique Obligation Cautionnée aux agences;Préavis;FAUX;APP010;4
+RES00539;;Traitement rejet reglementaire (présentation Bon de caisse);Paiement;VRAI;APP009;4
+RES00540;https://ipfs.io/ipfs/0e5a4386a57c4e43a2049e8943fb919e;Traitement rejet reglementaire (présentation Bon de caisse);Document;VRAI;APP019;2
+RES00541;;Rejet chèque CNP pour opposition;Transaction;VRAI;APP019;2
+RES00542;;Paiement partiel chèque;Transaction;FAUX;APP019;2
+RES00543;https://ipfs.io/ipfs/f5f9f6f5334b40f0bb86058b5ae0f5af;Déblocage provision;Compensation;VRAI;APP017;5
+RES00544;https://ipfs.io/ipfs/05c7cc82535148d184f8d8db4f7d6124;Paiement partiel chèque;Rejet;VRAI;APP014;6
+RES00545;https://ipfs.io/ipfs/20b5ba82eefe4114bc6b7b957973a785;Réception SIBTEL Bon de caisse reçus;Document;VRAI;APP005;5
+RES00546;https://ipfs.io/ipfs/059026b1335544bdb000103cf242365e;Envoi agence valeurs physiques Bon de Caisse;Rejet;VRAI;APP017;6
+RES00547;;Déblocage provision;Préavis;FAUX;APP014;4
+RES00548;;Envoi de nos rejets chèques;Paiement;FAUX;APP005;3
+RES00549;https://ipfs.io/ipfs/13db9b99332d41e9b59f7c344a0fad63;Envoi de nos rejets chèques;Paiement;FAUX;APP017;2
+RES00550;https://ipfs.io/ipfs/4071ec235d1c450793fb705ed23af835;Envoi agence valeurs physiques Bon de Caisse;Rejet;FAUX;APP006;5
+RES00551;https://ipfs.io/ipfs/d8e482d25859498c98f4f7e338894338;Traitement rejet reglementaire (présentation Bon de caisse);Compensation;FAUX;APP012;6
+RES00552;https://ipfs.io/ipfs/f12642141f5046458c6cd280a247b0ad;Envoi aux agences valeurs physiques Obligation Cautionnée;Compensation;VRAI;APP010;6
+RES00553;https://ipfs.io/ipfs/e21f7a0a1b4a412aa5888f41356554ef;Préavis;Transaction;FAUX;APP005;2
+RES00554;;Rejet chèque Papillon;Document;FAUX;APP007;3
+RES00555;;Envoi de nos rejets chèques;Document;VRAI;APP003;2
+RES00556;;Rejet chèque Papillon;Rejet;FAUX;APP011;6
+RES00557;;Envoi de nos rejets chèques;Préavis;VRAI;APP017;4
+RES00558;https://ipfs.io/ipfs/0ac3d860d37d41c9b01b39c519747c3c;Rejet chèque CNP pour opposition;Paiement;FAUX;APP011;2
+RES00559;;Rejet chèque Papillon;Rejet;VRAI;APP011;3
+RES00560;;Rejet chèque CNP pour opposition;Paiement;FAUX;APP006;2
+RES00561;;Préavis;Compensation;VRAI;APP003;5
+RES00562;;Envoi aux agences valeurs physiques Obligation Cautionnée;Compensation;VRAI;APP017;4
+RES00563;;Traitement rejet reglementaire (présentation Bon de caisse);Paiement;VRAI;APP009;3
+RES00564;https://ipfs.io/ipfs/3e0ace31430e404bac343cb37ff663a6;Réception compensation reçue chèque;Préavis;FAUX;APP018;3
+RES00565;https://ipfs.io/ipfs/ac5c99f976224667875167eb7771aa5d;Déblocage provision;Compensation;VRAI;APP001;6
+RES00566;https://ipfs.io/ipfs/b9aeb28975a74628972f390a6f83fe27;Rejet chèque Papillon;Valeurs Physiques;FAUX;APP017;7
+RES00567;https://ipfs.io/ipfs/a601ec2363684ae4ad9760e6c09fdc30;Déblocage provision;Transaction;VRAI;APP004;2
+RES00568;https://ipfs.io/ipfs/b1aafbd361d3493fb86b06c8be7be77a;Préavis;Valeurs Physiques;VRAI;APP003;6
+RES00569;https://ipfs.io/ipfs/4dda3ff394b549f19574e44561eacc5a;Préavis;Rejet;VRAI;APP011;4
+RES00570;https://ipfs.io/ipfs/535ab52308a7423f8a5ff5303ea9d71e;Envoi valeur physique Obligation Cautionnée aux agences;Paiement;VRAI;APP004;4
+RES00571;https://ipfs.io/ipfs/34bad58ab5e24a8fb1835730f41e028c;Envoi agence Bon de Caisse à compenser (inter / intra);Rejet;FAUX;APP004;3
+RES00572;https://ipfs.io/ipfs/e2b74abc15f54de7ae0a81fe5998d289;Envoi agence valeurs physiques Bon de Caisse;Valeurs Physiques;VRAI;APP017;8
+RES00573;https://ipfs.io/ipfs/fbeaabaf832546fca51482f21f90dee0;Traitement rejet reglementaire (présentation Bon de caisse);Transaction;VRAI;APP018;4
+RES00574;https://ipfs.io/ipfs/087972b837914a02b83e99f7c2ac5ca0;Réception SIBTEL Bon de caisse reçus;Rejet;VRAI;APP008;3
+RES00575;https://ipfs.io/ipfs/0af3db4b65d14d18aca3d8e92d2ec499;Paiement chèque;Compensation;VRAI;APP018;5
+RES00576;https://ipfs.io/ipfs/b8c2f95cf40848a9bd7352c2d5752530;Préavis;Compensation;FAUX;APP017;5
+RES00577;;Envoi agence Bon de Caisse à compenser (inter / intra);Transaction;VRAI;APP018;4
+RES00578;;Rejet chèque CNP pour opposition;Document;VRAI;APP020;4
+RES00579;;Réception valeurs physique Bon de caisse de la chambre de compensation;Document;VRAI;APP016;4
+RES00580;;Paiement chèque;Préavis;FAUX;APP007;3
+RES00581;https://ipfs.io/ipfs/ec8738620dd747fca4896d3d7bef6f68;Envoi aux agences valeurs physiques Obligation Cautionnée;Valeurs Physiques;VRAI;APP013;5
+RES00582;;Envoi agence Bon de Caisse à compenser (inter / intra);Paiement;FAUX;APP007;4
+RES00583;;Blocage de la provision suite rejet;Paiement;FAUX;APP015;4
+RES00584;https://ipfs.io/ipfs/4d8eaed7d49c46369bcc3c3b68690752;Réception compensation reçue chèque;Paiement;FAUX;APP015;4
+RES00585;;Envoi valeur physique Obligation Cautionnée aux agences;Paiement;VRAI;APP001;5
+RES00586;https://ipfs.io/ipfs/1532ee4d52b943fe8758632bf5146106;Envoi valeur physique Obligation Cautionnée aux agences;Document;VRAI;APP016;5
+RES00587;;Réception SIBTEL Bon de caisse reçus;Préavis;VRAI;APP015;1
+RES00588;;Paiement partiel chèque;Préavis;FAUX;APP012;4
+RES00589;https://ipfs.io/ipfs/e8c9a58681874a48977302fa178ce995;Réception valeurs physique Bon de caisse de la chambre de compensation;Préavis;VRAI;APP012;2
+RES00590;;Rejet chèque CNP pour opposition;Document;VRAI;APP009;4
+RES00591;;Envoi agence valeurs physiques Bon de Caisse;Document;FAUX;APP008;3
+RES00592;https://ipfs.io/ipfs/00fa4ac000b5477ab422565fd07d89a3;Envoi de nos rejets chèques;Transaction;VRAI;APP020;2
+RES00593;https://ipfs.io/ipfs/c122a6f140174152a4fb3634fb95d830;Envoi valeur physique Obligation Cautionnée aux agences;Valeurs Physiques;FAUX;APP009;8
+RES00594;;Réception valeurs physique Bon de caisse de la chambre de compensation;Compensation;VRAI;APP019;5
+RES00595;;Réception SIBTEL Bon de caisse reçus;Compensation;VRAI;APP005;6
+RES00596;https://ipfs.io/ipfs/0706acd203ea47cb81e8c21154ee6228;Réception compensation reçue chèque;Compensation;FAUX;APP001;6
+RES00597;;Rejet chèque CNP pour opposition;Document;FAUX;APP002;4
+RES00598;https://ipfs.io/ipfs/6f5e7754e2544312afc8ab439de29b5e;Rejet chèque Papillon;Préavis;FAUX;APP017;4
+RES00599;;Envoi de nos rejets chèques;Transaction;VRAI;APP008;1
+RES00600;https://ipfs.io/ipfs/baac28fdabec445f83b673fb8e84b818;Paiement chèque;Rejet;FAUX;APP013;4
+RES00601;;Blocage de la provision suite rejet;Document;VRAI;APP008;5
+RES00602;https://ipfs.io/ipfs/28b1599268494809819041579a381bb9;Réception SIBTEL Bon de caisse reçus;Valeurs Physiques;VRAI;APP010;5
+RES00603;https://ipfs.io/ipfs/45d34e966c104bef89f6e8acdb7db12f;Traitement rejet reglementaire (présentation Bon de caisse);Document;FAUX;APP001;4
+RES00604;https://ipfs.io/ipfs/92f14dd58a3c4ce88a8967081bc2d1d8;Paiement chèque;Valeurs Physiques;VRAI;APP011;5
+RES00605;;Blocage de la provision suite rejet;Compensation;VRAI;APP020;7
+RES00606;;Traitement rejet reglementaire (présentation Bon de caisse);Paiement;FAUX;APP003;2
+RES00607;;Envoi aux agences valeurs physiques Obligation Cautionnée;Rejet;FAUX;APP003;4
+RES00608;https://ipfs.io/ipfs/fe383b972cd54d24ab417309702dbcec;Envoi aux agences valeurs physiques Obligation Cautionnée;Préavis;FAUX;APP020;4
+RES00609;;Réception SIBTEL Bon de caisse reçus;Document;VRAI;APP010;5
+RES00610;https://ipfs.io/ipfs/58ba7f28d9d44b64ae82e57882c9170a;Déblocage provision;Document;FAUX;APP020;2
+RES00611;;Rejet chèque CNP pour opposition;Rejet;FAUX;APP020;3
+RES00612;https://ipfs.io/ipfs/6dd3387629df433698f7b2750e2e366b;Blocage de la provision suite rejet;Paiement;VRAI;APP011;3
+RES00613;;Traitement rejet reglementaire (présentation Bon de caisse);Document;VRAI;APP003;3
+RES00614;https://ipfs.io/ipfs/2a762142b5f142a3ae749c86a2e62be9;Envoi agence Bon de Caisse à compenser (inter / intra);Paiement;FAUX;APP016;5
+RES00615;;Réception valeurs physique Bon de caisse de la chambre de compensation;Valeurs Physiques;VRAI;APP002;6
+RES00616;;Préavis;Compensation;FAUX;APP012;6
+RES00617;https://ipfs.io/ipfs/dbc640099f9845d3b319c3aee1a21d97;Envoi agence Bon de Caisse à compenser (inter / intra);Valeurs Physiques;FAUX;APP011;7
+RES00618;https://ipfs.io/ipfs/5a44feaf83944fae9f99ece6bdc90fc7;Paiement partiel chèque;Document;VRAI;APP017;2
+RES00619;;Rejet chèque Papillon;Transaction;VRAI;APP007;1
+RES00620;;Blocage de la provision suite rejet;Valeurs Physiques;FAUX;APP015;7
+RES00621;https://ipfs.io/ipfs/dad34d2dc68a47c0b4edd4300a9bd7f7;Blocage de la provision suite rejet;Compensation;FAUX;APP006;4
+RES00622;https://ipfs.io/ipfs/04ba0db8b1c5458aae53602b1b95cf5b;Rejet chèque CNP pour opposition;Préavis;VRAI;APP001;2
+RES00623;https://ipfs.io/ipfs/47f2cf0618fb4f5f8d433141c4ccc2f5;Réception compensation reçue chèque;Rejet;VRAI;APP011;6
+RES00624;;Envoi agence valeurs physiques Bon de Caisse;Rejet;VRAI;APP001;5
+RES00625;https://ipfs.io/ipfs/fe0e9f8bef054a51b0cdc70b1650d504;Envoi valeur physique Obligation Cautionnée aux agences;Document;FAUX;APP004;3
+RES00626;;Préavis;Rejet;VRAI;APP012;3
+RES00627;https://ipfs.io/ipfs/83f39428f5684a41a32e21d2b0ef67da;Envoi valeur physique Obligation Cautionnée aux agences;Valeurs Physiques;VRAI;APP008;7
+RES00628;https://ipfs.io/ipfs/741438e393824af8b90968e82ec7a447;Réception valeurs physique Bon de caisse de la chambre de compensation;Transaction;VRAI;APP001;2
+RES00629;;Paiement chèque;Document;VRAI;APP005;5
+RES00630;https://ipfs.io/ipfs/66c4a5257e7d4c8b95ccfa077a915b7c;Traitement rejet reglementaire (présentation Bon de caisse);Transaction;VRAI;APP008;3
+RES00631;;Paiement partiel chèque;Paiement;VRAI;APP020;5
+RES00632;;Réception SIBTEL Bon de caisse reçus;Document;VRAI;APP005;3
+RES00633;;Envoi agence valeurs physiques Bon de Caisse;Compensation;FAUX;APP011;7
+RES00634;;Réception compensation reçue chèque;Document;VRAI;APP010;3
+RES00635;;Blocage de la provision suite rejet;Valeurs Physiques;VRAI;APP009;6
+RES00636;;Envoi de nos rejets chèques;Valeurs Physiques;VRAI;APP020;5
+RES00637;;Réception valeurs physique Bon de caisse de la chambre de compensation;Compensation;FAUX;APP017;6
+RES00638;https://ipfs.io/ipfs/4e2c2a6cd50f4e4c82fcf4fac7e4f853;Envoi de nos rejets chèques;Compensation;FAUX;APP012;7
+RES00639;;Envoi de nos rejets chèques;Rejet;FAUX;APP019;3
+RES00640;https://ipfs.io/ipfs/604cae430f8a44b8b84aad71e68d7ff6;Envoi agence valeurs physiques Bon de Caisse;Valeurs Physiques;VRAI;APP008;8
+RES00641;;Envoi agence valeurs physiques Bon de Caisse;Transaction;FAUX;APP019;2
+RES00642;https://ipfs.io/ipfs/5d281999986c4503aa951c4b5bf0fffc;Paiement partiel chèque;Transaction;VRAI;APP003;3
+RES00643;https://ipfs.io/ipfs/68673b22f2e342e7ae3ba4dd1b3bd8f8;Rejet chèque CNP pour opposition;Compensation;FAUX;APP002;7
+RES00644;https://ipfs.io/ipfs/c87877b445d546ce80c3870c0e887aee;Blocage de la provision suite rejet;Rejet;FAUX;APP014;5
+RES00645;https://ipfs.io/ipfs/167b147b7cdf4136b8a9c69fb63f225a;Envoi de nos rejets chèques;Transaction;FAUX;APP006;4
+RES00646;https://ipfs.io/ipfs/73e17033761c43ceaa5f86bdc9026263;Réception compensation reçue chèque;Transaction;VRAI;APP003;3
+RES00647;;Réception SIBTEL Bon de caisse reçus;Préavis;FAUX;APP004;1
+RES00648;;Réception SIBTEL Bon de caisse reçus;Transaction;VRAI;APP011;2
+RES00649;;Blocage de la provision suite rejet;Transaction;FAUX;APP009;2
+RES00650;https://ipfs.io/ipfs/65f318c459f4450c99857a5a7a11a1ce;Envoi agence Bon de Caisse à compenser (inter / intra);Préavis;FAUX;APP010;3
+RES00651;;Paiement partiel chèque;Préavis;FAUX;APP019;1
+RES00652;;Envoi de nos rejets chèques;Paiement;VRAI;APP008;3
+RES00653;;Envoi agence valeurs physiques Bon de Caisse;Rejet;VRAI;APP018;6
+RES00654;https://ipfs.io/ipfs/daf863701b194ef5be7196cbc6df0990;Rejet chèque CNP pour opposition;Transaction;VRAI;APP007;4
+RES00655;https://ipfs.io/ipfs/6fd75ab8f1904c4b88e7e52a1b787fcc;Rejet chèque Papillon;Valeurs Physiques;FAUX;APP018;5
+RES00656;https://ipfs.io/ipfs/be9e2a051ec243fbb9abfc0ec52d0c5d;Paiement partiel chèque;Valeurs Physiques;VRAI;APP001;8
+RES00657;https://ipfs.io/ipfs/337adab31e6a441a87ac73395b2b2f9e;Paiement partiel chèque;Transaction;VRAI;APP013;3
+RES00658;;Blocage de la provision suite rejet;Compensation;VRAI;APP002;5
+RES00659;;Envoi agence Bon de Caisse à compenser (inter / intra);Transaction;FAUX;APP007;4
+RES00660;https://ipfs.io/ipfs/d0b3164452bf48fdb099d177ab45d41e;Réception SIBTEL Bon de caisse reçus;Compensation;FAUX;APP004;6
+RES00661;https://ipfs.io/ipfs/5cac097920b146798c5e10d577e99d5b;Rejet chèque CNP pour opposition;Paiement;FAUX;APP004;3
+RES00662;https://ipfs.io/ipfs/82fbaf0b304742b98b616efbc6528b81;Envoi aux agences valeurs physiques Obligation Cautionnée;Préavis;FAUX;APP007;1
+RES00663;https://ipfs.io/ipfs/17729de2f9be464091f87d0f1641125a;Déblocage provision;Transaction;VRAI;APP017;1
+RES00664;;Rejet chèque CNP pour opposition;Document;FAUX;APP006;4
+RES00665;;Rejet chèque Papillon;Rejet;VRAI;APP005;6
+RES00666;https://ipfs.io/ipfs/1e41cfc8ff054810a246f613f22da2d2;Envoi de nos rejets chèques;Paiement;VRAI;APP007;3
+RES00667;;Envoi agence valeurs physiques Bon de Caisse;Transaction;FAUX;APP016;2
+RES00668;;Préavis;Compensation;VRAI;APP015;6
+RES00669;https://ipfs.io/ipfs/acdf94ceb2bd436e8856ffd1e325b13e;Envoi agence valeurs physiques Bon de Caisse;Document;VRAI;APP013;3
+RES00670;https://ipfs.io/ipfs/d0ac8159eacf493b838fd440d52363a5;Blocage de la provision suite rejet;Compensation;FAUX;APP019;4
+RES00671;https://ipfs.io/ipfs/f2dcd02d3d70425eb4fff09b0d857487;Réception SIBTEL Bon de caisse reçus;Transaction;FAUX;APP010;4
+RES00672;https://ipfs.io/ipfs/73b0ab1cb34543d2ab7013474a0c0b1f;Réception valeurs physique Bon de caisse de la chambre de compensation;Rejet;VRAI;APP020;6
+RES00673;;Rejet chèque CNP pour opposition;Rejet;VRAI;APP004;6
+RES00674;https://ipfs.io/ipfs/8290aad0c63d4d48ad98ebfcf17ec2b9;Envoi aux agences valeurs physiques Obligation Cautionnée;Valeurs Physiques;VRAI;APP018;7
+RES00675;;Réception SIBTEL Bon de caisse reçus;Paiement;VRAI;APP014;2
+RES00676;;Paiement partiel chèque;Document;VRAI;APP011;5
+RES00677;https://ipfs.io/ipfs/8a726706045a40ec827907c9b85b3585;Rejet chèque CNP pour opposition;Valeurs Physiques;FAUX;APP002;8
+RES00678;https://ipfs.io/ipfs/4806d9c3b654415882e432019250b946;Envoi valeur physique Obligation Cautionnée aux agences;Document;FAUX;APP013;3
+RES00679;https://ipfs.io/ipfs/81847f5078cf480d83a92270e2b48401;Déblocage provision;Document;VRAI;APP005;4
+RES00680;https://ipfs.io/ipfs/a628e29d2a3c4baba9d9d0629abb7a54;Rejet chèque CNP pour opposition;Rejet;FAUX;APP018;4
+RES00681;;Rejet chèque CNP pour opposition;Valeurs Physiques;FAUX;APP006;6
+RES00682;https://ipfs.io/ipfs/480e9116397744b58cdd656d917ed85f;Envoi valeur physique Obligation Cautionnée aux agences;Compensation;VRAI;APP004;7
+RES00683;;Réception valeurs physique Bon de caisse de la chambre de compensation;Document;VRAI;APP005;5
+RES00684;;Paiement partiel chèque;Valeurs Physiques;VRAI;APP018;6
+RES00685;;Rejet chèque CNP pour opposition;Paiement;VRAI;APP017;2
+RES00686;https://ipfs.io/ipfs/e20b1bd657d743669d7457e6fdf7e722;Déblocage provision;Paiement;FAUX;APP020;2
+RES00687;;Envoi aux agences valeurs physiques Obligation Cautionnée;Préavis;FAUX;APP008;3
+RES00688;https://ipfs.io/ipfs/96317cd77686434bbbc7a5786d01dc10;Réception compensation reçue chèque;Valeurs Physiques;VRAI;APP001;5
+RES00689;;Blocage de la provision suite rejet;Préavis;VRAI;APP003;2
+RES00690;;Traitement rejet reglementaire (présentation Bon de caisse);Préavis;VRAI;APP002;4
+RES00691;https://ipfs.io/ipfs/0d4c376008584772844e47645f486b98;Traitement rejet reglementaire (présentation Bon de caisse);Préavis;FAUX;APP007;2
+RES00692;https://ipfs.io/ipfs/6d0aa08e1594446d826095bd972c5d3a;Déblocage provision;Rejet;VRAI;APP004;5
+RES00693;https://ipfs.io/ipfs/27f6584c37c54abea5e21163696b5775;Blocage de la provision suite rejet;Valeurs Physiques;VRAI;APP011;5
+RES00694;https://ipfs.io/ipfs/e29722f6b6d54525b96bbc4764cdf904;Déblocage provision;Valeurs Physiques;FAUX;APP009;7
+RES00695;https://ipfs.io/ipfs/1f0fe1554716435f8ecc1d6b59ade92c;Envoi aux agences valeurs physiques Obligation Cautionnée;Document;VRAI;APP020;5
+RES00696;https://ipfs.io/ipfs/1de6568a4d964822aac7a557d6b05b46;Traitement rejet reglementaire (présentation Bon de caisse);Paiement;VRAI;APP004;4
+RES00697;https://ipfs.io/ipfs/04b9d1103f7a448180eae04f16578fef;Déblocage provision;Paiement;VRAI;APP011;5
+RES00698;;Réception SIBTEL Bon de caisse reçus;Transaction;VRAI;APP019;4
+RES00699;;Déblocage provision;Compensation;VRAI;APP001;5
+RES00700;https://ipfs.io/ipfs/84f27ddd45424cbab8c124280dbd6df1;Envoi valeur physique Obligation Cautionnée aux agences;Compensation;VRAI;APP014;5

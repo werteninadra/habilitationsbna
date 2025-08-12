@@ -29,7 +29,7 @@ public class ApplicationController {
             return ResponseEntity.internalServerError().body("Erreur serveur");
         }
     }
-
+//krkkrkrkkrkrkrrkk
 
     @GetMapping
     public ResponseEntity<List<Application>> getAllApplications() {

@@ -36,7 +36,7 @@ public class ApplicationController {
         List<Application> applications = applicationService.getAllApplications();
         return ResponseEntity.ok(applications);
     }
-
+///kkkkkkkkkkkkkk
     @GetMapping("/{code}")
     public ResponseEntity<Application> getApplicationByCode(@PathVariable String code) {
         Application application = applicationService.getApplicationByCode(code);

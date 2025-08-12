@@ -64,7 +64,7 @@ public class RessourceController {
             return ResponseEntity.notFound().build();
         }
     }
-
+//jnjjnfvjjjfvvjnj
     @DeleteMapping("/{code}")
     public ResponseEntity<Void> delete(@PathVariable String code) {
         try {
@@ -74,7 +74,7 @@ public class RessourceController {
             return ResponseEntity.notFound().build();
         }
     }
-
+//fvfvjjnfevenjjnjnvfejnfvejnfjnfvnjfv
     @PostMapping("/{codeRessource}/assign/{codeProfil}")
     public ResponseEntity<Void> assignToProfil(
             @PathVariable String codeRessource,

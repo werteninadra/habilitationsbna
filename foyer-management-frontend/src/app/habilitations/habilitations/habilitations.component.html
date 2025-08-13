@@ -830,11 +830,14 @@
             <!-- User Management Content -->
             <div id="user-management" class="content-section">
                <div class="card">
+                <div *ngIf="authService.hasRole('ADMIN')">
+
   <div class="card-header">
     <span>Liste des Utilisateurs</span>
     <button class="btn btn-success" (click)="navigateToRegister()">
       <i>➕</i> Ajouter
     </button>
+  </div>
   </div>
   <div class="card-body">
     <div class="form-row">

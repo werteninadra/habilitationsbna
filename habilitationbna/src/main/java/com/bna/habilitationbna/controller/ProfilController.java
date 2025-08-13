@@ -4,13 +4,13 @@ import com.bna.habilitationbna.model.Profil;
 import com.bna.habilitationbna.service.ProfilService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 @RestController
 @RequestMapping("/api/profils")
 public class ProfilController {

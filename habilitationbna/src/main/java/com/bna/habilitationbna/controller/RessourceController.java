@@ -116,6 +116,7 @@ public class RessourceController {
             }
         }
     }
+    @PreAuthorize("hasAuthority('Admin')")
 
     // Supprimer une ressource
     @DeleteMapping("/{code}")

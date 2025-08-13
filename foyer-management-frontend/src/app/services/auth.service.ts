@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import { KeycloakService } from '../keycloak.service';
-
+import { JwtHelperService } from '@auth0/angular-jwt';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private apiUrl = 'http://localhost:8081/api/auth';
@@ -225,4 +225,50 @@ public clearLocalData(): void {
   private clearAuthData(): void {
     localStorage.removeItem('token');
   }
+
+
+
+
+
+  // auth.service.ts
+
+// Dans la classe AuthService
+private jwtHelper = new JwtHelperService();
+
+getDecodedToken(): any {
+  const token = this.getToken();
+  return token ? this.jwtHelper.decodeToken(token) : null;
+}
+
+hasRole(requiredRole: string): boolean {
+  const decodedToken = this.getDecodedToken();
+  if (!decodedToken) return false;
+
+  // Vérifie dans realm_access.roles (Keycloak standard)
+  const realmRoles = decodedToken.realm_access?.roles || [];
+  
+  // Vérifie aussi dans les claims directs
+  const directRoles = decodedToken.roles || [];
+
+  // Combine les deux sources de rôles
+  const allRoles = [...realmRoles, ...directRoles];
+
+  return allRoles.some(role => 
+    role.toUpperCase() === requiredRole.toUpperCase()
+  );
+}
+
+hasAnyRole(requiredRoles: string[]): boolean {
+  return requiredRoles.some(role => this.hasRole(role));
+}
+
+getUserRoles(): string[] {
+  const decodedToken = this.getDecodedToken();
+  if (!decodedToken) return [];
+
+  return [
+    ...(decodedToken.realm_access?.roles || []),
+    ...(decodedToken.roles || [])
+  ];
+}
 }

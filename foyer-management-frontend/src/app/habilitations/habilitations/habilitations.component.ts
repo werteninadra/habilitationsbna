@@ -37,7 +37,7 @@ export class HabilitationsComponent implements OnInit {
   totalItems: number = 0;
 
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     private router: Router,
         private keycloakService: KeycloakService
     

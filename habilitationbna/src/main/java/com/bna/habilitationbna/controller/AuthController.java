@@ -13,6 +13,7 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
@@ -33,6 +34,8 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/auth")
+
+
 //@CrossOrigin(origins = "*")
 public class AuthController {
 
@@ -194,6 +197,7 @@ public class AuthController {
                     ));
         }
     }
+
 
     @GetMapping("/users-with-details")
     public ResponseEntity<List<Map<String, Object>>> getAllUsersWithDetails() {

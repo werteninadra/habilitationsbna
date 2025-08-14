@@ -136,7 +136,7 @@ private decodeMatriculeFromToken(token: string): string | null {
   }
 }
 
-// Update logout method
+// Update logout
 
 public clearLocalData(): void {
   localStorage.removeItem('token');

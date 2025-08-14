@@ -38,4 +38,5 @@ export class EditOccupationComponent implements OnInit {
       this.router.navigate(['/occupations']);
     });
   }
+  // Ajoute une méthode pour gérer la suppression si nécessaire
 }

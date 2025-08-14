@@ -17,4 +17,7 @@ export class NavbarComponent {
   onSearchChange() {
     this.search.emit(this.searchTerm.trim());
   }
+
+
+  ///deklaration of the function to handle search
 }

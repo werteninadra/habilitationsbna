@@ -291,4 +291,9 @@ onFileSelected(event: any, matricule: string): void {
     if (!user.active) return 'Inactif';
     return 'Actif';
   }
+
+
+
+
+  //jjfzjj
 }

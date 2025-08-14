@@ -14,6 +14,7 @@ import { OccupationListComponent } from './components/occupation-list/occupation
 import { AgenceListComponent } from './components/agence-list/agence-list.component';
 import { OccupationCreateComponent } from './components/occupation-create/occupation-create.component';
 import { AgenceFormComponent } from './components/agence-form/agence-form.component';
+import { EditOccupationComponent } from './occupations/edit-occupation/edit-occupation.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'habilitations', pathMatch: 'full' },
@@ -43,4 +44,5 @@ export const routes: Routes = [
   { path: 'occupations/:agenceId', component: OccupationListComponent },
  { path: 'agences/add', component: AgenceFormComponent },
    {path: 'agences/edit/:id', component: AgenceFormComponent },
+   { path: 'occupations/edit/:id', component: EditOccupationComponent }
 ];

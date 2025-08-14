@@ -762,20 +762,25 @@
                     <i>👤</i>
                     <span>Gestion Utilisateurs</span>
                 </div>
-                  <div *ngIf="authService.hasRole('ADMIN')"></div>
+                  <div *ngIf="authService.hasRole('ADMIN')">
                <div class="menu-item" data-content="profile-management" routerLink="/gestion-profils" style="cursor:pointer;">
     <i>👥</i>
     <span>Gestion Profils</span>
-</div>
+</div></div>
+<div *ngIf="authService.hasRole('scrum-master') || authService.hasRole('ADMIN')">
  <div class="menu-item" data-content="profile-management" routerLink="/ressources" style="cursor:pointer;">
     <i>👥</i>
     <span>Gestion ressource</span>
 </div>
+</div>
+<div *ngIf="authService.hasRole('scrum-master') || authService.hasRole('ADMIN')|| authService.hasRole('developer')">
+
+
 <div class="menu-item" data-content="profile-management" routerLink="/applications" style="cursor:pointer;">
     <i>👥</i>
     <span>Gestion appliction</span>
-</div>
-<div *ngIf="authService.hasRole('ADMIN')">
+</div></div>
+<div *ngIf="authService.hasRole('chefagence')|| authService.hasRole('ADMIN')">
 
 <div class="menu-item" data-content="profile-management" routerLink="/agences" style="cursor:pointer;">
     <i>👥</i>

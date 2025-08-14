@@ -67,6 +67,14 @@ getAgence(id: number): Observable<Agence> {
 updateAgence(agence: Agence): Observable<Agence> {
     return this.http.put<Agence>(`${this.baseUrl}/agences/${agence.id}`, agence);
   }
+getOccupationById(id: number): Observable<Occupation> {
+  return this.http.get<Occupation>(`${this.baseUrl}/occupations/${id}`);
+}
+downloadPredictionPDF(agenceId: number) {
+  return this.http.get(`/api/occupations/prediction/pdf/${agenceId}`, {
+    responseType: 'blob'
+  });
+}
 
   deleteAgence(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/agences/${id}`);

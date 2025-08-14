@@ -1,0 +1,23 @@
+<h2>Modifier l'occupation</h2>
+
+<form (ngSubmit)="updateOccupation()">
+  <label>Date :</label>
+  <input type="date" [(ngModel)]="occupation.date" name="date" required />
+
+  <label>Nombre de clients :</label>
+  <input type="number" [(ngModel)]="occupation.nombreClients" name="nombreClients" required />
+
+  <label>Jour de la semaine :</label>
+  <input type="number" [(ngModel)]="occupation.jourSemaine" name="jourSemaine" />
+
+  <label>Est férié :</label>
+  <input type="checkbox" [(ngModel)]="occupation.estFerie" name="estFerie" />
+
+  <label>Météo :</label>
+  <input type="text" [(ngModel)]="occupation.meteo" name="meteo" />
+
+  <label>Taux d’occupation :</label>
+  <input type="number" [(ngModel)]="occupation.tauxOccupation" name="tauxOccupation" />
+
+  <button type="submit">Enregistrer</button>
+</form>

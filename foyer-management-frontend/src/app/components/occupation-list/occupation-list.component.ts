@@ -2,6 +2,7 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { Agence, AgenceService, Occupation } from '../../services/agence.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http'; // ⚠️ Ajouter HttpClient
 
 @Component({
   selector: 'app-occupation-list',
@@ -17,7 +18,7 @@ export class OccupationListComponent implements OnChanges {
   error: string | null = null;
   predictionMessage: string | null = null;
 
-  constructor(private agenceService: AgenceService, private router: Router) {}
+  constructor(private agenceService: AgenceService, private router: Router,private http: HttpClient) {}
 
   ngOnChanges(): void {
     this.loadOccupations();
@@ -74,6 +75,8 @@ export class OccupationListComponent implements OnChanges {
       this.router.navigate(['/occupations/edit', occupation.id]);
     }
   }
+
+
 
   deleteOccupation(id?: number) {
     if (!id) return;

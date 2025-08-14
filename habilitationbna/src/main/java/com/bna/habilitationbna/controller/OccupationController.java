@@ -1,13 +1,22 @@
 package com.bna.habilitationbna.controller;
 
+import com.bna.habilitationbna.model.Agence;
 import com.bna.habilitationbna.model.Occupation;
+import com.bna.habilitationbna.repo.AgenceRepository;
 import com.bna.habilitationbna.repo.OccupationRepository;
+import com.bna.habilitationbna.service.IAgenceService;
 import com.bna.habilitationbna.service.OccupationService;
 import com.bna.habilitationbna.service.PredictionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,13 +27,17 @@ public class OccupationController {
     private final OccupationService occupationService;
     private final PredictionService predictionService;
     private  final  OccupationRepository occupationRepository;
+    private final AgenceRepository agencerepo;
+    @Autowired
+    private RestTemplate restTemplate;
 
     private  final OccupationRepository occupationrepository;
-    public OccupationController(OccupationService occupationService , OccupationRepository  OccupationRepository, PredictionService predictionService, OccupationRepository occupationRepository) {
+    public OccupationController(OccupationService occupationService , OccupationRepository  OccupationRepository, PredictionService predictionService, OccupationRepository occupationRepository,AgenceRepository agencerepo) {
         this.occupationService = occupationService;
         this.occupationrepository=OccupationRepository;
         this.predictionService=predictionService;
         this.occupationRepository=occupationRepository;
+        this.agencerepo=agencerepo;
     }
 
     @PostMapping("/create/{agenceId}")
@@ -67,6 +80,9 @@ public class OccupationController {
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
+
+
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteOccupation(@PathVariable Long id) {

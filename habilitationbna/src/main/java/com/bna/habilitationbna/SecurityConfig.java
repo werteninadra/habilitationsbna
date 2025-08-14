@@ -113,7 +113,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/occupations/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/ressources/**/upload-ipfs").permitAll()
                         .requestMatchers("/api/jira/**").permitAll()
-                        .requestMatchers("/api/profils/**").permitAll() // Utilisez hasAuthority
+                        .requestMatchers("/api/profils/**").permitAll() // U
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2

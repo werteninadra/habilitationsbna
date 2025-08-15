@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { OccupationListComponent } from '../occupation-list/occupation-list.component';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { NavbarComponent } from '../../navbar/navbar.component'; // Chemin à adapter
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-agence-list',
@@ -27,7 +28,8 @@ export class AgenceListComponent implements OnInit {
   constructor(
     private agenceService: AgenceService,
     private router: Router,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+     public authService: AuthService,
   ) {}
 
   ngOnInit(): void {

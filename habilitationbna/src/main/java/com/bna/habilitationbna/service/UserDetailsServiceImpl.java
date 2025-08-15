@@ -36,15 +36,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         User user = userRepository.findByMatricule(matricule)
                 .orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé : " + matricule));
 
-        Set<SimpleGrantedAuthority> authorities = user.getProfils().stream()
-                .map(profil -> new SimpleGrantedAuthority(profil.getRole())) // Convertit directement le nom du profil en SimpleGrantedAuthority
-                .collect(Collectors.toSet());
-
-        return new org.springframework.security.core.userdetails.User(
-                user.getMatricule(),
-                user.getPassword(),
-                authorities
-        );
+        return new CustomUserDetails(user); // <-- au lieu de org.springframework.security.core.userdetails.User
     }
+
 }
 

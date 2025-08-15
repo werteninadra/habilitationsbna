@@ -14,6 +14,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
@@ -197,11 +199,35 @@ public class AuthController {
                     ));
         }
     }
-
-
     @GetMapping("/users-with-details")
-    public ResponseEntity<List<Map<String, Object>>> getAllUsersWithDetails() {
-        List<User> users = userRepository.findAll();
+    public ResponseEntity<List<Map<String, Object>>> getAllUsersWithDetails(@AuthenticationPrincipal Jwt jwt) {
+        if (jwt == null) {
+            return ResponseEntity.ok(Collections.emptyList());
+        }
+
+        String matricule = jwt.getClaim("preferred_username");
+        User currentUser = userRepository.findByMatricule(matricule).orElse(null);
+
+        if (currentUser == null) {
+            return ResponseEntity.ok(Collections.emptyList());
+        }
+
+        List<User> users;
+
+        // ADMIN → tout le monde
+        if (currentUser.getProfils().stream()
+                .anyMatch(p -> p.getRole().equalsIgnoreCase("ADMIN"))) {
+            users = userRepository.findAll();
+        }
+        // CHEF_AGENCE → seulement son agence
+        else if (currentUser.getProfils().stream()
+                .anyMatch(p -> p.getRole().equalsIgnoreCase("CHEFAGENCE"))) {
+            users = userRepository.findByAgenceId(currentUser.getAgence().getId());
+        }
+        // Autres rôles → rien
+        else {
+            users = Collections.emptyList();
+        }
 
         List<Map<String, Object>> response = users.stream().map(user -> {
             Map<String, Object> userMap = new HashMap<>();
@@ -215,7 +241,6 @@ public class AuthController {
             userMap.put("blocked", user.getBlocked());
             userMap.put("profileImagePath", user.getProfileImagePath());
 
-            // Sérialisation contrôlée des profils
             userMap.put("profils", user.getProfils().stream()
                     .map(profil -> {
                         Map<String, Object> profilMap = new HashMap<>();
@@ -229,6 +254,7 @@ public class AuthController {
 
         return ResponseEntity.ok(response);
     }
+
 
     // Blocage/Déblocage utilisateur
     @PutMapping("/users/{matricule}/block")

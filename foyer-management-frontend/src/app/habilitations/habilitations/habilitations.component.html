@@ -773,7 +773,7 @@
     <span>Gestion ressource</span>
 </div>
 </div>
-<div *ngIf="authService.hasRole('scrum-master') || authService.hasRole('ADMIN')|| authService.hasRole('developer')">
+<div *ngIf="authService.hasRole('scrum_master') ">
 
 
 <div class="menu-item" data-content="profile-management" routerLink="/applications" style="cursor:pointer;">
@@ -859,7 +859,7 @@
       </div>
     </div>
     </div>
-      <div *ngIf="authService.hasRole('ADMIN'); else nonAdminContent">
+<div *ngIf="authService.hasRole('ADMIN') || authService.hasRole('chefagence')">
     <table class="table">
       <thead>
         <tr>
@@ -916,13 +916,18 @@
             <button class="btn btn-primary" (click)="goToEditUser(user.matricule)">
               Modifier
             </button>
+            <div *ngIf="authService.hasRole('Admin') ">
+
             <button class="btn btn-secondary" 
                             (click)="toggleUserStatus(user.matricule, !user.blocked)">
                         {{ user.blocked ? 'Débloquer' : 'Bloquer' }}
-                    </button>
+                    </button></div>
+                    
+                    <div *ngIf="authService.hasRole('Admin') ">
+
             <button class="btn btn-danger" (click)="deleteUser(user.matricule)">
               Supprimer
-            </button>
+            </button> </div>
             <label class="btn btn-default upload-btn">
                         <i>📷</i> Photo
                         <input type="file" hidden 

@@ -38,7 +38,11 @@ export class AgenceService {
   constructor(private http: HttpClient) {}
 
   getAgences(): Observable<Agence[]> {
-    return this.http.get<Agence[]>(`${this.baseUrl}/agences`);
+   const token = localStorage.getItem('token');
+return this.http.get<Agence[]>(`${this.baseUrl}/agences`, {
+  headers: { Authorization: `Bearer ${token}` }
+});
+
   }
  getOccupations(agenceId: number): Observable<Occupation[]> {
   return this.http.get<Occupation[]>(`${this.baseUrl}/occupations/details/${agenceId}`);

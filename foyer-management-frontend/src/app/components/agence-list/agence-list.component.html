@@ -41,9 +41,9 @@
     </tr>
   </tbody>
 </table>
-
+<div *ngIf="authService.hasRole('Admin') ">
 <button (click)="goToAdd()" class="add-btn">Ajouter une agence</button>
-
+</div>
 <div *ngIf="selectedAgence">
   <app-occupation-list [agence]="selectedAgence"></app-occupation-list>
 

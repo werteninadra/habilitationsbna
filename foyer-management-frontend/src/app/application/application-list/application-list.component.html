@@ -29,7 +29,8 @@
 
       <div class="btn-group">
         <button class="edit-btn" [routerLink]="['/applications/edit', app.code]">Modifier</button>
-        <button class="delete-btn" (click)="deleteApplication(app.code)">Supprimer</button>
+        <div *ngIf="authService.hasRole('Admin') ">
+        <button class="delete-btn" (click)="deleteApplication(app.code)">Supprimer</button></div>
       </div>
     </div>
   </div>

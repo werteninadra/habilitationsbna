@@ -5,6 +5,7 @@ import { JiraService } from '../../services/JiraService';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { NavbarComponent } from '../../navbar/navbar.component';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-application-list',
@@ -23,7 +24,9 @@ export class ApplicationListComponent implements OnInit {
 
   constructor(
     private applicationService: ApplicationService,
-    private jiraService: JiraService
+    private jiraService: JiraService,
+         public authService: AuthService,
+    
   ) {}
 
   ngOnInit(): void {

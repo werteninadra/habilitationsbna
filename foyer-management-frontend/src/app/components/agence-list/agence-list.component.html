@@ -34,10 +34,14 @@
         </iframe>
         <span *ngIf="!agence.adresse">Adresse non disponible</span>
       </td>
+
       <td>
-        <button (click)="goToEdit(agence.id); $event.stopPropagation()">Modifier</button>
-        <button (click)="deleteAgence(agence.id); $event.stopPropagation()">Supprimer</button>
+        <div *ngIf="authService.hasRole('Admin') ">
+        <button (click)="goToEdit(agence.id); $event.stopPropagation()">Modifier</button></div>
+        <div *ngIf="authService.hasRole('Admin') ">
+        <button (click)="deleteAgence(agence.id); $event.stopPropagation()">Supprimer</button></div>
       </td>
+   
     </tr>
   </tbody>
 </table>

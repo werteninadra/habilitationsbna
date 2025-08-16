@@ -767,13 +767,13 @@
     <i>👥</i>
     <span>Gestion Profils</span>
 </div></div>
-<div *ngIf="authService.hasRole('scrum-master') || authService.hasRole('ADMIN')">
+<div *ngIf=" authService.hasRole('ADMIN')">
  <div class="menu-item" data-content="profile-management" routerLink="/ressources" style="cursor:pointer;">
     <i>👥</i>
     <span>Gestion ressource</span>
 </div>
 </div>
-<div *ngIf="authService.hasRole('scrum_master') ">
+<div *ngIf="authService.hasRole('simpleagent') || authService.hasRole('ADMIN')">
 
 
 <div class="menu-item" data-content="profile-management" routerLink="/applications" style="cursor:pointer;">
@@ -941,7 +941,8 @@
       </tbody>
     </table>
       </div>
-      
+      <div *ngIf="authService.hasRole('simpleagent') ">
+
 <ng-template #nonAdminContent>
   <div class="bank-dashboard p-4">
 
@@ -1050,7 +1051,7 @@
 
   </div>
 </ng-template>
-
+</div>
     <!-- Pagination -->
     <div class="pagination" *ngIf="filteredUsers.length > 0">
       <button class="btn btn-default" (click)="changePage(1)" [disabled]="currentPage === 1">

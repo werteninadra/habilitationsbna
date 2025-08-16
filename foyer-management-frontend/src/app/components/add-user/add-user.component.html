@@ -87,6 +87,24 @@
       <small>Le mot de passe est requis.</small>
     </div>
   </div>
+<div class="form-group">
+  <label for="agence">Agence</label>
+  <select
+    id="agence"
+    formControlName="agenceId"
+    class="form-control"
+    [class.is-invalid]="userForm.get('agenceId')?.invalid && userForm.get('agenceId')?.touched"
+  >
+    <option value="">-- Sélectionner une agence --</option>
+    <option *ngFor="let agence of agences" [value]="agence.id">
+      {{ agence.nom }}
+    </option>
+  </select>
+  <div *ngIf="userForm.get('agenceId')?.invalid && userForm.get('agenceId')?.touched" class="invalid-feedback">
+    <small>Une agence est requise.</small>
+  </div>
+</div>
+
 
   <div class="form-group">
     <label for="profil">Profil</label>

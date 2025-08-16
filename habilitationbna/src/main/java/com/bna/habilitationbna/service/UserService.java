@@ -1,10 +1,13 @@
 package com.bna.habilitationbna.service;
 
 import com.bna.habilitationbna.KeycloakAdminClientService;
+import com.bna.habilitationbna.model.Agence;
 import com.bna.habilitationbna.model.Profil;
 import com.bna.habilitationbna.model.User;
+import com.bna.habilitationbna.repo.AgenceRepository;
 import com.bna.habilitationbna.repo.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,31 +21,56 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final KeycloakAdminClientService keycloakService;
     private final ProfilService profilService;
-
+private  final AgenceRepository agencerepo;
 
 
 
     public UserService(UserRepository userRepository,
                        PasswordEncoder passwordEncoder,
                        KeycloakAdminClientService keycloakService,
-                       ProfilService profilService) {
+                       ProfilService profilService, AgenceRepository agencerepo) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.keycloakService = keycloakService;
         this.profilService = profilService;
+        this.agencerepo=agencerepo;
     }
 
-    public User registerUser(User user, Set<String> profilNoms) {
+    public User registerUser(User user, Set<String> profilNoms, Jwt jwt) {
         Set<Profil> profils = profilService.findByNoms(profilNoms);
         if (profils.isEmpty()) {
             throw new RuntimeException("Aucun profil valide fourni");
+        }
+
+        // Récupère le user connecté
+        String matricule = jwt.getClaim("preferred_username");
+        User currentUser = userRepository.findByMatricule(matricule)
+                .orElseThrow(() -> new RuntimeException("Utilisateur connecté introuvable"));
+
+        boolean isAdmin = currentUser.getProfils().stream()
+                .anyMatch(p -> p.getRole().equalsIgnoreCase("ADMIN"));
+        boolean isChefAgence = currentUser.getProfils().stream()
+                .anyMatch(p -> p.getRole().equalsIgnoreCase("CHEFAGENCE"));
+
+        // ADMIN → peut choisir l’agence envoyée
+        if (isAdmin) {
+            if (user.getAgence() == null) {
+                throw new RuntimeException("L'agence est obligatoire pour créer un utilisateur");
+            }
+        }
+        // CHEF_AGENCE → on force son agence
+        else if (isChefAgence) {
+            user.setAgence(currentUser.getAgence());
+        }
+        // Sinon → pas autorisé
+        else {
+            throw new RuntimeException("Vous n’avez pas le droit de créer des utilisateurs");
         }
 
         String rawPassword = user.getPassword();
         user.setPassword(passwordEncoder.encode(rawPassword));
         user.setProfils(profils);
 
-        // Création dans Keycloak (sans assignation de rôles)
         keycloakService.createUserWithProfils(
                 user.getMatricule(),
                 user.getEmail(),
@@ -52,6 +80,7 @@ public class UserService {
 
         return userRepository.save(user);
     }
+
     public String encodePassword(String rawPassword) {
         return passwordEncoder.encode(rawPassword);
     }

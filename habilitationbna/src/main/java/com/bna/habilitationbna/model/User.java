@@ -29,7 +29,6 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Pattern(regexp = "^03\\d{18}$", message = "Le matricule doit commencer par 03 et contenir exactement 20 chiffres")
     @Column(unique = true, nullable = false, length = 20)
     private String matricule;
 

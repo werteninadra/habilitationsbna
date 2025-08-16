@@ -1,8 +1,10 @@
 package com.bna.habilitationbna.controller;
 
 import com.bna.habilitationbna.KeycloakAdminClientService;
+import com.bna.habilitationbna.model.Agence;
 import com.bna.habilitationbna.model.Profil;
 import com.bna.habilitationbna.model.User;
+import com.bna.habilitationbna.repo.AgenceRepository;
 import com.bna.habilitationbna.repo.ProfilRepository;
 import com.bna.habilitationbna.repo.UserRepository;
 import com.bna.habilitationbna.service.ProfilService;
@@ -82,16 +84,17 @@ public class AuthController {
     private final UserRepository userRepository;
     private final ProfilService ps;
     private final ProfilRepository profilRepository;
-
+    private final AgenceRepository agenceRepository;
     public AuthController(KeycloakAdminClientService keycloakService,
                           UserService userService,
                           UserRepository userRepository,
-                          ProfilService ps, ProfilRepository profilRepository) {
+                          ProfilService ps, ProfilRepository profilRepository,AgenceRepository agenceRepository) {
         this.keycloakService = keycloakService;
         this.userService = userService;
         this.userRepository = userRepository;
         this.ps = ps;
         this.profilRepository = profilRepository;
+        this.agenceRepository=agenceRepository;
     }
 
     @PostMapping("/register")
@@ -103,6 +106,8 @@ public class AuthController {
             String nom = (String) payload.get("nom");
             String prenom = (String) payload.get("prenom");
             String telephone = (String) payload.get("telephone");
+
+            Long agenceId = payload.get("agenceId") != null ? Long.valueOf(payload.get("agenceId").toString()) : null;
 
             @SuppressWarnings("unchecked")
             Set<String> profilNoms = new HashSet<>((Collection<String>) payload.get("profils"));
@@ -120,7 +125,14 @@ public class AuthController {
                 return ResponseEntity.badRequest().body("❌ Aucun profil valide trouvé");
             }
 
-            // Création utilisateur dans Keycloak (sans rôles)
+            // 🔹 Vérifier agence
+            Agence agence = null;
+            if (agenceId != null) {
+                agence = agenceRepository.findById(agenceId)
+                        .orElseThrow(() -> new RuntimeException("Agence non trouvée"));
+            }
+
+            // Création utilisateur dans Keycloak
             keycloakService.createUserWithProfils(matricule, email, password, profils);
 
             // Sauvegarde dans la base locale
@@ -132,7 +144,8 @@ public class AuthController {
             user.setPrenom(prenom);
             user.setTelephone(telephone);
             user.setProfils(profils);
-            user.setActive(true); // Add this line
+            user.setActive(true);
+            user.setAgence(agence); // 🔹 Association agence
 
             User savedUser = userRepository.save(user);
 
@@ -145,6 +158,7 @@ public class AuthController {
         }
     }
 
+
     //@GetMapping("/users-with-details")
     //public ResponseEntity<List<User>> getAllUsersWithDetails() {
        // List<User> users = userRepository.findAll();
@@ -154,51 +168,48 @@ public class AuthController {
     @PutMapping("/update/{matricule}")
     public ResponseEntity<?> updateUserEverywhere(
             @PathVariable String matricule,
-            @RequestBody UserUpdateRequest request) {
+            @RequestBody Map<String, Object> payload) {
 
         try {
-            // 1. Vérifier que l'utilisateur existe
             User existingUser = userRepository.findByMatricule(matricule)
                     .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
 
-            // 2. Préparer les profils
-            Set<Profil> profils = request.getProfils() != null ?
-                    ps.findByNoms(request.getProfils()) :
-                    existingUser.getProfils();
+            // Mise à jour des champs simples
+            if(payload.get("email") != null) existingUser.setEmail((String) payload.get("email"));
+            if(payload.get("nom") != null) existingUser.setNom((String) payload.get("nom"));
+            if(payload.get("prenom") != null) existingUser.setPrenom((String) payload.get("prenom"));
+            if(payload.get("telephone") != null) existingUser.setTelephone((String) payload.get("telephone"));
 
-            // 3. Mettre à jour Keycloak
-            try {
-                keycloakService.updateUserAndRoles(
-                        matricule,
-                        request.getEmail() != null ? request.getEmail() : existingUser.getEmail(),
-                        profils
-                );
-            } catch (Exception e) {
-                logger.error("Échec Keycloak, continuation avec la base locale seulement", e);
-                // Vous pouvez choisir de continuer ou non
+            // Profils
+            if(payload.get("profils") != null) {
+                @SuppressWarnings("unchecked")
+                Set<String> profilNoms = new HashSet<>((Collection<String>) payload.get("profils"));
+                Set<Profil> profils = profilRepository.findByNomIn(profilNoms);
+                existingUser.setProfils(profils);
             }
 
-            // 4. Mettre à jour la base locale
-            if (request.getEmail() != null) existingUser.setEmail(request.getEmail());
-            if (request.getNom() != null) existingUser.setNom(request.getNom());
-            if (request.getPrenom() != null) existingUser.setPrenom(request.getPrenom());
-            if (request.getTelephone() != null) existingUser.setTelephone(request.getTelephone());
-            if (profils != null) existingUser.setProfils(profils);
+            // Agence
+            if(payload.get("agenceId") != null) {
+                Long agenceId = Long.valueOf(payload.get("agenceId").toString());
+                Agence agence = agenceRepository.findById(agenceId)
+                        .orElseThrow(() -> new RuntimeException("Agence non trouvée"));
+                existingUser.setAgence(agence);
+            }
 
             User savedUser = userRepository.save(existingUser);
 
             return ResponseEntity.ok(savedUser);
 
         } catch (Exception e) {
-            logger.error("Erreur lors de la mise à jour", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Map.of(
                             "error", "Erreur lors de la mise à jour",
-                            "message", e.getMessage(),
-                            "timestamp", Instant.now()
+                            "message", e.getMessage()
                     ));
         }
     }
+
+
     @GetMapping("/users-with-details")
     public ResponseEntity<List<Map<String, Object>>> getAllUsersWithDetails(@AuthenticationPrincipal Jwt jwt) {
         if (jwt == null) {

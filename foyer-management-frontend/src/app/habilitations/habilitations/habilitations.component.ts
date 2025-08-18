@@ -42,8 +42,7 @@ export class HabilitationsComponent implements OnInit {
         private keycloakService: KeycloakService
     
   ) {}
-  //zkkzk
-
+  //zkkz
   ngOnInit(): void {
     this.loadCurrentUser();
     this.loadUsers();

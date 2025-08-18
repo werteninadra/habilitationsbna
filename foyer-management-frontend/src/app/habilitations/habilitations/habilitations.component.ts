@@ -170,7 +170,7 @@ private navigateToLogin() {
     });
   }
 
-  // Pagination
+  // Paginati
   get paginatedUsers(): any[] {
     const start = (this.currentPage - 1) * this.itemsPerPage;
     const end = start + this.itemsPerPage;

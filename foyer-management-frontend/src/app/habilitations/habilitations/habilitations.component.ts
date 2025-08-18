@@ -43,7 +43,7 @@ export class HabilitationsComponent implements OnInit {
     
   ) {}
   //zkkzk
-//enej//zjjz
+
   ngOnInit(): void {
     this.loadCurrentUser();
     this.loadUsers();

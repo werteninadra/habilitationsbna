@@ -27,7 +27,7 @@ export class HabilitationsComponent implements OnInit {
     blocked: false
   };
   
-  // Tri
+  // Tr
   sortField: string = 'matricule';
   sortDirection: 'asc' | 'desc' = 'asc';
   

@@ -235,6 +235,11 @@ public class AuthController {
                 .anyMatch(p -> p.getRole().equalsIgnoreCase("CHEFAGENCE"))) {
             users = userRepository.findByAgenceId(currentUser.getAgence().getId());
         }
+        // SIMPLEAGENT → seulement lui-même
+        else if (currentUser.getProfils().stream()
+                .anyMatch(p -> p.getRole().equalsIgnoreCase("SIMPLEAGENT"))) {
+            users = Collections.singletonList(currentUser);
+        }
         // Autres rôles → rien
         else {
             users = Collections.emptyList();

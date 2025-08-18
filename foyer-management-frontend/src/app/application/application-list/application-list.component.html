@@ -6,9 +6,10 @@
 
   <div *ngIf="isLoading" class="loading">Chargement...</div>
   <div *ngIf="error" class="error">{{ error }}</div>
+                <div *ngIf="authService.hasRole('ADMIN')">
 
   <button class="add-btn" [routerLink]="['/applications/new']">+ Ajouter une Application</button>
-
+                </div>
   <div class="card-grid">
     <div *ngFor="let app of filteredApplications" class="card">
       <h3>{{ app.code }}</h3>

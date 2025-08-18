@@ -780,7 +780,7 @@
     <i>👥</i>
     <span>Gestion appliction</span>
 </div></div>
-<div *ngIf="authService.hasRole('chefagence')|| authService.hasRole('ADMIN')">
+<div *ngIf="authService.hasRole('chefagence')">
 
 <div class="menu-item" data-content="profile-management" routerLink="/agences" style="cursor:pointer;">
     <i>👥</i>
@@ -859,7 +859,7 @@
       </div>
     </div>
     </div>
-<div *ngIf="authService.hasRole('ADMIN') || authService.hasRole('chefagence')">
+<div *ngIf="authService.hasRole('ADMIN') || authService.hasRole('chefagence') || authService.hasRole('ADMIN')|| authService.hasRole('SIMPLEAGENT')">
     <table class="table">
       <thead>
         <tr>
@@ -913,9 +913,12 @@
                 </span>
             </td>
           <td>
+                            <div *ngIf="authService.hasRole('ADMIN')">
+
             <button class="btn btn-primary" (click)="goToEditUser(user.matricule)">
               Modifier
             </button>
+</div>
             <div *ngIf="authService.hasRole('Admin') ">
 
             <button class="btn btn-secondary" 
@@ -941,7 +944,6 @@
       </tbody>
     </table>
       </div>
-      <div *ngIf="authService.hasRole('simpleagent') ">
 
 <ng-template #nonAdminContent>
   <div class="bank-dashboard p-4">
@@ -1091,7 +1093,6 @@
       </select>
     </div>
   </div>
-</div>
             
             <!-- Other content sections (hidden) -->
             <div id="profile-management" class="content-section hidden">

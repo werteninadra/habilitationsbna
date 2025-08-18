@@ -12,28 +12,20 @@
   <table class="table table-striped table-bordered" *ngIf="filteredRessources.length > 0; else noData">
     <thead>
       <tr>
+         <th>Application</th>
+        <th>Profils Assignés</th>
         <th>Code</th>
         <th>Libellé</th>
         <th>Type</th>
         <th>Statut</th>
          <th>Temps estimé (jours)</th> 
-        <th>Application</th>
-        <th>Profils Assignés</th>
+   
         <th>Actions</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let ressource of filteredRessources">
-        <td>{{ ressource.code }}</td>
-        <td>{{ ressource.libelle }}</td>
-        <td>{{ ressource.typeRessource }}</td>
-        <td>
-          <span [class.badge-success]="ressource.statut" [class.badge-danger]="!ressource.statut" class="badge">
-            {{ ressource.statut ? 'Actif' : 'Inactif' }}
-          </span>
-        </td>
-              <td>{{ ressource.tempsEstimeJours ?? '-' }}</td> <!-- Affichage temps estimé -->
-
+        
         <td>
           <span *ngIf="ressource.application">
             {{ ressource.application.code }} - {{ ressource.application.libelle }}
@@ -50,6 +42,16 @@
             <span class="text-muted">Aucun profil</span>
           </div>
         </td>
+        <td>{{ ressource.code }}</td>
+        <td>{{ ressource.libelle }}</td>
+        <td>{{ ressource.typeRessource }}</td>
+        <td>
+          <span [class.badge-success]="ressource.statut" [class.badge-danger]="!ressource.statut" class="badge">
+            {{ ressource.statut ? 'Actif' : 'Inactif' }}
+          </span>
+        </td>
+              <td>{{ ressource.tempsEstimeJours ?? '-' }}</td> <!-- Affichage temps estimé -->
+
         <td>
           <button [routerLink]="['/ressources', ressource.code, 'edit']" class="btn btn-sm btn-primary">
             <i class="bi bi-pencil"></i> Modifier

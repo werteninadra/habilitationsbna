@@ -12,44 +12,50 @@ pipeline {
                     url: 'https://github.com/nadra-wertani/habilitationsbna.git'
             }
         }
-        stage('Debug') {
-    steps {
-        sh 'ls -al'
-    }
-}
 
+        stage('Debug') {
+            steps {
+                sh 'ls -al'
+            }
+        }
 
         stage('Build') {
             steps {
-                sh 'mvn clean compile'
+                dir('habilitationbna') {
+                    sh 'mvn clean compile'
+                }
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh 'mvn test'
+                dir('habilitationbna') {
+                    sh 'mvn test'
+                }
             }
         }
 
         stage('JaCoCo Report Mockito') {
             steps {
-                sh 'mvn jacoco:report'
+                dir('habilitationbna') {
+                    sh 'mvn jacoco:report'
+                }
             }
         }
 
         stage('SonarQube Analysis') {
             steps {
-                // ⚠️ Ici tu dois avoir configuré SonarQube dans Jenkins globalement
-                // Si tu veux utiliser un token, ajoute -Dsonar.login=TOKEN directement dans la commande
-                sh 'mvn sonar:sonar'
+                dir('habilitationbna') {
+                    sh 'mvn sonar:sonar'
+                }
             }
         }
 
         stage('MVN Nexus') {
             steps {
-                // Si pas de credentials Nexus, ça va échouer si repo nécessite auth
-                // Sinon tu peux le laisser
-                sh 'mvn deploy -Dmaven.test.skip=true'
+                dir('habilitationbna') {
+                    sh 'mvn deploy -Dmaven.test.skip=true'
+                }
             }
         }
 

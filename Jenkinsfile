@@ -8,8 +8,7 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git credentialsId: 'partiedev',
-                    branch: 'main',  // adapte si ce n'est pas main
+                git branch: 'main',
                     url: 'https://github.com/nadra-wertani/habilitationsbna.git'
             }
         }
@@ -34,14 +33,16 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')]) {
-                    sh 'mvn sonar:sonar -Dsonar.login=$SONAR_TOKEN'
-                }
+                // ⚠️ Ici tu dois avoir configuré SonarQube dans Jenkins globalement
+                // Si tu veux utiliser un token, ajoute -Dsonar.login=TOKEN directement dans la commande
+                sh 'mvn sonar:sonar'
             }
         }
 
         stage('MVN Nexus') {
             steps {
+                // Si pas de credentials Nexus, ça va échouer si repo nécessite auth
+                // Sinon tu peux le laisser
                 sh 'mvn deploy -Dmaven.test.skip=true'
             }
         }

@@ -12,6 +12,12 @@ pipeline {
                     url: 'https://github.com/nadra-wertani/habilitationsbna.git'
             }
         }
+        stage('Debug') {
+    steps {
+        sh 'ls -al'
+    }
+}
+
 
         stage('Build') {
             steps {

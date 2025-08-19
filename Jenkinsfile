@@ -16,10 +16,12 @@ pipeline {
         stage('Debug') {
             steps {
                 sh 'ls -al'
+                sh 'ls -al habilitationbna || true'
+                sh 'ls -al front || true'
             }
         }
 
-        stage('Build') {
+        stage('Build Backend') {
             steps {
                 dir('habilitationbna') {
                     sh 'mvn clean compile'
@@ -27,7 +29,7 @@ pipeline {
             }
         }
 
-        stage('Run Tests') {
+        stage('Run Tests Backend') {
             steps {
                 dir('habilitationbna') {
                     sh 'mvn test'
@@ -35,7 +37,7 @@ pipeline {
             }
         }
 
-        stage('JaCoCo Report Mockito') {
+        stage('JaCoCo Report') {
             steps {
                 dir('habilitationbna') {
                     sh 'mvn jacoco:report'
@@ -44,14 +46,18 @@ pipeline {
         }
 
         stage('SonarQube Analysis') {
+            environment {
+                SONAR_HOST_URL = 'http://localhost:9000'
+                SONAR_LOGIN = credentials('sonar-token') // 🔑 Crée un secret Jenkins
+            }
             steps {
                 dir('habilitationbna') {
-                    sh 'mvn sonar:sonar'
+                    sh 'mvn sonar:sonar -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_LOGIN'
                 }
             }
         }
 
-        stage('MVN Nexus') {
+        stage('Deploy to Nexus') {
             steps {
                 dir('habilitationbna') {
                     sh 'mvn deploy -Dmaven.test.skip=true'
@@ -59,7 +65,7 @@ pipeline {
             }
         }
 
-        stage('Grafana') {
+        stage('Push Metrics to Prometheus/Grafana') {
             steps {
                 script {
                     def status = currentBuild.currentResult == 'SUCCESS' ? 1 : 0

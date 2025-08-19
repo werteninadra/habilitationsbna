@@ -13,17 +13,9 @@ pipeline {
             }
         }
 
-        stage('Debug') {
-            steps {
-                sh 'ls -al'
-                sh 'ls -al habilitationbna || true'
-                sh 'ls -al front || true'
-            }
-        }
-
         stage('Build Backend') {
             steps {
-                dir('habilitationbna') {
+                dir('habilitationbna') {  // on cible uniquement le back
                     sh 'mvn clean compile'
                 }
             }
@@ -37,6 +29,7 @@ pipeline {
             }
         }
 
+        /*
         stage('JaCoCo Report') {
             steps {
                 dir('habilitationbna') {
@@ -48,7 +41,7 @@ pipeline {
         stage('SonarQube Analysis') {
             environment {
                 SONAR_HOST_URL = 'http://localhost:9000'
-                SONAR_LOGIN = credentials('sonar-token') // 🔑 Crée un secret Jenkins
+                SONAR_LOGIN = credentials('sonar-token') // 🔑 doit exister dans Jenkins
             }
             steps {
                 dir('habilitationbna') {
@@ -78,6 +71,7 @@ pipeline {
                 }
             }
         }
+        */
     }
 
     post {

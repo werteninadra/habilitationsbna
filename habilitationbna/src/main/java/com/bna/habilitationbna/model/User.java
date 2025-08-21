@@ -1,9 +1,7 @@
 package com.bna.habilitationbna.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
@@ -11,10 +9,8 @@ import org.hibernate.annotations.ColumnDefault;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Entity
-@Table(name = "users")
 @Getter
 @Setter
 public class User {
@@ -29,7 +25,7 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(unique = true, nullable = false, length = 20)
+    @Column(unique = true, nullable = false)
     private String matricule;
 
     @Column(nullable = false)
@@ -41,21 +37,21 @@ public class User {
     @Column(nullable = false)
     private String telephone;
 
-    @Column(name = "is_active", nullable = false)
+    @Column( nullable = false)
     @ColumnDefault("true")
     private Boolean active = true;
 
-    @Column(name = "is_blocked", nullable = false)
+    @Column( nullable = false)
     @ColumnDefault("false")
     private Boolean blocked = false;
 
-    @Column(name = "profile_image_path")
+    @Column()
     private String profileImagePath;
 
-    @Column(name = "last_login")
+    @Column()
     private Instant lastLogin;
 
-    @Column(name = "is_logged_in", nullable = false)
+    @Column( nullable = false)
     @ColumnDefault("false")
     private Boolean loggedIn = false;
     //@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -63,9 +59,8 @@ public class User {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "user_profils",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "profil_nom", referencedColumnName = "nom")
+            joinColumns = @JoinColumn,
+            inverseJoinColumns = @JoinColumn
     )
     private Set<Profil> profils = new HashSet<>();
 
@@ -81,17 +76,11 @@ public class User {
         this.lastLogin = Instant.now();
     }
 
-    public void deactivate() {
-        this.active = false;
-    }
 
-    public Set<String> getRoles() {
-        return this.profils.stream()
-                .map(Profil::getRole)
-                .collect(Collectors.toSet());
-    }
+
+
     @ManyToOne
-    @JoinColumn(name = "agence_id")
+    @JoinColumn
     @JsonBackReference
     private Agence agence;
 

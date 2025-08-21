@@ -2,9 +2,10 @@ package com.bna.habilitationbna.controller;
 
 import com.bna.habilitationbna.model.Profil;
 import com.bna.habilitationbna.service.ProfilService;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -46,7 +47,8 @@ public class ProfilController {
         Profil profil = profilService.createProfil(request.getNom(), request.getDescription());
         return ResponseEntity.ok(profil);
     }
-
+@Getter
+@Setter
     // Classe interne pour la requête de création
     public static class ProfilCreationRequest {
         private String nom;
@@ -57,16 +59,12 @@ public class ProfilController {
             return nom;
         }
 
-        public void setNom(String nom) {
-            this.nom = nom;
-        }
+
 
         public String getDescription() {
             return description;
         }
 
-        public void setDescription(String description) {
-            this.description = description;
-        }
+
     }
 }

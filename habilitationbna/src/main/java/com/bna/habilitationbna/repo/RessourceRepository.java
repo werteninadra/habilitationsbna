@@ -7,6 +7,4 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface RessourceRepository extends JpaRepository<Ressource, String> {
-    @Query("SELECT DISTINCT r FROM Ressource r LEFT JOIN FETCH r.profils")
-    List<Ressource> findAllWithProfils();
 }

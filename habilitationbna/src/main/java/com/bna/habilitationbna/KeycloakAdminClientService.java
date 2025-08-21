@@ -19,7 +19,13 @@ import java.util.stream.Collectors;
 
 @Service
 public class KeycloakAdminClientService {
+
     private static final Logger logger = LoggerFactory.getLogger(KeycloakAdminClientService.class);
+
+    // Constantes pour éviter la duplication
+    private static final String ENABLED = "enabled";
+    private static final String ADMIN_REALMS = "/admin/realms/";
+    private static final String USERS = "/users/";
 
     @Value("${keycloak.auth-server-url}")
     private String serverUrl;
@@ -34,9 +40,16 @@ public class KeycloakAdminClientService {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
+    // ------------------- UTILISATEURS -------------------
+
     public void createUserWithProfils(String username, String email, String password, Set<Profil> profils) {
         String adminToken = fetchAdminToken();
         createUserInKeycloak(adminToken, username, email, password);
+
+        if (profils != null && !profils.isEmpty()) {
+            String userId = getUserIdByUsername(adminToken, username);
+            updateUserRoles(adminToken, userId, profils);
+        }
     }
 
     public void updateUserAndRoles(String username, String newEmail, Set<Profil> profils) {
@@ -46,7 +59,6 @@ public class KeycloakAdminClientService {
         if (newEmail != null) {
             updateUserInKeycloak(username, newEmail);
         }
-
         if (profils != null && !profils.isEmpty()) {
             updateUserRoles(adminToken, userId, profils);
         }
@@ -59,14 +71,12 @@ public class KeycloakAdminClientService {
         Map<String, Object> updatedUser = new HashMap<>();
         updatedUser.put("email", newEmail);
         updatedUser.put("username", username);
-        updatedUser.put("enabled", true);
+        updatedUser.put(ENABLED, true);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(adminToken);
-        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpHeaders headers = getAuthHeaders(adminToken);
 
         restTemplate.exchange(
-                serverUrl + "/admin/realms/" + targetRealm + "/users/" + userId,
+                serverUrl + ADMIN_REALMS + targetRealm + USERS + userId,
                 HttpMethod.PUT,
                 new HttpEntity<>(updatedUser, headers),
                 Void.class
@@ -75,95 +85,34 @@ public class KeycloakAdminClientService {
 
     public List<Map<String, Object>> getAllUsersFromKeycloak() {
         String adminToken = fetchAdminToken();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(adminToken);
+        HttpHeaders headers = getAuthHeaders(adminToken);
         headers.setAccept(List.of(MediaType.APPLICATION_JSON));
 
         ResponseEntity<List<Map<String, Object>>> response = restTemplate.exchange(
-                serverUrl + "/admin/realms/" + targetRealm + "/users",
+                serverUrl + ADMIN_REALMS + targetRealm + USERS,
                 HttpMethod.GET,
                 new HttpEntity<>(headers),
                 new ParameterizedTypeReference<>() {}
         );
 
-        return response.getBody();
+        return response.getBody() != null ? response.getBody() : Collections.emptyList();
     }
 
     public void deleteUserFromKeycloak(String username) {
         String adminToken = fetchAdminToken();
         String userId = getUserIdByUsername(adminToken, username);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(adminToken);
+        HttpHeaders headers = getAuthHeaders(adminToken);
 
         restTemplate.exchange(
-                serverUrl + "/admin/realms/" + targetRealm + "/users/" + userId,
+                serverUrl + ADMIN_REALMS + targetRealm + USERS + userId,
                 HttpMethod.DELETE,
                 new HttpEntity<>(headers),
                 Void.class
         );
     }
 
-    private String fetchAdminToken() {
-        String url = serverUrl + "/realms/" + adminRealm + "/protocol/openid-connect/token";
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-
-        MultiValueMap<String, String> form = new LinkedMultiValueMap<>();
-        form.add("grant_type", "client_credentials");
-        form.add("client_id", clientId);
-        form.add("client_secret", clientSecret);
-
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(form, headers);
-        Map<String, Object> response = restTemplate.postForObject(url, request, Map.class);
-
-        return (String) response.get("access_token");
-    }
-
-    private void createUserInKeycloak(String adminToken, String username, String email, String password) {
-        Map<String, Object> userMap = new HashMap<>();
-        userMap.put("username", username);
-        userMap.put("email", email);
-        userMap.put("enabled", true);
-        userMap.put("credentials", List.of(
-                Map.of(
-                        "type", "password",
-                        "value", password,
-                        "temporary", false
-                )
-        ));
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(adminToken);
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
-        restTemplate.exchange(
-                serverUrl + "/admin/realms/" + targetRealm + "/users",
-                HttpMethod.POST,
-                new HttpEntity<>(userMap, headers),
-                Void.class
-        );
-    }
-
-    private String getUserIdByUsername(String adminToken, String username) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(adminToken);
-
-        ResponseEntity<List<Map<String, Object>>> response = restTemplate.exchange(
-                serverUrl + "/admin/realms/" + targetRealm + "/users?username=" + username,
-                HttpMethod.GET,
-                new HttpEntity<>(headers),
-                new ParameterizedTypeReference<>() {}
-        );
-
-        if (response.getBody() == null || response.getBody().isEmpty()) {
-            throw new RuntimeException("Utilisateur non trouvé dans Keycloak");
-        }
-
-        return response.getBody().get(0).get("id").toString();
-    }
+    // ------------------- ROLES -------------------
 
     private void updateUserRoles(String adminToken, String userId, Set<Profil> profils) {
         try {
@@ -179,11 +128,10 @@ public class KeycloakAdminClientService {
     }
 
     private List<Map<String, Object>> getCurrentUserRoles(String adminToken, String userId) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(adminToken);
+        HttpHeaders headers = getAuthHeaders(adminToken);
 
         ResponseEntity<List<Map<String, Object>>> response = restTemplate.exchange(
-                serverUrl + "/admin/realms/" + targetRealm + "/users/" + userId + "/role-mappings/realm",
+                serverUrl + ADMIN_REALMS + targetRealm + USERS + userId + "/role-mappings/realm",
                 HttpMethod.GET,
                 new HttpEntity<>(headers),
                 new ParameterizedTypeReference<>() {}
@@ -193,13 +141,12 @@ public class KeycloakAdminClientService {
     }
 
     private void removeAllRoles(String adminToken, String userId, List<Map<String, Object>> rolesToRemove) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(adminToken);
+        HttpHeaders headers = getAuthHeaders(adminToken);
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         try {
             restTemplate.exchange(
-                    serverUrl + "/admin/realms/" + targetRealm + "/users/" + userId + "/role-mappings/realm",
+                    serverUrl + ADMIN_REALMS + targetRealm + USERS + userId + "/role-mappings/realm",
                     HttpMethod.DELETE,
                     new HttpEntity<>(rolesToRemove, headers),
                     Void.class
@@ -210,8 +157,7 @@ public class KeycloakAdminClientService {
     }
 
     private void assignRolesToUser(String adminToken, String userId, Set<Profil> profils) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(adminToken);
+        HttpHeaders headers = getAuthHeaders(adminToken);
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         List<Map<String, Object>> rolesToAdd = profils.stream()
@@ -221,7 +167,7 @@ public class KeycloakAdminClientService {
 
         if (!rolesToAdd.isEmpty()) {
             restTemplate.exchange(
-                    serverUrl + "/admin/realms/" + targetRealm + "/users/" + userId + "/role-mappings/realm",
+                    serverUrl + ADMIN_REALMS + targetRealm + USERS + userId + "/role-mappings/realm",
                     HttpMethod.POST,
                     new HttpEntity<>(rolesToAdd, headers),
                     Void.class
@@ -231,11 +177,10 @@ public class KeycloakAdminClientService {
 
     private Map<String, Object> createRoleRepresentation(String adminToken, String roleName) {
         try {
-            HttpHeaders headers = new HttpHeaders();
-            headers.setBearerAuth(adminToken);
+            HttpHeaders headers = getAuthHeaders(adminToken);
 
             ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
-                    serverUrl + "/admin/realms/" + targetRealm + "/roles/" + URLEncoder.encode(roleName, StandardCharsets.UTF_8),
+                    serverUrl + ADMIN_REALMS + targetRealm + "/roles/" + URLEncoder.encode(roleName, StandardCharsets.UTF_8),
                     HttpMethod.GET,
                     new HttpEntity<>(headers),
                     new ParameterizedTypeReference<>() {}
@@ -253,73 +198,51 @@ public class KeycloakAdminClientService {
         }
     }
 
+    // ------------------- ACTIVATION / DESACTIVATION -------------------
 
     public void disableUserInKeycloak(String username) {
-        String adminToken = fetchAdminToken();
-        String userId = getUserIdByUsername(adminToken, username);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(adminToken);
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
-        // Créer le payload pour désactiver l'utilisateur
-        Map<String, Object> userUpdate = new HashMap<>();
-        userUpdate.put("enabled", false);
-
-        try {
-            restTemplate.exchange(
-                    serverUrl + "/admin/realms/" + targetRealm + "/users/" + userId,
-                    HttpMethod.PUT,
-                    new HttpEntity<>(userUpdate, headers),
-                    Void.class
-            );
-            logger.info("Utilisateur {} désactivé dans Keycloak avec succès", username);
-        } catch (Exception e) {
-            logger.error("Erreur lors de la désactivation de l'utilisateur dans Keycloak", e);
-            throw new RuntimeException("Erreur lors de la désactivation Keycloak", e);
-        }
+        updateUserEnabledFlag(username, false);
     }
 
     public void enableUserInKeycloak(String username) {
+        updateUserEnabledFlag(username, true);
+    }
+
+    private void updateUserEnabledFlag(String username, boolean enabled) {
         String adminToken = fetchAdminToken();
         String userId = getUserIdByUsername(adminToken, username);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(adminToken);
+        HttpHeaders headers = getAuthHeaders(adminToken);
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        // Créer le payload pour activer l'utilisateur
         Map<String, Object> userUpdate = new HashMap<>();
-        userUpdate.put("enabled", true);
+        userUpdate.put(ENABLED, enabled);
 
         try {
             restTemplate.exchange(
-                    serverUrl + "/admin/realms/" + targetRealm + "/users/" + userId,
+                    serverUrl + ADMIN_REALMS + targetRealm + USERS + userId,
                     HttpMethod.PUT,
                     new HttpEntity<>(userUpdate, headers),
                     Void.class
             );
-            logger.info("Utilisateur {} activé dans Keycloak avec succès", username);
+            logger.info("Utilisateur {} {} dans Keycloak avec succès", username, enabled ? "activé" : "désactivé");
         } catch (Exception e) {
-            logger.error("Erreur lors de l'activation de l'utilisateur dans Keycloak", e);
-            throw new RuntimeException("Erreur lors de l'activation Keycloak", e);
+            logger.error("Erreur lors de la mise à jour de l'état de l'utilisateur dans Keycloak", e);
+            throw new RuntimeException("Erreur lors de la mise à jour Keycloak", e);
         }
     }
 
+    // ------------------- MDP -------------------
+
     public void sendPasswordResetEmail(String email) {
         String adminToken = fetchAdminToken();
-
-        // Trouver l'utilisateur par email
         String userId = getUserIdByEmail(adminToken, email);
 
-        // Envoyer l'email de réinitialisation
-        HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(adminToken);
+        HttpHeaders headers = getAuthHeaders(adminToken);
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        String resetPasswordUrl = serverUrl + "/admin/realms/" + targetRealm + "/users/" + userId + "/execute-actions-email";
+        String resetPasswordUrl = serverUrl + ADMIN_REALMS + targetRealm + USERS + userId + "/execute-actions-email";
 
-        // Actions à exécuter - dans ce cas, mettre à jour le mot de passe
         List<String> actions = Collections.singletonList("UPDATE_PASSWORD");
 
         restTemplate.exchange(
@@ -331,9 +254,6 @@ public class KeycloakAdminClientService {
     }
 
     public void resetPasswordWithToken(String token, String newPassword) {
-        // Cette méthode nécessite une configuration spéciale dans Keycloak
-        // Le client doit être configuré pour autoriser les requêtes directes avec token
-
         String url = serverUrl + "/realms/" + targetRealm + "/protocol/openid-connect/token";
 
         HttpHeaders headers = new HttpHeaders();
@@ -350,12 +270,70 @@ public class KeycloakAdminClientService {
         restTemplate.postForObject(url, request, Map.class);
     }
 
-    private String getUserIdByEmail(String adminToken, String email) {
+    // ------------------- HELPERS -------------------
+
+    private String fetchAdminToken() {
+        String url = serverUrl + "/realms/" + adminRealm + "/protocol/openid-connect/token";
+
         HttpHeaders headers = new HttpHeaders();
-        headers.setBearerAuth(adminToken);
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+        MultiValueMap<String, String> form = new LinkedMultiValueMap<>();
+        form.add("grant_type", "client_credentials");
+        form.add("client_id", clientId);
+        form.add("client_secret", clientSecret);
+
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(form, headers);
+        Map<String, Object> response = restTemplate.postForObject(url, request, Map.class);
+
+        if (response == null || !response.containsKey("access_token")) {
+            throw new RuntimeException("Impossible de récupérer le token admin");
+        }
+        return (String) response.get("access_token");
+    }
+
+    private void createUserInKeycloak(String adminToken, String username, String email, String password) {
+        Map<String, Object> userMap = new HashMap<>();
+        userMap.put("username", username);
+        userMap.put("email", email);
+        userMap.put(ENABLED, true);
+        userMap.put("credentials", List.of(
+                Map.of("type", "password", "value", password, "temporary", false)
+        ));
+
+        HttpHeaders headers = getAuthHeaders(adminToken);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        restTemplate.exchange(
+                serverUrl + ADMIN_REALMS + targetRealm + USERS,
+                HttpMethod.POST,
+                new HttpEntity<>(userMap, headers),
+                Void.class
+        );
+    }
+
+    private String getUserIdByUsername(String adminToken, String username) {
+        HttpHeaders headers = getAuthHeaders(adminToken);
+
+        ResponseEntity<List<Map<String, Object>>> response = restTemplate.exchange(
+                serverUrl + ADMIN_REALMS + targetRealm + USERS + "?username=" + username,
+                HttpMethod.GET,
+                new HttpEntity<>(headers),
+                new ParameterizedTypeReference<>() {}
+        );
+
+        List<Map<String, Object>> body = response.getBody();
+        if (body == null || body.isEmpty() || body.get(0).get("id") == null) {
+            throw new RuntimeException("Utilisateur non trouvé dans Keycloak");
+        }
+        return body.get(0).get("id").toString();
+    }
+
+    private String getUserIdByEmail(String adminToken, String email) {
+        HttpHeaders headers = getAuthHeaders(adminToken);
 
         String encodedEmail = URLEncoder.encode(email, StandardCharsets.UTF_8);
-        String url = serverUrl + "/admin/realms/" + targetRealm + "/users?email=" + encodedEmail;
+        String url = serverUrl + ADMIN_REALMS + targetRealm + USERS + "?email=" + encodedEmail;
 
         ResponseEntity<List<Map<String, Object>>> response = restTemplate.exchange(
                 url,
@@ -367,7 +345,12 @@ public class KeycloakAdminClientService {
         if (response.getBody() == null || response.getBody().isEmpty()) {
             throw new RuntimeException("Aucun utilisateur trouvé avec cet email");
         }
-
         return response.getBody().get(0).get("id").toString();
+    }
+
+    private HttpHeaders getAuthHeaders(String token) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(token);
+        return headers;
     }
 }

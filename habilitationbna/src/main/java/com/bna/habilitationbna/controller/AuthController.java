@@ -7,7 +7,6 @@ import com.bna.habilitationbna.model.User;
 import com.bna.habilitationbna.repo.AgenceRepository;
 import com.bna.habilitationbna.repo.ProfilRepository;
 import com.bna.habilitationbna.repo.UserRepository;
-import com.bna.habilitationbna.service.ProfilService;
 import com.bna.habilitationbna.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
@@ -15,7 +14,6 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.util.StringUtils;
@@ -25,14 +23,12 @@ import org.springframework.core.io.Resource;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -43,59 +39,27 @@ import java.util.stream.Collectors;
 //@CrossOrigin(origins = "*")
 public class AuthController {
 
-    /*private final KeycloakAdminClientService keycloakService;
-    private final UserService userService;
-    private final UserRepository userRepository;
 
-    public AuthController(KeycloakAdminClientService keycloakService,
-                          UserService userService,
-                          UserRepository userRepository) {
-        this.keycloakService = keycloakService;
-        this.userService = userService;
-        this.userRepository = userRepository;
-    }*/
-
-    /*@PostMapping("/register")
-    public ResponseEntity<?> register(@Valid @RequestBody User user) {
-        // Vérification si le matricule existe déjà
-        if (userRepository.findByMatricule(user.getMatricule()).isPresent()) {
-            return ResponseEntity.badRequest().body("Matricule déjà utilisé");
-        }
-
-        // 1. Création dans Keycloak
-        keycloakService.createUserInKeycloak(
-                user.getMatricule(),
-                user.getEmail(),
-                user.getPassword()
-        );
-
-        // 2. Hashage du mot de passe et sauvegarde en base locale
-        user.setPassword(userService.encodePassword(user.getPassword()));
-        user.setRole("USER"); // Rôle par défaut
-
-        User savedUser = userRepository.save(user);
-
-        return ResponseEntity.ok(savedUser);
-    }*/
-    private static final Logger logger = LoggerFactory.getLogger(KeycloakAdminClientService.class);
+    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
     private final KeycloakAdminClientService keycloakService;
     private final UserService userService;
     private final UserRepository userRepository;
-    private final ProfilService ps;
     private final ProfilRepository profilRepository;
     private final AgenceRepository agenceRepository;
+
     public AuthController(KeycloakAdminClientService keycloakService,
                           UserService userService,
                           UserRepository userRepository,
-                          ProfilService ps, ProfilRepository profilRepository,AgenceRepository agenceRepository) {
+                          ProfilRepository profilRepository,
+                          AgenceRepository agenceRepository) {
         this.keycloakService = keycloakService;
         this.userService = userService;
         this.userRepository = userRepository;
-        this.ps = ps;
         this.profilRepository = profilRepository;
-        this.agenceRepository=agenceRepository;
+        this.agenceRepository = agenceRepository;
     }
+
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody Map<String, Object> payload) {

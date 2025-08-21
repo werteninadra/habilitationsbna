@@ -19,6 +19,5 @@ public interface AgenceRepository extends JpaRepository<Agence, Long> {
     @Query("SELECT d FROM DetailsAgence d WHERE d.agence.id = :agenceId")
     Optional<DetailsAgence> findDetailsByAgenceId(@Param("agenceId") Long agenceId);
    // @Query("SELECT d FROM DetailsAgence d WHERE d.agence.id = :agenceId")
-   // DetailsAgence findDetailsByAgenceId(@Param("agenceId") Long agenceId);
 
 }

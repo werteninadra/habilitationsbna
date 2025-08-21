@@ -1,5 +1,4 @@
 package com.bna.habilitationbna.model;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,8 +18,4 @@ public class PredictionRequest {
     private int jours;
 
     // getters & setters
-    public List<Map<String, Object>> getHistorique() { return historique; }
-    public void setHistorique(List<Map<String, Object>> historique) { this.historique = historique; }
-    public int getJours() { return jours; }
-    public void setJours(int jours) { this.jours = jours; }
 }

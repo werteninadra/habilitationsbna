@@ -116,9 +116,7 @@ public class RessourceController {
             }
         }
     }
-    @PreAuthorize("hasAuthority('Admin')")
 
-    // Supprimer une ressource
     @DeleteMapping("/{code}")
     public ResponseEntity<Void> delete(@PathVariable String code) {
         try {

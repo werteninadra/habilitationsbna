@@ -28,7 +28,7 @@ public class Occupation {
     private String meteo;     // ex: "soleil", "pluie", "nuageux"...
 
     @ManyToOne
-    @JoinColumn(name = "agence_id", nullable = false)
+    @JoinColumn( nullable = false)
     private Agence agence;
 
     @PrePersist

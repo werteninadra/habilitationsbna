@@ -4,12 +4,10 @@ import com.bna.habilitationbna.model.*;
 import com.bna.habilitationbna.repo.AgenceRepository;
 import com.bna.habilitationbna.repo.OccupationRepository;
 import com.bna.habilitationbna.repo.UserRepository;
-import com.bna.habilitationbna.service.CustomUserDetails;
 import com.bna.habilitationbna.service.IAgenceService;
 import com.bna.habilitationbna.service.PredictionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +24,7 @@ public class AgenceController {
     private final PredictionService predictionService;
     private final OccupationRepository occupationRepository;
     private final AgenceRepository agenceRepository;
-    private final UserRepository Ur;
+    private final UserRepository userRepository;
 
     @Autowired
     public AgenceController(
@@ -34,14 +32,14 @@ public class AgenceController {
             PredictionService predictionService,
             OccupationRepository occupationRepository,
             AgenceRepository agenceRepository,
-            UserRepository ur
+            UserRepository userRepository
 
     ) {
         this.agenceService = agenceService;
         this.predictionService = predictionService;
         this.occupationRepository = occupationRepository;
         this.agenceRepository = agenceRepository;
-        this.Ur=ur;
+        this.userRepository=userRepository;
     }
     @GetMapping
     public ResponseEntity<List<Agence>> getAgences(@AuthenticationPrincipal Jwt jwt) {
@@ -52,7 +50,7 @@ public class AgenceController {
         // Claim exact à utiliser
         String matricule = jwt.getClaim("preferred_username");
 
-        User user = Ur.findByMatricule(matricule).orElse(null);
+        User user = userRepository.findByMatricule(matricule).orElse(null);
 
         if (user == null) {
             return ResponseEntity.ok(Collections.emptyList());
@@ -142,12 +140,5 @@ public class AgenceController {
         return ResponseEntity.ok(result);
     }
 
-    private List<Map<String, Object>> fetchHistoriqueFromDatabase(Long id) {
-        // TODO: Implémenter la récupération réelle
-        return List.of(
-                Map.of("date", "2025-07-01", "taux", 70.5, "nombreClients", 100),
-                Map.of("date", "2025-07-02", "taux", 72.0, "nombreClients", 110),
-                Map.of("date", "2025-07-03", "taux", 68.0, "nombreClients", 90)
-        );
-    }
+
 }

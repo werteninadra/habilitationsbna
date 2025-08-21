@@ -28,6 +28,7 @@ pipeline {
                 }
             }
         }
+
         stage('SonarQube Analysis') {
             environment {
                 SONAR_HOST_URL = 'http://localhost:9000'
@@ -45,25 +46,12 @@ pipeline {
                 }
             }
         }
-    }
 
         /*
         stage('JaCoCo Report') {
             steps {
                 dir('habilitationbna') {
                     sh 'mvn jacoco:report'
-                }
-            }
-        }
-
-        stage('SonarQube Analysis') {
-            environment {
-                SONAR_HOST_URL = 'http://localhost:9000'
-                SONAR_LOGIN = credentials('sonar-token') // 🔑 doit exister dans Jenkins
-            }
-            steps {
-                dir('habilitationbna') {
-                    sh 'mvn sonar:sonar -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_LOGIN'
                 }
             }
         }

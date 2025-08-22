@@ -11,6 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -108,6 +109,7 @@ class RessourceServiceTest {
 
         Profil p = new Profil();
         p.setNom("PROF001");
+        p.setRessources(new HashSet<>()); // ← initialisation
 
         when(ressourceRepository.findById("RES001")).thenReturn(Optional.of(r));
         when(profilRepository.findById("PROF001")).thenReturn(Optional.of(p));
@@ -118,4 +120,5 @@ class RessourceServiceTest {
         assertTrue(p.getRessources().contains(r));
         verify(profilRepository).save(p);
     }
+
 }

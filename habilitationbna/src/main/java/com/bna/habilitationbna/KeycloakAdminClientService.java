@@ -23,6 +23,8 @@ import java.util.stream.Collectors;
 public class KeycloakAdminClientService {
 
     private static final Logger logger = LoggerFactory.getLogger(KeycloakAdminClientService.class);
+    @Value("${keycloak.role-mappings-realm-path:/role-mappings/realm}")
+    private String roleMappingsRealmPath;
 
     // Constantes pour éviter la duplication
     private static final String ENABLED = "enabled";
@@ -95,7 +97,7 @@ public class KeycloakAdminClientService {
         }
     }
 
-    private static final String ROLE_MAPPINGS_REALM_PATH = "/role-mappings/realm";
+    
 
     private void updateUserRoles(String adminToken, String userId, Set<Profil> profils) {
         try {
@@ -131,7 +133,7 @@ public class KeycloakAdminClientService {
         headers.setAccept(List.of(MediaType.APPLICATION_JSON));
 
         ResponseEntity<List<Map<String, Object>>> response = restTemplate.exchange(
-                serverUrl + ADMIN_REALMS + targetRealm + USERS + userId + ROLE_MAPPINGS_REALM_PATH,
+                serverUrl + ADMIN_REALMS + targetRealm + USERS + userId +roleMappingsRealmPath,
                 HttpMethod.GET,
                 new HttpEntity<>(headers),
                 new ParameterizedTypeReference<>() {}
@@ -147,17 +149,18 @@ public class KeycloakAdminClientService {
 
         List<Map<String, Object>> rolesToAdd = profils.stream()
                 .map(profil -> createRoleRepresentation(adminToken, profil.getNom()))
-                .toList(); // Utilisation de Stream.toList() pour être immuable
+                .collect(Collectors.toUnmodifiableList()); // Immuable et compatible Java 8+
 
         if (!rolesToAdd.isEmpty()) {
             restTemplate.exchange(
-                    serverUrl + ADMIN_REALMS + targetRealm + USERS + userId + ROLE_MAPPINGS_REALM_PATH,
+                    serverUrl + ADMIN_REALMS + targetRealm + USERS + userId + roleMappingsRealmPath,
                     HttpMethod.POST,
                     new HttpEntity<>(rolesToAdd, headers),
                     Void.class
             );
         }
     }
+
 
     // Exception dédiée statique
 
@@ -167,7 +170,7 @@ public class KeycloakAdminClientService {
 
         try {
             restTemplate.exchange(
-                    serverUrl + ADMIN_REALMS + targetRealm + USERS + userId + "ROLE_MAPPINGS_REALM_PATH" ,
+                    serverUrl + ADMIN_REALMS + targetRealm + USERS + userId + roleMappingsRealmPath ,
                     HttpMethod.DELETE,
                     new HttpEntity<>(rolesToRemove, headers),
                     Void.class

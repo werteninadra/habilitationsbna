@@ -1,16 +1,19 @@
 package com.bna.habilitationbna.service;
 
 import com.bna.habilitationbna.model.Application;
-import com.bna.habilitationbna.model.Profil;
 import com.bna.habilitationbna.model.Ressource;
 import com.bna.habilitationbna.repo.ProfilRepository;
 import com.bna.habilitationbna.repo.RessourceRepository;
 import org.hibernate.Hibernate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.http.*;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -18,20 +21,28 @@ import java.util.*;
 @Service
 @Transactional
 public class RessourceService {
+    private static final Logger logger = LoggerFactory.getLogger(RessourceService.class);
 
     private final RessourceRepository ressourceRepository;
     private final ApplicationService applicationService;
-private  final  ProfilRepository  profilRepository;
-    private final String FLASK_URL = "http://127.0.0.1:5001/prediction";
+    private final ProfilRepository profilRepository;
+    private static final String RESSOURCE_NOT_FOUND = "Ressource non trouvée";
+
 
     @Autowired
     public RessourceService(RessourceRepository ressourceRepository,
-                            ApplicationService applicationService , ProfilRepository profilRepository)  {
+                            ApplicationService applicationService,
+                            ProfilRepository profilRepository) {
         this.ressourceRepository = ressourceRepository;
         this.applicationService = applicationService;
-        this.profilRepository=profilRepository;
+        this.profilRepository = profilRepository;
     }
+
+
+
     private double predireTemps(String libelle, String typeRessource) {
+        final String flaskUrl = "http://127.0.0.1:5001/prediction"; // Variable locale
+
         try {
             RestTemplate restTemplate = new RestTemplate();
 
@@ -46,131 +57,116 @@ private  final  ProfilRepository  profilRepository;
             HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody, headers);
 
             // Appel Flask
-            ResponseEntity<Map> response = restTemplate.postForEntity(
-                    FLASK_URL,
+            ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
+                    flaskUrl,
+                    HttpMethod.POST,
                     entity,
-                    Map.class
+                    new ParameterizedTypeReference<>() {}
             );
 
-            if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
-                Object prediction = response.getBody().get("temps_estime_jours");
-                return prediction != null ? Double.parseDouble(prediction.toString()) : 0.0;
-            }
+            Map<String, Object> responseBody = response.getBody(); // Toujours non null si HTTP 200
+
+            Object prediction = responseBody.get("temps_estime_jours");
+            return prediction != null ? Double.parseDouble(prediction.toString()) : 0.0;
+
         } catch (Exception e) {
-            System.err.println("Erreur lors de la prédiction Flask: " + e.getMessage());
+            logger.error("Erreur lors de la prédiction Flask pour {} / {} : {}", libelle, typeRessource, e.getMessage(), e);
         }
+
         return 0.0; // Valeur par défaut si erreur
     }
 
+
+
     public Ressource addRessource(Ressource ressource) {
         if (ressource.getApplication() != null) {
-            Application app = applicationService.getApplicationByCode(
-                    ressource.getApplication().getCode());
+            var app = applicationService.getApplicationByCode(ressource.getApplication().getCode());
             ressource.setApplication(app);
         }
 
-        // Prédire automatiquement si libelle et typeRessource sont fournis
         if (ressource.getLibelle() != null && ressource.getTypeRessource() != null) {
-            double prediction = predireTemps(ressource.getLibelle(), ressource.getTypeRessource());
-            // Il faut avoir un champ tempsEstimeJours dans l'entité Ressource
+            var prediction = predireTemps(ressource.getLibelle(), ressource.getTypeRessource());
             ressource.setTempsEstimeJours(prediction);
         }
 
         return ressourceRepository.save(ressource);
     }
 
+
     public Ressource updateRessource(String code, Ressource updated) {
-        Ressource existing = ressourceRepository.findById(code)
-                .orElseThrow(() -> new RuntimeException("Ressource non trouvée"));
+        var existing = ressourceRepository.findById(code)
+                .orElseThrow(() -> new RuntimeException(RESSOURCE_NOT_FOUND));
 
         existing.setLibelle(updated.getLibelle());
         existing.setTypeRessource(updated.getTypeRessource());
         existing.setStatut(updated.isStatut());
 
         if (updated.getApplication() != null) {
-            if (existing.getApplication() == null) {
-                existing.setApplication(new Application());
-            }
+            if (existing.getApplication() == null) existing.setApplication(new Application());
             existing.getApplication().setCode(updated.getApplication().getCode());
         } else {
             existing.setApplication(null);
         }
 
-        // Recalcul du temps estimé
         if (updated.getLibelle() != null && updated.getTypeRessource() != null) {
-            double prediction = predireTemps(updated.getLibelle(), updated.getTypeRessource());
-            existing.setTempsEstimeJours(prediction);
+            existing.setTempsEstimeJours(predireTemps(updated.getLibelle(), updated.getTypeRessource()));
         }
 
         return ressourceRepository.save(existing);
     }
 
-
     public void deleteRessource(String code) {
-        // Vérification d'existence avant suppression
         if (!ressourceRepository.existsById(code)) {
-            throw new RuntimeException("Ressource non trouvée");
+            throw new RuntimeException(RESSOURCE_NOT_FOUND);
         }
         ressourceRepository.deleteById(code);
     }
+
     public Ressource uploadFileToRessource(String code, File file) throws IOException {
-        Ressource ressource = ressourceRepository.findById(code)
-                .orElseThrow(() -> new RuntimeException("Ressource not found"));
+        var ressource = ressourceRepository.findById(code)
+                .orElseThrow(() -> new RuntimeException(RESSOURCE_NOT_FOUND));
 
-        // Upload vers Pinata
         String ipfsHash = IpfsUploader.uploadFile(file);
-        if (ipfsHash == null) {
-            throw new RuntimeException("Erreur : hash IPFS non retourné par Pinata");
-        }
+        if (ipfsHash == null) throw new RuntimeException("Erreur : hash IPFS non retourné par Pinata");
 
-        String ipfsUrl = "https://gateway.pinata.cloud/ipfs/" + ipfsHash;
-
-        ressource.setIpfsUrl(ipfsUrl);
+        ressource.setIpfsUrl("https://gateway.pinata.cloud/ipfs/" + ipfsHash);
         return ressourceRepository.save(ressource);
     }
 
-    public List<Ressource> getAllRessources() {
-        return ressourceRepository.findAll();
-    }
-
-    public Optional<Ressource> getRessourceById(String code) {
-        // Chargement explicite de l'application
-        return ressourceRepository.findById(code)
-                .map(resource -> {
-                    Hibernate.initialize(resource.getApplication());
-                    return resource;
-                });
-    }
-
-    @Transactional
     public void assignToProfil(String ressourceCode, String profilCode) {
-        Ressource ressource = ressourceRepository.findById(ressourceCode)
-                .orElseThrow(() -> new RuntimeException("Ressource non trouvée"));
-        Profil profil = profilRepository.findById(profilCode)
+        var ressource = ressourceRepository.findById(ressourceCode)
+                .orElseThrow(() -> new RuntimeException(RESSOURCE_NOT_FOUND));
+
+        var profil = profilRepository.findById(profilCode)
                 .orElseThrow(() -> new RuntimeException("Profil non trouvé"));
 
-        // Vérification de non-doublon
         if (!profil.getRessources().contains(ressource)) {
             profil.getRessources().add(ressource);
             profilRepository.save(profil);
         }
     }
+    public List<Ressource> getAllRessources() {
+        return ressourceRepository.findAll();
+    }
+
+    public Optional<Ressource> getRessourceById(String code) {
+        return ressourceRepository.findById(code)
+                .map(r -> {
+                    Hibernate.initialize(r.getApplication());
+                    return r;
+                });
+    }
+
+
 
     public List<Ressource> getAllRessourcesWithProfils() {
         try {
-            List<Ressource> ressources = ressourceRepository.findAll();
-
-            for (Ressource r : ressources) {
-                // Charger les relations
+            var ressources = ressourceRepository.findAll();
+            for (var r : ressources) {
                 Hibernate.initialize(r.getProfils());
-                if (r.getApplication() != null) {
-                    Hibernate.initialize(r.getApplication());
-                }
-
-                // Ajouter ou recalculer la prédiction
+                if (r.getApplication() != null) Hibernate.initialize(r.getApplication());
                 if (r.getLibelle() != null && r.getTypeRessource() != null) {
-                    double prediction = predireTemps(r.getLibelle(), r.getTypeRessource());
-                    r.setTempsEstimeJours(prediction);
+                    r.setTempsEstimeJours(predireTemps(r.getLibelle(), r.getTypeRessource()));
                 }
             }
             return ressources;
@@ -179,10 +175,8 @@ private  final  ProfilRepository  profilRepository;
         }
     }
 
-
-    // Méthode supplémentaire pour charger avec application
     public List<Ressource> getAllWithApplication() {
-        List<Ressource> ressources = ressourceRepository.findAll();
+        var ressources = ressourceRepository.findAll();
         ressources.forEach(r -> Hibernate.initialize(r.getApplication()));
         return ressources;
     }

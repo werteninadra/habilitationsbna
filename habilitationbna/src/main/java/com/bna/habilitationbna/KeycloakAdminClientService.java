@@ -97,7 +97,7 @@ public class KeycloakAdminClientService {
         }
     }
 
-    
+
 
     private void updateUserRoles(String adminToken, String userId, Set<Profil> profils) {
         try {
@@ -192,7 +192,8 @@ public class KeycloakAdminClientService {
                     new ParameterizedTypeReference<>() {}
             );
 
-            Map<String, Object> responseBody = Optional.ofNullable(response.getBody()).orElse(Collections.emptyMap());
+            var responseBody = Optional.ofNullable(response.getBody())
+                    .orElse(Collections.emptyMap());
             Map<String, Object> role = new HashMap<>();
 
             if (responseBody.get("id") != null) {
@@ -329,7 +330,7 @@ public class KeycloakAdminClientService {
                 new ParameterizedTypeReference<>() {}
         );
 
-        List<Map<String, Object>> body = response.getBody();
+        var body = response.getBody();
         if (body == null || body.isEmpty() || body.get(0).get("id") == null) {
             throw new KeycloakUserNotFoundException("Utilisateur non trouvé dans Keycloak : " + username);
         }

@@ -23,10 +23,10 @@ import java.util.stream.Collectors;
 public class KeycloakAdminClientService {
 
     private static final Logger logger = LoggerFactory.getLogger(KeycloakAdminClientService.class);
+
     @Value("${keycloak.role-mappings-realm-path:/role-mappings/realm}")
     private String roleMappingsRealmPath;
 
-    // Constantes pour éviter la duplication
     private static final String ENABLED = "enabled";
     private static final String ADMIN_REALMS = "/admin/realms/";
     private static final String USERS = "/users/";
@@ -47,38 +47,35 @@ public class KeycloakAdminClientService {
     // ------------------- UTILISATEURS -------------------
 
     public void createUserWithProfils(String username, String email, String password, Set<Profil> profils) {
-        String adminToken = fetchAdminToken();
+        var adminToken = fetchAdminToken();
         createUserInKeycloak(adminToken, username, email, password);
 
         if (profils != null && !profils.isEmpty()) {
-            String userId = getUserIdByUsername(adminToken, username);
+            var userId = getUserIdByUsername(adminToken, username);
             updateUserRoles(adminToken, userId, profils);
         }
     }
 
-
-
-
     public List<Map<String, Object>> getAllUsersFromKeycloak() {
-        String adminToken = fetchAdminToken();
-        HttpHeaders headers = getAuthHeaders(adminToken);
+        var adminToken = fetchAdminToken();
+        var headers = getAuthHeaders(adminToken);
         headers.setAccept(List.of(MediaType.APPLICATION_JSON));
 
-        ResponseEntity<List<Map<String, Object>>> response = restTemplate.exchange(
+        var response = restTemplate.exchange(
                 serverUrl + ADMIN_REALMS + targetRealm + USERS,
                 HttpMethod.GET,
                 new HttpEntity<>(headers),
-                new ParameterizedTypeReference<>() {}
+                new ParameterizedTypeReference<List<Map<String, Object>>>() {}
         );
 
-        return response.getBody(); // directement retourner, pas besoin de null check
+        return response.getBody();
     }
 
     public void deleteUserFromKeycloak(String username) {
-        String adminToken = fetchAdminToken();
-        String userId = getUserIdByUsername(adminToken, username);
+        var adminToken = fetchAdminToken();
+        var userId = getUserIdByUsername(adminToken, username);
 
-        HttpHeaders headers = getAuthHeaders(adminToken);
+        var headers = getAuthHeaders(adminToken);
 
         restTemplate.exchange(
                 serverUrl + ADMIN_REALMS + targetRealm + USERS + userId,
@@ -90,20 +87,16 @@ public class KeycloakAdminClientService {
 
     // ------------------- ROLES -------------------
 
-    // Définir une exception dédiée statique
     public static class KeycloakRoleUpdateException extends RuntimeException {
         public KeycloakRoleUpdateException(String message, Throwable cause) {
             super(message, cause);
         }
     }
 
-
-
     private void updateUserRoles(String adminToken, String userId, Set<Profil> profils) {
         try {
-            List<Map<String, Object>> currentRoles = Optional.ofNullable(
-                    getCurrentUserRoles(adminToken, userId)
-            ).orElse(Collections.emptyList());
+            var currentRoles = Optional.ofNullable(getCurrentUserRoles(adminToken, userId))
+                    .orElse(Collections.emptyList());
 
             if (!currentRoles.isEmpty()) {
                 removeAllRoles(adminToken, userId, currentRoles);
@@ -112,44 +105,39 @@ public class KeycloakAdminClientService {
             assignRolesToUser(adminToken, userId, profils);
 
         } catch (Exception e) {
-            String profilNames = profils.stream()
+            var profilNames = profils.stream()
                     .map(Profil::getNom)
                     .collect(Collectors.joining(","));
 
-            // Pas de logger.error ici → on remonte l’info dans l’exception custom
             throw new KeycloakRoleUpdateException(
-                    String.format(
-                            "Erreur lors de la mise à jour des rôles Keycloak pour l'utilisateur %s avec profils [%s]",
-                            userId, profilNames
-                    ),
+                    String.format("Erreur lors de la mise à jour des rôles Keycloak pour l'utilisateur %s avec profils [%s]",
+                            userId, profilNames),
                     e
             );
         }
     }
 
-
     private List<Map<String, Object>> getCurrentUserRoles(String adminToken, String userId) {
-        HttpHeaders headers = getAuthHeaders(adminToken);
+        var headers = getAuthHeaders(adminToken);
         headers.setAccept(List.of(MediaType.APPLICATION_JSON));
 
-        ResponseEntity<List<Map<String, Object>>> response = restTemplate.exchange(
-                serverUrl + ADMIN_REALMS + targetRealm + USERS + userId +roleMappingsRealmPath,
+        var response = restTemplate.exchange(
+                serverUrl + ADMIN_REALMS + targetRealm + USERS + userId + roleMappingsRealmPath,
                 HttpMethod.GET,
                 new HttpEntity<>(headers),
-                new ParameterizedTypeReference<>() {}
+                new ParameterizedTypeReference<List<Map<String, Object>>>() {}
         );
 
-        return response.getBody() ;
+        return response.getBody();
     }
 
-
     private void assignRolesToUser(String adminToken, String userId, Set<Profil> profils) {
-        HttpHeaders headers = getAuthHeaders(adminToken);
+        var headers = getAuthHeaders(adminToken);
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        List<Map<String, Object>> rolesToAdd = profils.stream()
+        var rolesToAdd = profils.stream()
                 .map(profil -> createRoleRepresentation(adminToken, profil.getNom()))
-                .collect(Collectors.toUnmodifiableList()); // Immuable et compatible Java 8+
+                .collect(Collectors.toUnmodifiableList());
 
         if (!rolesToAdd.isEmpty()) {
             restTemplate.exchange(
@@ -161,16 +149,13 @@ public class KeycloakAdminClientService {
         }
     }
 
-
-    // Exception dédiée statique
-
     private void removeAllRoles(String adminToken, String userId, List<Map<String, Object>> rolesToRemove) {
-        HttpHeaders headers = getAuthHeaders(adminToken);
+        var headers = getAuthHeaders(adminToken);
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         try {
             restTemplate.exchange(
-                    serverUrl + ADMIN_REALMS + targetRealm + USERS + userId + roleMappingsRealmPath ,
+                    serverUrl + ADMIN_REALMS + targetRealm + USERS + userId + roleMappingsRealmPath,
                     HttpMethod.DELETE,
                     new HttpEntity<>(rolesToRemove, headers),
                     Void.class
@@ -180,21 +165,19 @@ public class KeycloakAdminClientService {
         }
     }
 
-
     private Map<String, Object> createRoleRepresentation(String adminToken, String roleName) {
         try {
-            HttpHeaders headers = getAuthHeaders(adminToken);
+            var headers = getAuthHeaders(adminToken);
 
-            ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
+            var response = restTemplate.exchange(
                     serverUrl + ADMIN_REALMS + targetRealm + "/roles/" + URLEncoder.encode(roleName, StandardCharsets.UTF_8),
                     HttpMethod.GET,
                     new HttpEntity<>(headers),
-                    new ParameterizedTypeReference<>() {}
+                    new ParameterizedTypeReference<Map<String, Object>>() {}
             );
 
-            var responseBody = Optional.ofNullable(response.getBody())
-                    .orElse(Collections.emptyMap());
-            Map<String, Object> role = new HashMap<>();
+            var responseBody = Optional.ofNullable(response.getBody()).orElse(Collections.emptyMap());
+            var role = new HashMap<String, Object>();
 
             if (responseBody.get("id") != null) {
                 role.put("id", responseBody.get("id"));
@@ -202,15 +185,13 @@ public class KeycloakAdminClientService {
             role.put("name", roleName);
             return role;
 
-
         } catch (Exception e) {
             logger.warn("Impossible de récupérer les détails du rôle {}, utilisation du nom seulement", roleName, e);
-            Map<String, Object> role = new HashMap<>();
+            var role = new HashMap<String, Object>();
             role.put("name", roleName);
             return role;
         }
     }
-
 
     // ------------------- ACTIVATION / DESACTIVATION -------------------
 
@@ -221,20 +202,21 @@ public class KeycloakAdminClientService {
     public void enableUserInKeycloak(String username) {
         updateUserEnabledFlag(username, true);
     }
+
     public static class KeycloakUserUpdateException extends RuntimeException {
         public KeycloakUserUpdateException(String message, Throwable cause) {
             super(message, cause);
         }
     }
-    // Méthode refactorisée
-    private void updateUserEnabledFlag(String username, boolean enabled) {
-        String adminToken = fetchAdminToken();
-        String userId = getUserIdByUsername(adminToken, username);
 
-        HttpHeaders headers = getAuthHeaders(adminToken);
+    private void updateUserEnabledFlag(String username, boolean enabled) {
+        var adminToken = fetchAdminToken();
+        var userId = getUserIdByUsername(adminToken, username);
+
+        var headers = getAuthHeaders(adminToken);
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        Map<String, Object> userUpdate = new HashMap<>();
+        var userUpdate = new HashMap<String, Object>();
         userUpdate.put(ENABLED, enabled);
 
         try {
@@ -248,7 +230,6 @@ public class KeycloakAdminClientService {
                     username, enabled ? "activé" : "désactivé");
 
         } catch (HttpClientErrorException | HttpServerErrorException e) {
-            // Pas besoin de logger.error ici, tu relances déjà avec contexte
             throw new KeycloakUserUpdateException(
                     String.format("Erreur HTTP (%s) lors de la mise à jour de l'utilisateur '%s' dans Keycloak",
                             e.getStatusCode(), username),
@@ -269,20 +250,19 @@ public class KeycloakAdminClientService {
         }
     }
 
-
     private String fetchAdminToken() {
-        String url = serverUrl + "/realms/" + adminRealm + "/protocol/openid-connect/token";
+        var url = serverUrl + "/realms/" + adminRealm + "/protocol/openid-connect/token";
 
-        HttpHeaders headers = new HttpHeaders();
+        var headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
-        MultiValueMap<String, String> form = new LinkedMultiValueMap<>();
+        var form = new LinkedMultiValueMap<String, String>();
         form.add("grant_type", "client_credentials");
         form.add("client_id", clientId);
         form.add("client_secret", clientSecret);
 
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(form, headers);
-        Map<String, Object> response = restTemplate.postForObject(url, request, Map.class);
+        var request = new HttpEntity<>(form, headers);
+        var response = restTemplate.postForObject(url, request, Map.class);
 
         if (response == null || !response.containsKey("access_token")) {
             throw new KeycloakTokenException("Impossible de récupérer le token admin");
@@ -292,7 +272,7 @@ public class KeycloakAdminClientService {
     }
 
     private void createUserInKeycloak(String adminToken, String username, String email, String password) {
-        Map<String, Object> userMap = new HashMap<>();
+        var userMap = new HashMap<String, Object>();
         userMap.put("username", username);
         userMap.put("email", email);
         userMap.put(ENABLED, true);
@@ -300,7 +280,7 @@ public class KeycloakAdminClientService {
                 Map.of("type", "password", "value", password, "temporary", false)
         ));
 
-        HttpHeaders headers = getAuthHeaders(adminToken);
+        var headers = getAuthHeaders(adminToken);
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         restTemplate.exchange(
@@ -310,24 +290,20 @@ public class KeycloakAdminClientService {
                 Void.class
         );
     }
-    public class KeycloakUserNotFoundException extends RuntimeException {
 
-        public KeycloakUserNotFoundException(String message) {
-            super(message);
-        }
-
-        public KeycloakUserNotFoundException(String message, Throwable cause) {
-            super(message, cause);
-        }
+    public static class KeycloakUserNotFoundException extends RuntimeException {
+        public KeycloakUserNotFoundException(String message) { super(message); }
+        public KeycloakUserNotFoundException(String message, Throwable cause) { super(message, cause); }
     }
-    private String getUserIdByUsername(String adminToken, String username) {
-        HttpHeaders headers = getAuthHeaders(adminToken);
 
-        ResponseEntity<List<Map<String, Object>>> response = restTemplate.exchange(
+    private String getUserIdByUsername(String adminToken, String username) {
+        var headers = getAuthHeaders(adminToken);
+
+        var response = restTemplate.exchange(
                 serverUrl + ADMIN_REALMS + targetRealm + USERS + "?username=" + username,
                 HttpMethod.GET,
                 new HttpEntity<>(headers),
-                new ParameterizedTypeReference<>() {}
+                new ParameterizedTypeReference<List<Map<String, Object>>>() {}
         );
 
         var body = response.getBody();
@@ -338,10 +314,8 @@ public class KeycloakAdminClientService {
         return body.get(0).get("id").toString();
     }
 
-
-
     private HttpHeaders getAuthHeaders(String token) {
-        HttpHeaders headers = new HttpHeaders();
+        var headers = new HttpHeaders();
         headers.setBearerAuth(token);
         return headers;
     }

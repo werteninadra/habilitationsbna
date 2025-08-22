@@ -1,10 +1,10 @@
 package com.bna.habilitationbna;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.converter.Converter;
 
-import com.bna.habilitationbna.service.UserDetailsServiceImpl;
 import com.fasterxml.jackson.core.StreamWriteConstraints;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +18,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -34,12 +35,10 @@ import java.util.*;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private final UserDetailsServiceImpl userDetailsService;
+    private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
 
-    @Autowired
-    public SecurityConfig(UserDetailsServiceImpl userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }
+
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -52,13 +51,12 @@ public class SecurityConfig {
     }
 
     @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userDetailsService);
-        provider.setPasswordEncoder(passwordEncoder());
+    public DaoAuthenticationProvider authenticationProvider(UserDetailsService userDetailsService,
+                                                            PasswordEncoder passwordEncoder) {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider(userDetailsService);
+        provider.setPasswordEncoder(passwordEncoder);
         return provider;
     }
-
     @Bean
     public GrantedAuthorityDefaults grantedAuthorityDefaults() {
         return new GrantedAuthorityDefaults(""); // Supprime le préfixe ROLE_ par défaut
@@ -72,13 +70,15 @@ public class SecurityConfig {
             // 1. Extraction depuis realm_access.roles (Keycloak standard)
             Map<String, Object> realmAccess = jwt.getClaim("realm_access");
             if (realmAccess != null) {
-                List<String> roles = (List<String>) realmAccess.get("roles");
-                if (roles != null) {
-                    roles.forEach(role ->
-                            authorities.add(new SimpleGrantedAuthority(role.toUpperCase()))
-                    );
+                Object rolesObj = realmAccess.get("roles");
+                if (rolesObj instanceof List<?> rolesList) {
+                    rolesList.stream()
+                            .filter(String.class::isInstance)
+                            .map(String.class::cast)
+                            .forEach(role -> authorities.add(new SimpleGrantedAuthority(role.toUpperCase())));
                 }
             }
+
 
             // 2. Fallback: extraction directe depuis le claim 'roles'
             List<String> directRoles = jwt.getClaim("roles");
@@ -88,7 +88,7 @@ public class SecurityConfig {
                 );
             }
 
-            System.out.println("Final authorities: " + authorities);
+            logger.debug("Final authorities: {}", authorities);
             return authorities;
         };
 
@@ -141,13 +141,14 @@ public class SecurityConfig {
         return builder -> {
             builder.featuresToEnable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
             builder.featuresToDisable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
-            builder.postConfigurer(objectMapper -> {
-                objectMapper.getFactory().setStreamWriteConstraints(
-                        StreamWriteConstraints.builder()
-                                .maxNestingDepth(2000)
-                                .build()
-                );
-            });
+            builder.postConfigurer(objectMapper ->
+                    objectMapper.getFactory().setStreamWriteConstraints(
+                            StreamWriteConstraints.builder()
+                                    .maxNestingDepth(2000)
+                                    .build()
+                    )
+            );
+
         };
     }
 

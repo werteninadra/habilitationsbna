@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URLEncoder;
@@ -97,24 +99,32 @@ public class KeycloakAdminClientService {
 
     private void updateUserRoles(String adminToken, String userId, Set<Profil> profils) {
         try {
-            List<Map<String, Object>> currentRoles = getCurrentUserRoles(adminToken, userId);
+            List<Map<String, Object>> currentRoles = Optional.ofNullable(
+                    getCurrentUserRoles(adminToken, userId)
+            ).orElse(Collections.emptyList());
 
             if (!currentRoles.isEmpty()) {
                 removeAllRoles(adminToken, userId, currentRoles);
             }
 
             assignRolesToUser(adminToken, userId, profils);
+
         } catch (Exception e) {
             String profilNames = profils.stream()
                     .map(Profil::getNom)
                     .collect(Collectors.joining(","));
-            logger.error("Erreur lors de la mise à jour des rôles Keycloak pour l'utilisateur {}: {}", userId, profilNames, e);
 
+            // Pas de logger.error ici → on remonte l’info dans l’exception custom
             throw new KeycloakRoleUpdateException(
-                    "Erreur de synchronisation des rôles Keycloak pour l'utilisateur " + userId, e
+                    String.format(
+                            "Erreur lors de la mise à jour des rôles Keycloak pour l'utilisateur %s avec profils [%s]",
+                            userId, profilNames
+                    ),
+                    e
             );
         }
     }
+
 
     private List<Map<String, Object>> getCurrentUserRoles(String adminToken, String userId) {
         HttpHeaders headers = getAuthHeaders(adminToken);
@@ -127,10 +137,7 @@ public class KeycloakAdminClientService {
                 new ParameterizedTypeReference<>() {}
         );
 
-        // On s'assure que la liste n'est jamais null
-
-        return response.getBody();
-
+        return response.getBody() ;
     }
 
 
@@ -182,14 +189,15 @@ public class KeycloakAdminClientService {
                     new ParameterizedTypeReference<>() {}
             );
 
-            Map<String, Object> responseBody = response.getBody();
+            Map<String, Object> responseBody = Optional.ofNullable(response.getBody()).orElse(Collections.emptyMap());
             Map<String, Object> role = new HashMap<>();
 
-            if (responseBody != null && responseBody.get("id") != null) {
+            if (responseBody.get("id") != null) {
                 role.put("id", responseBody.get("id"));
             }
             role.put("name", roleName);
             return role;
+
 
         } catch (Exception e) {
             logger.warn("Impossible de récupérer les détails du rôle {}, utilisation du nom seulement", roleName, e);
@@ -232,53 +240,31 @@ public class KeycloakAdminClientService {
                     new HttpEntity<>(userUpdate, headers),
                     Void.class
             );
-            logger.info("Utilisateur {} {} dans Keycloak avec succès", username, enabled ? "activé" : "désactivé");
-        } catch (Exception e) {
-            logger.error("Erreur lors de la mise à jour de l'état de l'utilisateur {} dans Keycloak", username, e);
+            logger.info("Utilisateur {} {} dans Keycloak avec succès",
+                    username, enabled ? "activé" : "désactivé");
+
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
+            // Pas besoin de logger.error ici, tu relances déjà avec contexte
             throw new KeycloakUserUpdateException(
-                    "Impossible de mettre à jour l'état de l'utilisateur '" + username + "' dans Keycloak", e
+                    String.format("Erreur HTTP (%s) lors de la mise à jour de l'utilisateur '%s' dans Keycloak",
+                            e.getStatusCode(), username),
+                    e
+            );
+
+        } catch (ResourceAccessException e) {
+            throw new KeycloakUserUpdateException(
+                    String.format("Accès Keycloak impossible pour l'utilisateur '%s'", username),
+                    e
             );
         }
     }
-    // ------------------- MDP -------------------
 
-    public void sendPasswordResetEmail(String email) {
-        String adminToken = fetchAdminToken();
-        String userId = getUserIdByEmail(adminToken, email);
-
-        HttpHeaders headers = getAuthHeaders(adminToken);
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
-        String resetPasswordUrl = serverUrl + ADMIN_REALMS + targetRealm + USERS + userId + "/execute-actions-email";
-
-        List<String> actions = Collections.singletonList("UPDATE_PASSWORD");
-
-        restTemplate.exchange(
-                resetPasswordUrl,
-                HttpMethod.PUT,
-                new HttpEntity<>(actions, headers),
-                Void.class
-        );
+    public static class KeycloakTokenException extends RuntimeException {
+        public KeycloakTokenException(String message) {
+            super(message);
+        }
     }
 
-    public void resetPasswordWithToken(String token, String newPassword) {
-        String url = serverUrl + "/realms/" + targetRealm + "/protocol/openid-connect/token";
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-
-        MultiValueMap<String, String> form = new LinkedMultiValueMap<>();
-        form.add("grant_type", "password");
-        form.add("client_id", clientId);
-        form.add("client_secret", clientSecret);
-        form.add("token", token);
-        form.add("new_password", newPassword);
-
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(form, headers);
-        restTemplate.postForObject(url, request, Map.class);
-    }
-
-    // ------------------- HELPERS -------------------
 
     private String fetchAdminToken() {
         String url = serverUrl + "/realms/" + adminRealm + "/protocol/openid-connect/token";
@@ -295,8 +281,9 @@ public class KeycloakAdminClientService {
         Map<String, Object> response = restTemplate.postForObject(url, request, Map.class);
 
         if (response == null || !response.containsKey("access_token")) {
-            throw new RuntimeException("Impossible de récupérer le token admin");
+            throw new KeycloakTokenException("Impossible de récupérer le token admin");
         }
+
         return (String) response.get("access_token");
     }
 
@@ -319,7 +306,16 @@ public class KeycloakAdminClientService {
                 Void.class
         );
     }
+    public class KeycloakUserNotFoundException extends RuntimeException {
 
+        public KeycloakUserNotFoundException(String message) {
+            super(message);
+        }
+
+        public KeycloakUserNotFoundException(String message, Throwable cause) {
+            super(message, cause);
+        }
+    }
     private String getUserIdByUsername(String adminToken, String username) {
         HttpHeaders headers = getAuthHeaders(adminToken);
 
@@ -332,29 +328,13 @@ public class KeycloakAdminClientService {
 
         List<Map<String, Object>> body = response.getBody();
         if (body == null || body.isEmpty() || body.get(0).get("id") == null) {
-            throw new RuntimeException("Utilisateur non trouvé dans Keycloak");
+            throw new KeycloakUserNotFoundException("Utilisateur non trouvé dans Keycloak : " + username);
         }
+
         return body.get(0).get("id").toString();
     }
 
-    private String getUserIdByEmail(String adminToken, String email) {
-        HttpHeaders headers = getAuthHeaders(adminToken);
 
-        String encodedEmail = URLEncoder.encode(email, StandardCharsets.UTF_8);
-        String url = serverUrl + ADMIN_REALMS + targetRealm + USERS + "?email=" + encodedEmail;
-
-        ResponseEntity<List<Map<String, Object>>> response = restTemplate.exchange(
-                url,
-                HttpMethod.GET,
-                new HttpEntity<>(headers),
-                new ParameterizedTypeReference<>() {}
-        );
-
-        if (response.getBody() == null || response.getBody().isEmpty()) {
-            throw new RuntimeException("Aucun utilisateur trouvé avec cet email");
-        }
-        return response.getBody().get(0).get("id").toString();
-    }
 
     private HttpHeaders getAuthHeaders(String token) {
         HttpHeaders headers = new HttpHeaders();

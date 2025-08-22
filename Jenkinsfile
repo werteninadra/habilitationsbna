@@ -15,7 +15,7 @@ pipeline {
 
         stage('Build Backend') {
             steps {
-                dir('habilitationbna') {  // on cible uniquement le back
+                dir('habilitationbna') {
                     sh 'mvn clean compile'
                 }
             }
@@ -29,10 +29,21 @@ pipeline {
             }
         }
 
+        stage('JaCoCo Coverage') {
+            steps {
+                dir('habilitationbna') {
+                    // Génération du rapport JaCoCo
+                    sh 'mvn jacoco:report'
+                }
+                // Publier le rapport JaCoCo dans Jenkins
+                jacoco execPattern: '**/target/jacoco.exec', classPattern: '**/target/classes', sourcePattern: '**/src/main/java'
+            }
+        }
+
         stage('SonarQube Analysis') {
             environment {
                 SONAR_HOST_URL = 'http://localhost:9000'
-                SONAR_LOGIN = credentials('sonar-token') // 🔑 doit exister dans Jenkins
+                SONAR_LOGIN = credentials('sonar-token')
             }
             steps {
                 dir('habilitationbna') {
@@ -48,32 +59,10 @@ pipeline {
         }
 
         /*
-        stage('JaCoCo Report') {
-            steps {
-                dir('habilitationbna') {
-                    sh 'mvn jacoco:report'
-                }
-            }
-        }
-
         stage('Deploy to Nexus') {
             steps {
                 dir('habilitationbna') {
                     sh 'mvn deploy -Dmaven.test.skip=true'
-                }
-            }
-        }
-
-        stage('Push Metrics to Prometheus/Grafana') {
-            steps {
-                script {
-                    def status = currentBuild.currentResult == 'SUCCESS' ? 1 : 0
-                    sh """
-                        cat <<EOF | curl --data-binary @- http://localhost:9090/metrics/job/${env.JOB_NAME}/build/${env.BUILD_NUMBER}
-                        # TYPE jenkins_build_status gauge
-                        jenkins_build_status{job="${env.JOB_NAME}",build="${env.BUILD_NUMBER}"} ${status}
-                        EOF
-                    """
                 }
             }
         }

@@ -1,6 +1,6 @@
 package com.bna.habilitationbna.service;
 
-import com.bna.habilitationbna.exception.ResourceNotFoundException;
+import com.azure.core.exception.ResourceNotFoundException;
 import com.bna.habilitationbna.model.Application;
 import com.bna.habilitationbna.repo.Applicationrepo;
 import org.junit.jupiter.api.BeforeEach;

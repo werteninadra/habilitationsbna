@@ -1,5 +1,7 @@
 package com.bna.habilitationbna.service;
 
+import com.bna.habilitationbna.exception.ProfilNotFoundException;
+import com.bna.habilitationbna.exception.RessourceNotFoundException;
 import com.bna.habilitationbna.model.Application;
 import com.bna.habilitationbna.model.Ressource;
 import com.bna.habilitationbna.repo.ProfilRepository;
@@ -21,13 +23,14 @@ import java.util.*;
 @Service
 @Transactional
 public class RessourceService {
+
     private static final Logger logger = LoggerFactory.getLogger(RessourceService.class);
 
     private final RessourceRepository ressourceRepository;
     private final ApplicationService applicationService;
     private final ProfilRepository profilRepository;
-    private static final String RESSOURCE_NOT_FOUND = "Ressource non trouvée";
 
+    private static final String RESSOURCE_NOT_FOUND = "Ressource non trouvée";
 
     @Autowired
     public RessourceService(RessourceRepository ressourceRepository,
@@ -38,15 +41,12 @@ public class RessourceService {
         this.profilRepository = profilRepository;
     }
 
-
-
     private double predireTemps(String libelle, String typeRessource) {
-        final String flaskUrl = "http://127.0.0.1:5001/prediction"; // Variable locale
+        final String flaskUrl = "http://127.0.0.1:5001/prediction";
 
         try {
             RestTemplate restTemplate = new RestTemplate();
 
-            // Corps JSON envoyé à Flask
             Map<String, Object> requestBody = new HashMap<>();
             requestBody.put("libelle", libelle);
             requestBody.put("typeRessource", typeRessource);
@@ -56,7 +56,6 @@ public class RessourceService {
 
             HttpEntity<Map<String, Object>> entity = new HttpEntity<>(requestBody, headers);
 
-            // Appel Flask
             ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
                     flaskUrl,
                     HttpMethod.POST,
@@ -64,19 +63,18 @@ public class RessourceService {
                     new ParameterizedTypeReference<>() {}
             );
 
-            Map<String, Object> responseBody = response.getBody(); // Toujours non null si HTTP 200
+            // Utilisation de Optional.of() car getBody() ne devrait jamais être null ici
+            Map<String, Object> responseBody = Optional.of(response.getBody())
+                    .orElseThrow(() -> new RuntimeException("Réponse Flask vide"));
 
             Object prediction = responseBody.get("temps_estime_jours");
             return prediction != null ? Double.parseDouble(prediction.toString()) : 0.0;
 
         } catch (Exception e) {
             logger.error("Erreur lors de la prédiction Flask pour {} / {} : {}", libelle, typeRessource, e.getMessage(), e);
+            return 0.0;
         }
-
-        return 0.0; // Valeur par défaut si erreur
     }
-
-
 
     public Ressource addRessource(Ressource ressource) {
         if (ressource.getApplication() != null) {
@@ -92,10 +90,9 @@ public class RessourceService {
         return ressourceRepository.save(ressource);
     }
 
-
     public Ressource updateRessource(String code, Ressource updated) {
         var existing = ressourceRepository.findById(code)
-                .orElseThrow(() -> new RuntimeException(RESSOURCE_NOT_FOUND));
+                .orElseThrow(() -> new RessourceNotFoundException(RESSOURCE_NOT_FOUND));
 
         existing.setLibelle(updated.getLibelle());
         existing.setTypeRessource(updated.getTypeRessource());
@@ -117,17 +114,18 @@ public class RessourceService {
 
     public void deleteRessource(String code) {
         if (!ressourceRepository.existsById(code)) {
-            throw new RuntimeException(RESSOURCE_NOT_FOUND);
+            throw new RessourceNotFoundException(RESSOURCE_NOT_FOUND);
         }
         ressourceRepository.deleteById(code);
     }
 
     public Ressource uploadFileToRessource(String code, File file) throws IOException {
         var ressource = ressourceRepository.findById(code)
-                .orElseThrow(() -> new RuntimeException(RESSOURCE_NOT_FOUND));
+                .orElseThrow(() -> new RessourceNotFoundException(RESSOURCE_NOT_FOUND));
 
         String ipfsHash = IpfsUploader.uploadFile(file);
-        if (ipfsHash == null) throw new RuntimeException("Erreur : hash IPFS non retourné par Pinata");
+        if (ipfsHash == null)
+            throw new RuntimeException("Erreur : hash IPFS non retourné par Pinata");
 
         ressource.setIpfsUrl("https://gateway.pinata.cloud/ipfs/" + ipfsHash);
         return ressourceRepository.save(ressource);
@@ -135,16 +133,17 @@ public class RessourceService {
 
     public void assignToProfil(String ressourceCode, String profilCode) {
         var ressource = ressourceRepository.findById(ressourceCode)
-                .orElseThrow(() -> new RuntimeException(RESSOURCE_NOT_FOUND));
+                .orElseThrow(() -> new RessourceNotFoundException(RESSOURCE_NOT_FOUND));
 
         var profil = profilRepository.findById(profilCode)
-                .orElseThrow(() -> new RuntimeException("Profil non trouvé"));
+                .orElseThrow(() -> new ProfilNotFoundException("Profil non trouvé"));
 
         if (!profil.getRessources().contains(ressource)) {
             profil.getRessources().add(ressource);
             profilRepository.save(profil);
         }
     }
+
     public List<Ressource> getAllRessources() {
         return ressourceRepository.findAll();
     }
@@ -156,8 +155,6 @@ public class RessourceService {
                     return r;
                 });
     }
-
-
 
     public List<Ressource> getAllRessourcesWithProfils() {
         try {

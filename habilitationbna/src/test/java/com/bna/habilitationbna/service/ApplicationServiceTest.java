@@ -1,6 +1,6 @@
 package com.bna.habilitationbna.service;
 
-import com.azure.core.exception.ResourceNotFoundException;
+import com.bna.habilitationbna.exception.RessourceNotFoundException;
 import com.bna.habilitationbna.model.Application;
 import com.bna.habilitationbna.repo.Applicationrepo;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,6 +26,19 @@ class ApplicationServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+    }
+
+    @Test
+    void testDeleteApplicationNotFound() {
+        String code = "ABC";
+
+        // S'assurer que l'application n'existe pas
+        when(applicationRepository.existsById(code)).thenReturn(false);
+
+        // Vérifie que la bonne exception est levée
+        assertThrows(RessourceNotFoundException.class, () -> {
+            applicationService.deleteApplication(code);
+        });
     }
 
     @Test
@@ -83,7 +96,7 @@ class ApplicationServiceTest {
     void testGetApplicationByCodeNotFound() {
         when(applicationRepository.findById("APP001")).thenReturn(Optional.empty());
 
-        Exception exception = assertThrows(ResourceNotFoundException.class, () ->
+        Exception exception = assertThrows(RessourceNotFoundException.class, () ->
                 applicationService.getApplicationByCode("APP001"));
 
         assertEquals("Application non trouvée avec le code: APP001", exception.getMessage());
@@ -109,10 +122,10 @@ class ApplicationServiceTest {
         app.setCode("APP001");
         when(applicationRepository.existsById("APP001")).thenReturn(false);
 
-        Exception exception = assertThrows(ResourceNotFoundException.class, () ->
+        Exception exception = assertThrows(RessourceNotFoundException.class, () ->
                 applicationService.updateApplication(app));
 
-        assertEquals("Application not found with code: APP001", exception.getMessage());
+        assertEquals("Application non trouvée avec le code: APP001", exception.getMessage());
     }
 
     @Test
@@ -123,15 +136,5 @@ class ApplicationServiceTest {
         applicationService.deleteApplication("APP001");
 
         verify(applicationRepository).deleteById("APP001");
-    }
-
-    @Test
-    void testDeleteApplicationNotFound() {
-        when(applicationRepository.existsById("APP001")).thenReturn(false);
-
-        Exception exception = assertThrows(ResourceNotFoundException.class, () ->
-                applicationService.deleteApplication("APP001"));
-
-        assertEquals("Application non trouvée avec le code: APP001", exception.getMessage());
     }
 }

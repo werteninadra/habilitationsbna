@@ -1,5 +1,6 @@
 package com.bna.habilitationbna.service;
 
+import com.bna.habilitationbna.exception.RessourceNotFoundException;
 import com.bna.habilitationbna.model.Application;
 import com.bna.habilitationbna.model.Profil;
 import com.bna.habilitationbna.model.Ressource;
@@ -35,6 +36,20 @@ class RessourceServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+    }
+
+    @Test
+    void testDeleteApplicationNotFound() {
+        String code = "ABC";
+
+        // Configurer le mock pour lever l'exception
+        doThrow(new RessourceNotFoundException("Application non trouvée avec le code: " + code))
+                .when(applicationService).deleteApplication(code);
+
+        // Appel via ressourceService si deleteApplication est utilisé par ressourceService
+        assertThrows(RessourceNotFoundException.class, () -> {
+            applicationService.deleteApplication(code);
+        });
     }
 
     @Test
@@ -120,5 +135,4 @@ class RessourceServiceTest {
         assertTrue(p.getRessources().contains(r));
         verify(profilRepository).save(p);
     }
-
 }

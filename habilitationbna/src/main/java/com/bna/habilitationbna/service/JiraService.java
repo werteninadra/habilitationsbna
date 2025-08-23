@@ -13,15 +13,15 @@ import java.util.Base64;
 public class JiraService {
 
     @Value("${jira.domain}")
-    private String jiraDomain; // ex: ton_domaine.atlassian.net
+    public String jiraDomain; // ex: ton_domaine.atlassian.net
 
     @Value("${jira.email}")
-    private String jiraEmail;
+    public String jiraEmail;
 
     @Value("${jira.apiToken}")
-    private String jiraApiToken;
+    public String jiraApiToken;
 
-    private final RestTemplate restTemplate = new RestTemplate();
+    public  RestTemplate restTemplate = new RestTemplate();
 
     public String getTicketsForProject(String projectKey) {
         String url = UriComponentsBuilder.fromHttpUrl("https://" + jiraDomain + "/rest/api/3/search")

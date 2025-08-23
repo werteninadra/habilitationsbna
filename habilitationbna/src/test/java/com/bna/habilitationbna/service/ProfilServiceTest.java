@@ -31,7 +31,6 @@ class ProfilServiceTest {
         String nom = "ADMIN";
         String description = "Administrateur";
         Profil savedProfil = new Profil();
-        savedProfil.setNom("dd");
         savedProfil.setNom(nom);
         savedProfil.setDescription(description);
 
@@ -49,8 +48,9 @@ class ProfilServiceTest {
         assertThat(captured.getDescription()).isEqualTo(description);
 
         assertThat(result).isNotNull();
-        assertThat(result.getNom()).isEqualTo(1L);
+        assertThat(result.getNom()).isEqualTo(nom); // ✅ ici c’est "ADMIN", pas 1L
     }
+
 
     @Test
     void findByNom_shouldReturnOptionalProfil() {

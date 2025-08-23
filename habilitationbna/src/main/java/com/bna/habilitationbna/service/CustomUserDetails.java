@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public class CustomUserDetails implements UserDetails {
 
-    private final User user; // ton entité métier User
+    private final User user;
 
     public CustomUserDetails(User user) {
         this.user = user;
@@ -22,9 +22,10 @@ public class CustomUserDetails implements UserDetails {
         return user.getAgence();
     }
 
+    // ✅ Corrigé : supprime seulement le préfixe "ROLE_"
     public boolean hasRole(String role) {
         return user.getProfils().stream()
-                .anyMatch(p -> p.getRole().replace("_","").equalsIgnoreCase(role));
+                .anyMatch(p -> p.getRole().replaceFirst("^ROLE_", "").equalsIgnoreCase(role));
     }
     public Set<String> getRoles() {
         return user.getProfils().stream()

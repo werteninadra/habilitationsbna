@@ -43,15 +43,20 @@ import java.util.Map;
 import java.util.stream.Collectors;
 @Service
 public class PredictionService {
-
     private final AgenceRepository agenceRepository;
     private final OccupationRepository occupationRepository;
-    private final RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate;
 
-    public PredictionService(AgenceRepository agenceRepository, OccupationRepository occupationRepository) {
+    // Constructeur principal pour Spring (prod)
+    public PredictionService(AgenceRepository agenceRepository,
+                             OccupationRepository occupationRepository,
+                             RestTemplate restTemplate) {
         this.agenceRepository = agenceRepository;
         this.occupationRepository = occupationRepository;
+        this.restTemplate = restTemplate;
     }
+
+    // Constructeur secondaire pour compatibilité (création normale)
 
     public String preparePredictionRequest(Long agenceId, List<Occupation> occupations, int capaciteMax) {
         List<Map<String, Object>> historique = occupations.stream().map(o -> {

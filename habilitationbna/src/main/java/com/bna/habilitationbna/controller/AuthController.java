@@ -31,16 +31,25 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.*;
 import java.util.stream.Collectors;
-
 @RestController
 @RequestMapping("/api/auth")
-
-
-//@CrossOrigin(origins = "*")
 public class AuthController {
 
-
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
+
+    // 🔹 Constantes pour éviter la duplication de littéraux
+    private static final String MATRICULE = "matricule";
+    private static final String EMAIL = "email";
+    private static final String PRENOM = "prenom";
+    private static final String TELEPHONE = "telephone";
+    private static final String AGENCE_ID = "agenceId";
+    private static final String PROFILS = "profils";
+    private static final String USER_NOT_FOUND = "Utilisateur non trouvé";
+    private static final String AGENCE_NOT_FOUND = "Agence non trouvée";
+    private static final String ERROR = "error";
+    private static final String MESSAGE = "message";
+    private static final String STATUS = "status";
+    private static final String SUCCESS = "success";
 
     private final KeycloakAdminClientService keycloakService;
     private final UserService userService;
@@ -60,21 +69,19 @@ public class AuthController {
         this.agenceRepository = agenceRepository;
     }
 
-
     @PostMapping("/register")
-    public ResponseEntity<?> register(@Valid @RequestBody Map<String, Object> payload) {
+    public ResponseEntity<Object> register(@Valid @RequestBody Map<String, Object> payload) {
         try {
-            String matricule = (String) payload.get("matricule");
-            String email = (String) payload.get("email");
-            String password = (String) payload.get("password");
-            String nom = (String) payload.get("nom");
-            String prenom = (String) payload.get("prenom");
-            String telephone = (String) payload.get("telephone");
-
-            Long agenceId = payload.get("agenceId") != null ? Long.valueOf(payload.get("agenceId").toString()) : null;
+            var matricule = (String) payload.get(MATRICULE);
+            var email = (String) payload.get(EMAIL);
+            var password = (String) payload.get("password");
+            var nom = (String) payload.get("nom");
+            var prenom = (String) payload.get(PRENOM);
+            var telephone = (String) payload.get(TELEPHONE);
+            var agenceId = payload.get(AGENCE_ID) != null ? Long.valueOf(payload.get(AGENCE_ID).toString()) : null;
 
             @SuppressWarnings("unchecked")
-            Set<String> profilNoms = new HashSet<>((Collection<String>) payload.get("profils"));
+            var profilNoms = new HashSet<>((Collection<String>) payload.get(PROFILS));
 
             if (matricule == null || email == null || password == null || profilNoms.isEmpty()) {
                 return ResponseEntity.badRequest().body("❗ Champs manquants ou invalides.");
@@ -84,23 +91,17 @@ public class AuthController {
                 return ResponseEntity.badRequest().body("❌ Matricule déjà utilisé");
             }
 
-            Set<Profil> profils = profilRepository.findByNomIn(profilNoms);
+            var profils = profilRepository.findByNomIn(profilNoms);
             if (profils.isEmpty()) {
                 return ResponseEntity.badRequest().body("❌ Aucun profil valide trouvé");
             }
 
-            // 🔹 Vérifier agence
-            Agence agence = null;
-            if (agenceId != null) {
-                agence = agenceRepository.findById(agenceId)
-                        .orElseThrow(() -> new RuntimeException("Agence non trouvée"));
-            }
+            var agence = (agenceId != null) ? agenceRepository.findById(agenceId)
+                    .orElseThrow(() -> new IllegalStateException(AGENCE_NOT_FOUND)) : null;
 
-            // Création utilisateur dans Keycloak
             keycloakService.createUserWithProfils(matricule, email, password, profils);
 
-            // Sauvegarde dans la base locale
-            User user = new User();
+            var user = new User();
             user.setMatricule(matricule);
             user.setEmail(email);
             user.setPassword(userService.encodePassword(password));
@@ -109,133 +110,101 @@ public class AuthController {
             user.setTelephone(telephone);
             user.setProfils(profils);
             user.setActive(true);
-            user.setAgence(agence); // 🔹 Association agence
+            user.setAgence(agence);
 
-            User savedUser = userRepository.save(user);
-
+            var savedUser = userRepository.save(user);
             return ResponseEntity.ok(savedUser);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Erreur lors de l'enregistrement", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("❌ Erreur lors de l'enregistrement : " + e.getMessage());
         }
     }
 
-
-    //@GetMapping("/users-with-details")
-    //public ResponseEntity<List<User>> getAllUsersWithDetails() {
-       // List<User> users = userRepository.findAll();
-        //return ResponseEntity.ok(users);
-    //}
-
     @PutMapping("/update/{matricule}")
-    public ResponseEntity<?> updateUserEverywhere(
-            @PathVariable String matricule,
-            @RequestBody Map<String, Object> payload) {
-
+    public ResponseEntity<Object> updateUserEverywhere(@PathVariable String matricule,
+                                                       @RequestBody Map<String, Object> payload) {
         try {
-            User existingUser = userRepository.findByMatricule(matricule)
-                    .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+            var existingUser = userRepository.findByMatricule(matricule)
+                    .orElseThrow(() -> new IllegalStateException(USER_NOT_FOUND));
 
-            // Mise à jour des champs simples
-            if(payload.get("email") != null) existingUser.setEmail((String) payload.get("email"));
-            if(payload.get("nom") != null) existingUser.setNom((String) payload.get("nom"));
-            if(payload.get("prenom") != null) existingUser.setPrenom((String) payload.get("prenom"));
-            if(payload.get("telephone") != null) existingUser.setTelephone((String) payload.get("telephone"));
+            if (payload.get(EMAIL) != null) existingUser.setEmail((String) payload.get(EMAIL));
+            if (payload.get("nom") != null) existingUser.setNom((String) payload.get("nom"));
+            if (payload.get(PRENOM) != null) existingUser.setPrenom((String) payload.get(PRENOM));
+            if (payload.get(TELEPHONE) != null) existingUser.setTelephone((String) payload.get(TELEPHONE));
 
-            // Profils
-            if(payload.get("profils") != null) {
+            if (payload.get(PROFILS) != null) {
                 @SuppressWarnings("unchecked")
-                Set<String> profilNoms = new HashSet<>((Collection<String>) payload.get("profils"));
-                Set<Profil> profils = profilRepository.findByNomIn(profilNoms);
+                var profilNoms = new HashSet<>((Collection<String>) payload.get(PROFILS));
+                var profils = profilRepository.findByNomIn(profilNoms);
                 existingUser.setProfils(profils);
             }
 
-            // Agence
-            if(payload.get("agenceId") != null) {
-                Long agenceId = Long.valueOf(payload.get("agenceId").toString());
-                Agence agence = agenceRepository.findById(agenceId)
-                        .orElseThrow(() -> new RuntimeException("Agence non trouvée"));
+            if (payload.get(AGENCE_ID) != null) {
+                var agenceId = Long.valueOf(payload.get(AGENCE_ID).toString());
+                var agence = agenceRepository.findById(agenceId)
+                        .orElseThrow(() -> new IllegalStateException(AGENCE_NOT_FOUND));
                 existingUser.setAgence(agence);
             }
 
-            User savedUser = userRepository.save(existingUser);
-
+            var savedUser = userRepository.save(existingUser);
             return ResponseEntity.ok(savedUser);
 
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(Map.of(
-                            "error", "Erreur lors de la mise à jour",
-                            "message", e.getMessage()
-                    ));
+                    .body(Map.of(ERROR, "Erreur lors de la mise à jour", MESSAGE, e.getMessage()));
         }
     }
 
-
-    @GetMapping("/users-with-details")
-    public ResponseEntity<List<Map<String, Object>>> getAllUsersWithDetails(@AuthenticationPrincipal Jwt jwt) {
-        if (jwt == null) {
-            return ResponseEntity.ok(Collections.emptyList());
+    // 🔹 Extraction de méthodes privées pour upload
+    private void createDirectory(Path uploadPath) throws IOException {
+        if (!Files.exists(uploadPath)) {
+            Files.createDirectories(uploadPath);
         }
-
-        String matricule = jwt.getClaim("preferred_username");
-        User currentUser = userRepository.findByMatricule(matricule).orElse(null);
-
-        if (currentUser == null) {
-            return ResponseEntity.ok(Collections.emptyList());
-        }
-
-        List<User> users;
-
-        // ADMIN → tout le monde
-        if (currentUser.getProfils().stream()
-                .anyMatch(p -> p.getRole().equalsIgnoreCase("ADMIN"))) {
-            users = userRepository.findAll();
-        }
-        // CHEF_AGENCE → seulement son agence
-        else if (currentUser.getProfils().stream()
-                .anyMatch(p -> p.getRole().equalsIgnoreCase("CHEFAGENCE"))) {
-            users = userRepository.findByAgenceId(currentUser.getAgence().getId());
-        }
-        // SIMPLEAGENT → seulement lui-même
-        else if (currentUser.getProfils().stream()
-                .anyMatch(p -> p.getRole().equalsIgnoreCase("SIMPLEAGENT"))) {
-            users = Collections.singletonList(currentUser);
-        }
-        // Autres rôles → rien
-        else {
-            users = Collections.emptyList();
-        }
-
-        List<Map<String, Object>> response = users.stream().map(user -> {
-            Map<String, Object> userMap = new HashMap<>();
-            userMap.put("id", user.getId());
-            userMap.put("matricule", user.getMatricule());
-            userMap.put("email", user.getEmail());
-            userMap.put("nom", user.getNom());
-            userMap.put("prenom", user.getPrenom());
-            userMap.put("telephone", user.getTelephone());
-            userMap.put("active", user.getActive());
-            userMap.put("blocked", user.getBlocked());
-            userMap.put("profileImagePath", user.getProfileImagePath());
-
-            userMap.put("profils", user.getProfils().stream()
-                    .map(profil -> {
-                        Map<String, Object> profilMap = new HashMap<>();
-                        profilMap.put("id", profil.getNom());
-                        profilMap.put("nom", profil.getNom());
-                        return profilMap;
-                    }).collect(Collectors.toList()));
-
-            return userMap;
-        }).collect(Collectors.toList());
-
-        return ResponseEntity.ok(response);
     }
 
+    private void saveFile(MultipartFile file, Path filePath) throws IOException {
+        try (var inputStream = file.getInputStream()) {
+            Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+        }
+    }
 
+    @PostMapping("/users/{matricule}/upload-image")
+    public ResponseEntity<Object> uploadProfileImage(@PathVariable String matricule,
+                                                     @RequestParam("file") MultipartFile file) {
+        try {
+            if (file.isEmpty()) {
+                return ResponseEntity.badRequest().body("Fichier vide");
+            }
+
+            var user = userRepository.findByMatricule(matricule)
+                    .orElseThrow(() -> new IllegalStateException(USER_NOT_FOUND));
+
+            var uploadDir = "uploads/profile-images/";
+            var uploadPath = Paths.get(uploadDir);
+
+            createDirectory(uploadPath);
+
+            var originalFilename = StringUtils.cleanPath(file.getOriginalFilename());
+            var extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+            var fileName = matricule + "_" + System.currentTimeMillis() + extension;
+            var filePath = uploadPath.resolve(fileName);
+
+            saveFile(file, filePath);
+
+            user.setProfileImagePath("/api/auth/uploads/profile-images/" + fileName);
+            userRepository.save(user);
+
+            return ResponseEntity.ok(Map.of(MESSAGE, "Image téléchargée avec succès",
+                    "imagePath", user.getProfileImagePath()));
+
+        } catch (Exception e) {
+            logger.error("Erreur upload image", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erreur lors du traitement: " + e.getMessage());
+        }
+    }
     // Blocage/Déblocage utilisateur
     @PutMapping("/users/{matricule}/block")
     public ResponseEntity<?> blockUser(@PathVariable String matricule) {
@@ -282,65 +251,7 @@ public class AuthController {
     }
 
     // Upload image profil
-    @PostMapping("/users/{matricule}/upload-image")
-    public ResponseEntity<?> uploadProfileImage(
-            @PathVariable String matricule,
-            @RequestParam("file") MultipartFile file) {
 
-        try {
-            // Vérification du fichier
-            if (file.isEmpty()) {
-                return ResponseEntity.badRequest().body("Fichier vide");
-            }
-
-            // Vérification de l'utilisateur
-            User user = userRepository.findByMatricule(matricule)
-                    .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
-
-            // Création du répertoire avec vérification
-            String uploadDir = "uploads/profile-images/";
-            Path uploadPath = Paths.get(uploadDir);
-
-            if (!Files.exists(uploadPath)) {
-                try {
-                    Files.createDirectories(uploadPath);
-                } catch (IOException e) {
-                    logger.error("Erreur création répertoire: " + uploadPath, e);
-                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                            .body("Erreur création répertoire");
-                }
-            }
-
-            // Génération nom de fichier sécurisé
-            String originalFilename = StringUtils.cleanPath(file.getOriginalFilename());
-            String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
-            String fileName = matricule + "_" + System.currentTimeMillis() + extension;
-            Path filePath = uploadPath.resolve(fileName);
-
-            // Écriture sécurisée du fichier
-            try (InputStream inputStream = file.getInputStream()) {
-                Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-            } catch (IOException e) {
-                logger.error("Erreur écriture fichier: " + filePath, e);
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                        .body("Erreur sauvegarde fichier");
-            }
-
-            // Mise à jour de l'utilisateur
-            user.setProfileImagePath("/api/auth/uploads/profile-images/" + fileName);
-            userRepository.save(user);
-
-            return ResponseEntity.ok(Map.of(
-                    "message", "Image téléchargée avec succès",
-                    "imagePath", user.getProfileImagePath()
-            ));
-
-        } catch (Exception e) {
-            logger.error("Erreur upload image", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Erreur lors du traitement: " + e.getMessage());
-        }
-    }
     @GetMapping("/uploads/profile-images/{filename:.+}")
     public ResponseEntity<Resource> serveImage(@PathVariable String filename) {
         try {

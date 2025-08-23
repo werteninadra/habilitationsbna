@@ -32,10 +32,8 @@ pipeline {
         stage('JaCoCo Coverage') {
             steps {
                 dir('habilitationbna') {
-                    // Génération du rapport JaCoCo
                     sh 'mvn jacoco:report'
                 }
-                // Publier le rapport JaCoCo dans Jenkins
                 jacoco execPattern: '**/target/jacoco.exec', classPattern: '**/target/classes', sourcePattern: '**/src/main/java'
             }
         }
@@ -71,13 +69,13 @@ pipeline {
 
     post {
         success {
-            mail to: 'werteninadra@gmail.com',
+            mail to: 'nadrawertani22@gmail.com',
                  subject: "✅ Pipeline réussie : ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                  body: "La pipeline ${env.JOB_NAME} #${env.BUILD_NUMBER} a été exécutée avec succès.\nConsultez les logs : ${env.BUILD_URL}"
             echo 'Pipeline exécutée avec succès'
         }
         failure {
-            mail to: 'werteninadra@gmail.com',
+            mail to: 'nadrawertani22@gmail.com',
                  subject: "❌ Échec de la pipeline : ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                  body: "La pipeline ${env.JOB_NAME} #${env.BUILD_NUMBER} a échoué.\nConsultez les logs : ${env.BUILD_URL}"
             echo 'La pipeline a échoué'

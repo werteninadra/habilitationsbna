@@ -50,52 +50,76 @@ public class SecurityConfig {
         return new RestTemplate();
     }
 
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider(UserDetailsService userDetailsService,
-                                                            PasswordEncoder passwordEncoder) {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider(userDetailsService);
-        provider.setPasswordEncoder(passwordEncoder);
-        return provider;
-    }
+
     @Bean
     public GrantedAuthorityDefaults grantedAuthorityDefaults() {
         return new GrantedAuthorityDefaults(""); // Supprime le préfixe ROLE_ par défaut
     }
 
+
+
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider(UserDetailsService userDetailsService,
+                                                            PasswordEncoder passwordEncoder) {
+        var provider = new DaoAuthenticationProvider(userDetailsService); // var utilisé
+        provider.setPasswordEncoder(passwordEncoder);
+        return provider;
+    }
+
     @Bean
     public JwtAuthenticationConverter jwtAuthenticationConverter() {
+        var jwtConverter = new JwtAuthenticationConverter();
         Converter<Jwt, Collection<GrantedAuthority>> authoritiesConverter = jwt -> {
-            Collection<GrantedAuthority> authorities = new ArrayList<>();
+            var authorities = new ArrayList<GrantedAuthority>();
 
             // 1. Extraction depuis realm_access.roles (Keycloak standard)
-            Map<String, Object> realmAccess = jwt.getClaim("realm_access");
-            if (realmAccess != null) {
-                Object rolesObj = realmAccess.get("roles");
+            var realmAccess = jwt.getClaim("realm_access");
+            if (realmAccess instanceof Map<?, ?> map) {
+                var rolesObj = map.get("roles");
                 if (rolesObj instanceof List<?> rolesList) {
-                    rolesList.stream()
-                            .filter(String.class::isInstance)
-                            .map(String.class::cast)
-                            .forEach(role -> authorities.add(new SimpleGrantedAuthority(role.toUpperCase())));
+                    for (var roleObj : rolesList) {
+                        if (roleObj instanceof String roleStr) {
+                            authorities.add(new SimpleGrantedAuthority(roleStr.toUpperCase()));
+                        }
+                    }
                 }
             }
 
-
             // 2. Fallback: extraction directe depuis le claim 'roles'
-            List<String> directRoles = jwt.getClaim("roles");
-            if (directRoles != null) {
-                directRoles.forEach(role ->
-                        authorities.add(new SimpleGrantedAuthority(role.toUpperCase()))
-                );
+            var directRolesObj = jwt.getClaim("roles");
+            if (directRolesObj instanceof List<?> directRolesList) {
+                for (var roleObj : directRolesList) {
+                    if (roleObj instanceof String roleStr) {
+                        authorities.add(new SimpleGrantedAuthority(roleStr.toUpperCase()));
+                    }
+                }
             }
 
             logger.debug("Final authorities: {}", authorities);
             return authorities;
         };
 
-        JwtAuthenticationConverter jwtConverter = new JwtAuthenticationConverter();
         jwtConverter.setJwtGrantedAuthoritiesConverter(authoritiesConverter);
         return jwtConverter;
     }
+
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        var configuration = new CorsConfiguration(); // var utilisé
+        configuration.setAllowedOriginPatterns(List.of("*"));
+        configuration.setAllowedMethods(List.of("*"));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setExposedHeaders(List.of("Authorization", "Content-Type"));
+        configuration.setAllowCredentials(true);
+
+        var source = new UrlBasedCorsConfigurationSource(); // var utilisé
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
+
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -122,19 +146,6 @@ public class SecurityConfig {
         return http.build();
     }
 
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOriginPatterns(List.of("*"));
-        configuration.setAllowedMethods(List.of("*"));
-        configuration.setAllowedHeaders(List.of("*"));
-        configuration.setExposedHeaders(List.of("Authorization", "Content-Type"));
-        configuration.setAllowCredentials(true);
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
 
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer jsonCustomizer() {

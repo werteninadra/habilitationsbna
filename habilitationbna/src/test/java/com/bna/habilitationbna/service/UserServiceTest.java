@@ -17,6 +17,7 @@ import java.util.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 class UserServiceTest {
 
@@ -129,4 +130,50 @@ class UserServiceTest {
         assertThat(result).isEqualTo(0);
         verify(userRepository, never()).delete(any());
     }
+
+    @Test
+    void createUser_shouldSaveUser() {
+        // Arrange
+        User newUser = new User();
+        newUser.setMatricule("USR003");
+        newUser.setNom("nadra");
+        newUser.setEmail("admin@test.com");
+        newUser.setPassword("password123");
+
+        // Ajouter une agence obligatoire
+        Agence agence = new Agence();
+        agence.setId(1L);
+        newUser.setAgence(agence);
+
+        Jwt jwt = mock(Jwt.class);
+        when(jwt.getClaim("preferred_username")).thenReturn("ADMIN001");
+
+        User admin = new User();
+        Profil adminProfil = new Profil();
+        adminProfil.setNom("ADMIN");
+        admin.setProfils(Set.of(adminProfil));
+        when(userRepository.findByMatricule("ADMIN001")).thenReturn(Optional.of(admin));
+
+        Profil userProfil = new Profil();
+        userProfil.setNom("USER");
+        when(profilService.findByNoms(Set.of("USER"))).thenReturn(Set.of(userProfil));
+
+        when(passwordEncoder.encode("password123")).thenReturn("encodedPass");
+        when(userRepository.save(any(User.class))).thenAnswer(i -> i.getArguments()[0]);
+
+        // Act
+        User result = userService.registerUser(newUser, Set.of("USER"), jwt);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals("nadra", result.getNom());
+        assertEquals("admin@test.com", result.getEmail());
+        assertEquals("encodedPass", result.getPassword());
+        assertThat(result.getProfils()).contains(userProfil);
+
+        verify(keycloakService).createUserWithProfils("USR003", "admin@test.com", "password123", Set.of(userProfil));
+        verify(userRepository).save(newUser);
+    }
+
+
 }

@@ -56,7 +56,7 @@ pipeline {
             }
         }
 
-        /*
+        
         stage('Deploy to Nexus') {
             steps {
                 dir('habilitationbna') {
@@ -64,7 +64,7 @@ pipeline {
                 }
             }
         }
-        */
+    
     }
 
    
